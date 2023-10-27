@@ -1,4 +1,4 @@
-﻿namespace BG.TestAssignment.Models
+﻿namespace BG.TestAssignment.Business
 {
     public class Class1
     {
