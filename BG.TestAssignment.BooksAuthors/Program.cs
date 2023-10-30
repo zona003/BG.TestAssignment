@@ -1,3 +1,7 @@
+using BG.TestAssignment.Business.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
+using BG.TestAssignment.DataAccessLayer.DataContext;
+
 
 namespace BG.TestAssignment.BooksAuthors
 {
@@ -6,6 +10,25 @@ namespace BG.TestAssignment.BooksAuthors
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //builder.Services.AddScoped<IMapper, ServiceMapper>();
+
+            //builder.Services.AddScoped<AuthorsBL, AuthorsBL>();
+            //builder.Services.AddScoped<BooksBL, BooksBL>();
+
+            builder.Services.AddDbContext<BookAuthorsDataContext>(options =>
+                options.UseNpgsql("Host = localhost; Port = 5432; Database = booksdb; Username = postgres; Password = root"));
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(build =>
+                {
+                    build.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+
+            });
 
             // Add services to the container.
 
@@ -27,6 +50,7 @@ namespace BG.TestAssignment.BooksAuthors
 
             app.UseAuthorization();
 
+            app.UseCors();
 
             app.MapControllers();
 

@@ -33,25 +33,25 @@ namespace BG.TestAssignment.AuthApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var manegedUser = await _userManager.FindByNameAsync(request.UserName);
+            var managedUser = await _userManager.FindByNameAsync(request.UserName);
 
-            if (manegedUser == null)
+            if (managedUser == null)
             {
                 return BadRequest("Bad credentials");
             }
 
-            bool isPasswordValid = await _userManager.CheckPasswordAsync(manegedUser, request.Password);
+            bool isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password);
 
             if (!isPasswordValid)
             {
                 return BadRequest("Bad credentials");
             }
 
-            var userRoles = await _userManager.GetRolesAsync(manegedUser);
+            var userRoles = await _userManager.GetRolesAsync(managedUser);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, manegedUser.UserName),
+                new Claim(ClaimTypes.Name, managedUser.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -61,7 +61,7 @@ namespace BG.TestAssignment.AuthApi.Controllers
             }
 
             string token = GenerateToken(claims);
-            return Ok(new { manegedUser.UserName, token });
+            return Ok(new { managedUser.UserName, token });
 
         }
 

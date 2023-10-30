@@ -1,0 +1,13 @@
+{
+  "ConnectionStrings": {
+    "DefaultPostgreDB": "Host=localhost;Port=5432;Database=booksdb;Username=postgres;Password=root"
+  },
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ]
+}
