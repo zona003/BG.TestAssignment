@@ -6,7 +6,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using BG.TestAssignment.Business.Validators;
 
 namespace BG.TestAssignment.AuthApi.Services
 {
@@ -23,32 +26,40 @@ namespace BG.TestAssignment.AuthApi.Services
             _configuration = configuration;
         }
 
-        public async Task<ActionResult> Login(AuthRequest request)
+        public async Task<AuthResponce> Login(AuthRequest request)
         {
             if (request == null)
             {
-                return BadRequestResult(ModelState);
+                return new AuthResponce();
+            }
+
+            LoginValidator validator = new LoginValidator();
+            var result = validator.Validate(request);
+
+            if (result.IsValid)
+            {
+                return new AuthResponce();
             }
 
             var managedUser = await _userManager.FindByNameAsync(request.UserName);
 
             if (managedUser == null)
             {
-                return BadRequest("Bad credentials");
+                return new AuthResponce();
             }
 
             bool isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password);
 
             if (!isPasswordValid)
             {
-                return BadRequest("Bad credentials");
+                return new AuthResponce();
             }
 
             var userRoles = await _userManager.GetRolesAsync(managedUser);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, managedUser.UserName),
+                new Claim(ClaimTypes.Name,  managedUser.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -58,8 +69,50 @@ namespace BG.TestAssignment.AuthApi.Services
             }
 
             string token = GenerateToken(claims);
-            return Ok(new { managedUser.UserName, token });
 
+            AuthResponce authResponce = managedUser.Adapt<AuthResponce>();
+            authResponce.Token = token;
+            
+            return authResponce;
+
+        }
+
+        public async Task<bool> Register(RegisterRequest request)
+        {
+            if (request == null)
+            {
+                return false;
+            }
+
+
+
+            //if (!ModelState.IsValid) return BadRequest(request);
+            //var userExist = await _userManager.FindByNameAsync(request.UserName);
+            //if (userExist != null)
+            //    return BadRequest("User already exist");
+
+            //AppUser user = new AppUser
+            //{
+            //    UserName = request.UserName,
+            //    FirstName = request.FirstName,
+            //    LastName = request.LastName,
+            //    BirthDate = request.BirthDate,
+            //    Address = request.Address,
+            //};
+
+            //var createUserResult = await _userManager.CreateAsync(user, request.Password);
+            //if (!createUserResult.Succeeded)
+            //    return BadRequest(request);
+
+            //var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+
+            //if (findUser == null) throw new Exception($"User {request.UserName} not found");
+
+            //return await Login(new AuthRequest
+            //{
+            //    UserName = request.UserName,
+            //    Password = request.Password
+            //});
         }
 
 

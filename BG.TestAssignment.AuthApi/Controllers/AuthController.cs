@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess.DataContext;
 
 namespace BG.TestAssignment.AuthApi.Controllers
@@ -17,55 +18,27 @@ namespace BG.TestAssignment.AuthApi.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly UserDataContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IAuthService _authService;
 
-        public AuthController(UserDataContext context, UserManager<AppUser> userManager, IConfiguration configuration)
+        public AuthController(UserDataContext context, UserManager<AppUser> userManager, IConfiguration configuration, IAuthService authService)
         {
             _context = context;
             _userManager = userManager;
             _configuration = configuration;
+            _authService = authService;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] AuthRequest request)
         {
+            AuthResponce logedUser = await _authService.Login(request);
 
-            return Ok(new { managedUser.UserName, token });
-
-            if (!ModelState.IsValid)
+            if (logedUser.Token == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
-            var managedUser = await _userManager.FindByNameAsync(request.UserName);
-
-            if (managedUser == null)
-            {
-                return BadRequest("Bad credentials");
-            }
-
-            bool isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password);
-
-            if (!isPasswordValid)
-            {
-                return BadRequest("Bad credentials");
-            }
-
-            var userRoles = await _userManager.GetRolesAsync(managedUser);
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, managedUser.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            foreach (var claim in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Name, claim));
-            }
-
-            string token = GenerateToken(claims);
-            return Ok(new { managedUser.UserName, token });
-
+            return Ok(logedUser);
         }
 
         [HttpPost("register")]

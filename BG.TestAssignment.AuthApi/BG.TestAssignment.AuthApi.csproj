@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BG.TestAssignment.Business\BG.TestAssignment.Business.csproj" />
     <ProjectReference Include="..\BG.TestAssignment.DataAccessLayer\BG.TestAssignment.DataAccess.csproj" />
     <ProjectReference Include="..\BG.TestAssignment.Models\BG.TestAssignment.Models.csproj" />
   </ItemGroup>

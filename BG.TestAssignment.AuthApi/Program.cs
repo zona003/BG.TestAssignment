@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BG.TestAssignment.AuthApi.Services;
+using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess.DataContext;
 
 
@@ -17,6 +19,9 @@ namespace BG.TestAssignment.AuthApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddDbContext<UserDataContext>(opt =>
             opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreDB")));
