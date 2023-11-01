@@ -22,10 +22,10 @@ namespace BG.TestAssignment.Business.BusinessLogic
             return Context.Books.AsQueryable().Adapt<List<BookDTO>>();
         }
 
-        public BookDTO GetBook(int id)
+        public BookDTO? GetBook(int id)
         {
             var result = Context.Books.FirstOrDefault(a => a.Id == id);
-            if (result == null) return new BookDTO();
+            if (result == null) return  null;
 
             return result.Adapt<BookDTO>();
         }
@@ -44,6 +44,11 @@ namespace BG.TestAssignment.Business.BusinessLogic
 
             if (!validationResult.IsValid) return false;
 
+            if (Context.Authors.FirstOrDefault(a => a.Id == book.AuthorId) == null)
+            {
+                return false;
+            }
+
             Context.Entry(book).State = EntityState.Modified;
 
             try
@@ -58,7 +63,7 @@ namespace BG.TestAssignment.Business.BusinessLogic
                 }
                 else
                 {
-                    throw;
+                    return false;
                 }
             }
 
@@ -78,6 +83,11 @@ namespace BG.TestAssignment.Business.BusinessLogic
             var validationResult = validator.Validate(book);
 
             if (!validationResult.IsValid) return false;
+
+            if (Context.Authors.FirstOrDefault(a=>a.Id == book.AuthorId) == null)
+            {
+                return false;
+            }
 
             Context.Books.Add(book);
             Context.SaveChanges();

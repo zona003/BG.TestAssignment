@@ -28,10 +28,10 @@ namespace BG.TestAssignment.Business.BusinessLogic
             return Context.Authors.AsQueryable().Adapt<List<AuthorDTO>>();
         }
 
-        public AuthorDTO GetAuthor(int id)
+        public AuthorDTO? GetAuthor(int id)
         {
             var result = Context.Authors.FirstOrDefault(a => a.Id == id);
-            if (result == null) return new AuthorDTO();
+            if (result == null) return null;
 
             return result.Adapt<AuthorDTO>();
         }
@@ -48,7 +48,7 @@ namespace BG.TestAssignment.Business.BusinessLogic
             AuthorValidator validator = new AuthorValidator();
             var validationResult = validator.Validate(author);
 
-            if (validationResult.IsValid) return false;
+            if (!validationResult.IsValid) return false;
 
 
             Context.Entry(author).State = EntityState.Modified;
@@ -65,7 +65,7 @@ namespace BG.TestAssignment.Business.BusinessLogic
                 }
                 else
                 {
-                    throw;
+                    return false;
                 }
             }
 
@@ -84,7 +84,7 @@ namespace BG.TestAssignment.Business.BusinessLogic
             AuthorValidator validator = new AuthorValidator();
             var validationResult = validator.Validate(author);
 
-            if (validationResult.IsValid) return false;
+            if (!validationResult.IsValid) return false;
 
             Context.Authors.Add(author);
             Context.SaveChanges();

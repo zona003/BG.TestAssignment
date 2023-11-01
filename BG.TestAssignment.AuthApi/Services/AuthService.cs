@@ -61,13 +61,10 @@ namespace BG.TestAssignment.AuthApi.Services
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name,  managedUser.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            foreach (var claim in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Name, claim));
-            }
+            claims.AddRange(userRoles.Select(claim => new Claim(ClaimTypes.Name, claim)));
 
             string token = GenerateToken(claims);
 
@@ -103,7 +100,11 @@ namespace BG.TestAssignment.AuthApi.Services
             if (!createUserResult.Succeeded)
                 return false;
 
+            
+            
             var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+
+            
 
             if (findUser == null) throw new Exception($"User {request.UserName} not found");
 

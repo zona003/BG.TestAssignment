@@ -28,7 +28,12 @@ namespace BG.TestAssignment.BooksBooks.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
-            return Ok(BooksService.GetBook(id));
+            var result = BooksService.GetBook(id);
+            if (result == null)
+            {
+                return BadRequest("Not exist");
+            }
+            return Ok(result);
         }
 
         // PUT: api/Books/5

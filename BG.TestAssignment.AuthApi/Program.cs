@@ -82,7 +82,6 @@ namespace BG.TestAssignment.AuthApi
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

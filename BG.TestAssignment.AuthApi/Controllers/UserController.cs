@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using BG.TestAssignment.AuthApi.Services;
+using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess.DataContext;
+using Microsoft.IdentityModel;
 using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.AuthApi.Controllers
@@ -15,32 +18,21 @@ namespace BG.TestAssignment.AuthApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserDataContext _context;
-        private string UserId =>
-            User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;/// <summary>
-                                                                     /// СОЗДАТЬ ПРОВАЙДЕР  
-            /// //////////////////
-            /// </summary>
-            /// <param name="context"></param>
+        private readonly IUserService _userService;
 
-        public UserController(UserDataContext context)
+        public UserController(UserDataContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult> GetCurrentUser()
         {
-            AppUser currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == UserId);
-            if (currentUser == null)
-                return BadRequest();
-            return Ok(new
-            {
-                username = currentUser.UserName,
-                firstname = currentUser.FirstName,
-                lastname = currentUser.LastName,
-                birthDate = currentUser.BirthDate,
-                address = currentUser.Address
-            });
+            UserDTO currentUserDto = await _userService.GetCurrentUser(User.Identity.Name);
+
+            return Ok(currentUserDto);
         }
     }
 }

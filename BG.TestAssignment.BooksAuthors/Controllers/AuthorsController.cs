@@ -20,7 +20,7 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
             AuthorsService = authorService;
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public ActionResult<IEnumerable<AuthorDTO>> GetAuthors()
         {
             return Ok(AuthorsService.GetAuthors());
@@ -30,7 +30,12 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
         [HttpGet("{id}")]
         public  ActionResult<AuthorDTO> GetAuthor(int id)
         {
-            return Ok(AuthorsService.GetAuthor(id));
+            var result = AuthorsService.GetAuthor(id);
+            if (result == null)
+            {
+                return BadRequest("Not exist");
+            }
+            return Ok(result);
         }
 
         // PUT: api/Authors/5
@@ -53,7 +58,7 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Author>> PostAuthor(AuthorDTO authorDto)
+        public async Task<IActionResult> PostAuthor(AuthorDTO authorDto)
         {
             bool result = AuthorsService.PostAuthor(authorDto);
 
