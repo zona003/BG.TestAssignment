@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BG.TestAssignment.Models;
-using Mapster;
-using Microsoft.EntityFrameworkCore;
+﻿using BG.TestAssignment.Models;
 
 namespace BG.TestAssignment.Business.BusinessLogic.Interfaces
 {
-    public interface IBooksBL
+    public interface IBooksService
     {
         public List<BookDTO> GetBooks();
 

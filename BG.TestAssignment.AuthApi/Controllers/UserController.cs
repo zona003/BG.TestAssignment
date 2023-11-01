@@ -1,10 +1,10 @@
-﻿using BG.TestAssignment.AuthApi.Data;
-using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using BG.TestAssignment.DataAccess.DataContext;
 
 namespace BG.TestAssignment.AuthApi.Controllers
 {
@@ -13,7 +13,7 @@ namespace BG.TestAssignment.AuthApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly UserDataContext _context;
         private string UserId =>
             User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;/// <summary>
                                                                      /// СОЗДАТЬ ПРОВАЙДЕР  
@@ -21,7 +21,7 @@ namespace BG.TestAssignment.AuthApi.Controllers
             /// </summary>
             /// <param name="context"></param>
 
-        public UserController(DataContext context)
+        public UserController(UserDataContext context)
         {
             _context = context;
         }

@@ -11,25 +11,25 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
     [ApiController]
     public class AuthorsController : ControllerBase
     {
-        private IAuthorBL AuthorsBl { get; set; }
+        private IAuthorService AuthorsService { get; set; }
 
 
-        public AuthorsController(BookAuthorsDataContext context, IAuthorBL authorBl)
+        public AuthorsController(BookAuthorsDataContext context, IAuthorService authorService)
         {
-            AuthorsBl = authorBl;
+            AuthorsService = authorService;
         }
 
         [HttpGet("")]
         public ActionResult<IEnumerable<AuthorDTO>> GetAuthors()
         {
-            return Ok(AuthorsBl.GetAuthors());
+            return Ok(AuthorsService.GetAuthors());
         }
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
         public  ActionResult<AuthorDTO> GetAuthor(int id)
         {
-            return Ok(AuthorsBl.GetAuthor(id));
+            return Ok(AuthorsService.GetAuthor(id));
         }
 
         // PUT: api/Authors/5
@@ -37,7 +37,7 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAuthor(int id, AuthorDTO authorDto)
         {
-            bool result = AuthorsBl.PutAuthor(id, authorDto);
+            bool result = AuthorsService.PutAuthor(id, authorDto);
 
             if (result)
             {
@@ -54,7 +54,7 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
         [HttpPost]
         public async Task<ActionResult<Author>> PostAuthor(AuthorDTO authorDto)
         {
-            bool result = AuthorsBl.PostAuthor(authorDto);
+            bool result = AuthorsService.PostAuthor(authorDto);
 
             if (result)
             {
@@ -72,7 +72,7 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
         public async Task<IActionResult> DeleteAuthor(int id)
         {
 
-            bool result = AuthorsBl.DeleteAuthor(id);
+            bool result = AuthorsService.DeleteAuthor(id);
 
             if (result)
             {

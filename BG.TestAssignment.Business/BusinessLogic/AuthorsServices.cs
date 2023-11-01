@@ -13,11 +13,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BG.TestAssignment.Business.BusinessLogic
 {
-    public class AuthorsBL : IAuthorBL
+    public class AuthorsServices : IAuthorService
     {
         private BookAuthorsDataContext Context { get; set; }
 
-        public AuthorsBL(BookAuthorsDataContext dbContext)
+        public AuthorsServices(BookAuthorsDataContext dbContext)
         {
             Context = dbContext;
         }

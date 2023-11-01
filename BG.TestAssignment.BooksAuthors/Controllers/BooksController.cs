@@ -11,24 +11,24 @@ namespace BG.TestAssignment.BooksBooks.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private IBooksBL BooksBl { get; set; }
+        private IBooksService BooksService { get; set; }
 
-        public BooksController(BookAuthorsDataContext context, IBooksBL booksBl)
+        public BooksController(BookAuthorsDataContext context, IBooksService booksService)
         {
-            BooksBl = booksBl;
+            BooksService = booksService;
         }
 
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
         {
-            return Ok(BooksBl.GetBooks());
+            return Ok(BooksService.GetBooks());
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
-            return Ok(BooksBl.GetBook(id));
+            return Ok(BooksService.GetBook(id));
         }
 
         // PUT: api/Books/5
@@ -36,7 +36,7 @@ namespace BG.TestAssignment.BooksBooks.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, BookDTO authorDto)
         {
-            bool result = BooksBl.PutBook(id, authorDto);
+            bool result = BooksService.PutBook(id, authorDto);
 
             if (result)
             {
@@ -53,7 +53,7 @@ namespace BG.TestAssignment.BooksBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> PostBook(BookDTO authorDto)
         {
-            bool result = BooksBl.PostBook(authorDto);
+            bool result = BooksService.PostBook(authorDto);
 
             if (result)
             {
@@ -71,7 +71,7 @@ namespace BG.TestAssignment.BooksBooks.Controllers
         public async Task<IActionResult> DeleteBook(int id)
         {
 
-            bool result = BooksBl.DeleteBook(id);
+            bool result = BooksService.DeleteBook(id);
 
             if (result)
             {

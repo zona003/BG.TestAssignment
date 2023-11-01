@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.BooksAuth
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.Business", "BG.TestAssignment.Business\BG.TestAssignment.Business.csproj", "{0A420236-E2C9-4FD7-B2F6-254177DD54AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BG.TestAssignment.Migrator", "BG.TestAssignment.Migrator\BG.TestAssignment.Migrator.csproj", "{54A0ABB4-FD55-430F-AC88-C55A1A442615}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.Migrator", "BG.TestAssignment.Migrator\BG.TestAssignment.Migrator.csproj", "{54A0ABB4-FD55-430F-AC88-C55A1A442615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BG.TestAssignment.DataAccessLayer", "BG.TestAssignment.DataAccessLayer\BG.TestAssignment.DataAccessLayer.csproj", "{CB0D2F82-4B37-48A5-848B-D54205E51680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.DataAccess", "BG.TestAssignment.DataAccessLayer\BG.TestAssignment.DataAccess.csproj", "{CB0D2F82-4B37-48A5-848B-D54205E51680}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

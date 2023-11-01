@@ -1,39 +1,33 @@
-﻿using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.AuthApi.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BG.TestAssignment.AuthApi.Controllers
+namespace BG.TestAssignment.AuthApi.Services
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly UserDataContext _context;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserDataContext context, UserManager<AppUser> userManager, IConfiguration configuration)
+        public AuthService(UserDataContext context, UserManager<AppUser> userManager, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _configuration = configuration;
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] AuthRequest request)
+        public async Task<ActionResult> Login(AuthRequest request)
         {
-
-            return Ok(new { managedUser.UserName, token });
-
-            if (!ModelState.IsValid)
+            if (request == null)
             {
-                return BadRequest(ModelState);
+                return BadRequestResult(ModelState);
             }
 
             var managedUser = await _userManager.FindByNameAsync(request.UserName);
@@ -66,38 +60,6 @@ namespace BG.TestAssignment.AuthApi.Controllers
             string token = GenerateToken(claims);
             return Ok(new { managedUser.UserName, token });
 
-        }
-
-        [HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody] RegisterRequest request)
-        {
-            if (!ModelState.IsValid) return BadRequest(request);
-            var userExist = await _userManager.FindByNameAsync(request.UserName);
-            if (userExist != null)
-                return BadRequest("User already exist");
-
-            AppUser user = new AppUser
-            {
-                UserName = request.UserName,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                BirthDate = request.BirthDate,
-                Address = request.Address,
-            };
-
-            var createUserResult = await _userManager.CreateAsync(user, request.Password);
-            if (!createUserResult.Succeeded)
-                return BadRequest(request);
-
-            var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
-
-            if (findUser == null) throw new Exception($"User {request.UserName} not found");
-
-            return await Login(new AuthRequest
-            {
-                UserName = request.UserName,
-                Password = request.Password
-            });
         }
 
 

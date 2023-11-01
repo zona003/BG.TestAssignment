@@ -1,7 +1,7 @@
 ﻿using BG.TestAssignment.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BG.TestAssignment.DataAccessLayer.DataContext
+namespace BG.TestAssignment.DataAccess.DataContext
 {
     public class BookAuthorsDataContext : DbContext
     {
@@ -12,11 +12,6 @@ namespace BG.TestAssignment.DataAccessLayer.DataContext
             : base(options)
         {
             Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=usersdb;Username=postgres;Password=root");
         }
     }
 }

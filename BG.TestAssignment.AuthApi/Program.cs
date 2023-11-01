@@ -1,5 +1,5 @@
 
-using BG.TestAssignment.AuthApi.Data;
+using BG.TestAssignment.DataAccessLayer.DataContext;
 using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BG.TestAssignment.DataAccess.DataContext;
+
 
 namespace BG.TestAssignment.AuthApi
 {
@@ -16,7 +18,7 @@ namespace BG.TestAssignment.AuthApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<DataContext>(opt =>
+            builder.Services.AddDbContext<UserDataContext>(opt =>
             opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreDB")));
 
             builder.Services.AddCors(options =>
@@ -55,7 +57,7 @@ namespace BG.TestAssignment.AuthApi
             .Build());
 
             builder.Services.AddIdentity<AppUser, IdentityRole<long>>()
-                .AddEntityFrameworkStores<DataContext>()
+                .AddEntityFrameworkStores<UserDataContext>()
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
 

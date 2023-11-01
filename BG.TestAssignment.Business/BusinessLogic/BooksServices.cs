@@ -1,23 +1,17 @@
 ﻿using BG.TestAssignment.DataAccessLayer.DataContext;
 using BG.TestAssignment.Models;
 using Mapster;
-using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using BG.TestAssignment.Business.Validators;
 
 namespace BG.TestAssignment.Business.BusinessLogic
 {
-    public class BooksBL : IBooksBL
+    public class BooksServices : IBooksService
     {
         private BookAuthorsDataContext Context { get; set; }
 
-        public BooksBL(BookAuthorsDataContext dbContext)
+        public BooksServices(BookAuthorsDataContext dbContext)
         {
             Context = dbContext;
         }

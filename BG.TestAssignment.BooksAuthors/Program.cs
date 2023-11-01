@@ -17,8 +17,8 @@ namespace BG.TestAssignment.BooksAuthors
 
             //builder.Services.AddScoped<IMapper, ServiceMapper>();
 
-            builder.Services.AddScoped<IAuthorBL, AuthorsBL>();
-            builder.Services.AddScoped<IBooksBL, BooksBL>();
+            builder.Services.AddScoped<IAuthorService, AuthorsServices>();
+            builder.Services.AddScoped<IBooksService, BooksServices>();
 
             builder.Services.AddDbContext<BookAuthorsDataContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreDB")));
