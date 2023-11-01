@@ -1,4 +1,5 @@
 ﻿using BG.TestAssignment.Business.BusinessLogic;
+using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using BG.TestAssignment.DataAccessLayer.DataContext;
 using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,11 +11,11 @@ namespace BG.TestAssignment.BooksBooks.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private BooksBL BooksBl { get; set; }
+        private IBooksBL BooksBl { get; set; }
 
-        public BooksController(BookAuthorsDataContext context)
+        public BooksController(BookAuthorsDataContext context, IBooksBL booksBl)
         {
-            BooksBl = new BooksBL(context);
+            BooksBl = booksBl;
         }
 
         [HttpGet("")]
@@ -50,7 +51,7 @@ namespace BG.TestAssignment.BooksBooks.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(BookDTO authorDto)
+        public async Task<IActionResult> PostBook(BookDTO authorDto)
         {
             bool result = BooksBl.PostBook(authorDto);
 

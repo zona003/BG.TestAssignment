@@ -8,14 +8,18 @@ using System.Security.Claims;
 
 namespace BG.TestAssignment.AuthApi.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly DataContext _context;
         private string UserId =>
-            User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
+            User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;/// <summary>
+                                                                     /// СОЗДАТЬ ПРОВАЙДЕР  
+            /// //////////////////
+            /// </summary>
+            /// <param name="context"></param>
 
         public UserController(DataContext context)
         {

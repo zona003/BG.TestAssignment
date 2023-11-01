@@ -1,7 +1,11 @@
 using BG.TestAssignment.Business.BusinessLogic;
+using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using BG.TestAssignment.DataAccessLayer.DataContext;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BG.TestAssignment.BooksAuthors
 {
@@ -13,11 +17,11 @@ namespace BG.TestAssignment.BooksAuthors
 
             //builder.Services.AddScoped<IMapper, ServiceMapper>();
 
-            //builder.Services.AddScoped<AuthorsBL, AuthorsBL>();
-            //builder.Services.AddScoped<BooksBL, BooksBL>();
+            builder.Services.AddScoped<IAuthorBL, AuthorsBL>();
+            builder.Services.AddScoped<IBooksBL, BooksBL>();
 
             builder.Services.AddDbContext<BookAuthorsDataContext>(options =>
-                options.UseNpgsql("Host = localhost; Port = 5432; Database = booksdb; Username = postgres; Password = root"));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreDB")));
 
             builder.Services.AddCors(options =>
             {
@@ -29,6 +33,30 @@ namespace BG.TestAssignment.BooksAuthors
                 });
 
             });
+
+            builder.Services.AddAuthentication(opt =>
+                {
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
+                        ValidAudience = builder.Configuration["Jwt:Audience"]!,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+                    };
+                });
+
+            builder.Services.AddAuthorization(opt =>
+                opt.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());
 
             // Add services to the container.
 
@@ -48,6 +76,7 @@ namespace BG.TestAssignment.BooksAuthors
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors();

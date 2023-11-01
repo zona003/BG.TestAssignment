@@ -8,10 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BG.TestAssignment.Business.BusinessLogic.Interfaces;
+using BG.TestAssignment.Business.Validators;
 
 namespace BG.TestAssignment.Business.BusinessLogic
 {
-    public class BooksBL
+    public class BooksBL : IBooksBL
     {
         private BookAuthorsDataContext Context { get; set; }
 
@@ -42,6 +44,11 @@ namespace BG.TestAssignment.Business.BusinessLogic
 
             var book = bookDto.Adapt<Book>();
 
+            BookValidator validator = new BookValidator();
+            var validationResult = validator.Validate(book);
+
+            if (!validationResult.IsValid) return false;
+
             Context.Entry(book).State = EntityState.Modified;
 
             try
@@ -65,15 +72,20 @@ namespace BG.TestAssignment.Business.BusinessLogic
 
         public bool PostBook(BookDTO? bookDto)
         {
+            
             if (bookDto == null)
             {
                 return false;
             }
 
             var book = bookDto.Adapt<Book>();
+            BookValidator validator = new BookValidator();
+            var validationResult = validator.Validate(book);
+
+            if (!validationResult.IsValid) return false;
 
             Context.Books.Add(book);
-            Context.SaveChangesAsync();
+            Context.SaveChanges();
 
             return true;
         }

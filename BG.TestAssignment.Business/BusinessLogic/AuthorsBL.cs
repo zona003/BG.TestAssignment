@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BG.TestAssignment.Business.BusinessLogic.Interfaces;
+using BG.TestAssignment.Business.Validators;
 using BG.TestAssignment.Models;
 using BG.TestAssignment.DataAccessLayer.DataContext;
 using Mapster;
@@ -11,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BG.TestAssignment.Business.BusinessLogic
 {
-    public class AuthorsBL
+    public class AuthorsBL : IAuthorBL
     {
         private BookAuthorsDataContext Context { get; set; }
 
@@ -42,6 +44,12 @@ namespace BG.TestAssignment.Business.BusinessLogic
 
             var author = authorDto.Adapt<Author>();
 
+            AuthorValidator validator = new AuthorValidator();
+            var validationResult = validator.Validate(author);
+
+            if (validationResult.IsValid) return false;
+
+
             Context.Entry(author).State = EntityState.Modified;
 
             try
@@ -70,10 +78,15 @@ namespace BG.TestAssignment.Business.BusinessLogic
                 return false;
             }
 
-            Author author = authorDto.Adapt<Author>();
+            var author = authorDto.Adapt<Author>();
+
+            AuthorValidator validator = new AuthorValidator();
+            var validationResult = validator.Validate(author);
+
+            if (validationResult.IsValid) return false;
 
             Context.Authors.Add(author);
-            Context.SaveChangesAsync();
+            Context.SaveChanges();
 
             return true;
         }

@@ -1,7 +1,7 @@
 ﻿using BG.TestAssignment.Business.BusinessLogic;
+using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using BG.TestAssignment.DataAccessLayer.DataContext;
 using BG.TestAssignment.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,11 +11,12 @@ namespace BG.TestAssignment.BooksAuthors.Controllers
     [ApiController]
     public class AuthorsController : ControllerBase
     {
-        private AuthorsBL AuthorsBl { get; set; }
+        private IAuthorBL AuthorsBl { get; set; }
 
-        public AuthorsController(BookAuthorsDataContext context)
+
+        public AuthorsController(BookAuthorsDataContext context, IAuthorBL authorBl)
         {
-            AuthorsBl = new AuthorsBL(context);
+            AuthorsBl = authorBl;
         }
 
         [HttpGet("")]
