@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BG.TestAssignment.DataAccess.Entities;
+﻿using BG.TestAssignment.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,7 +11,9 @@ namespace BG.TestAssignment.DataAccess.EntityConfigurations
 
             builder.ToTable("Authors");
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             
+
             builder.HasMany(p => p.Books)
                 .WithOne(c => c.Author)
                 .HasForeignKey(c => c.AuthorId)

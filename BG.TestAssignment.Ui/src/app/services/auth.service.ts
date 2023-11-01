@@ -26,7 +26,6 @@ export class AuthService {
       this.http.post<Token>(`${this.apiUrl}/api/Auth/login`, {
         userName, password
     }).subscribe(token=>{
-      console.log(token.token);
       localStorage.setItem(ACCESS_TOKEN_KEY, token.token);
     });
   });

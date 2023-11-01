@@ -6,7 +6,7 @@ namespace BG.TestAssignment.Business.BusinessLogic.Interfaces
     {
         public List<AuthorDTO> GetAuthors();
 
-        public AuthorDTO GetAuthor(int id);
+        public AuthorDTO? GetAuthor(int id);
 
         public bool PutAuthor(int id, AuthorDTO authorDto);
 

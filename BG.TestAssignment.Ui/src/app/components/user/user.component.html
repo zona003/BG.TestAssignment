@@ -1,4 +1,4 @@
-<div class="user" *ngIf='myuser.username!=""'>
+<div class="user" *ngIf='myuser?.username!=""'>
     <table>
         <thead>
         <tr>
@@ -11,11 +11,11 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{myuser.username}}</td>
-            <td>{{myuser.firstname}}</td>
-            <td>{{myuser.lastname}}</td>
-            <td>{{myuser.birthdate}}</td>
-            <td>{{myuser.address}}</td>
+            <td>{{myuser?.username}}</td>
+            <td>{{myuser?.firstname}}</td>
+            <td>{{myuser?.lastname}}</td>
+            <td>{{myuser?.birthdate}}</td>
+            <td>{{myuser?.address}}</td>
           </tr>
         </tbody>
     </table>

@@ -2,11 +2,13 @@
 using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BG.TestAssignment.BooksBooks.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase

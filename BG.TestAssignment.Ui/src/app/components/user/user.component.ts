@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit{
-  myuser: User = new User ; 
+  myuser: User | null = null;
 
   constructor(private users: UserService){}
 

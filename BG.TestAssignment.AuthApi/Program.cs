@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BG.TestAssignment.AuthApi.Services;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
+using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.DataContext;
 using BG.TestAssignment.DataAccess.Entities;
 
@@ -30,8 +31,8 @@ namespace BG.TestAssignment.AuthApi
                 options.AddDefaultPolicy(build =>
                 {
                     build.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
 
             });
@@ -61,7 +62,7 @@ namespace BG.TestAssignment.AuthApi
             .Build());
 
             builder.Services.AddIdentity<AppUser, IdentityRole<long>>()
-                .AddEntityFrameworkStores<UserDataContext>()
+                .AddEntityFrameworkStores<BookAuthorsDataContext>()
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
 
@@ -85,7 +86,10 @@ namespace BG.TestAssignment.AuthApi
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors();
+            app.UseCors(builder=>
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
 
             app.MapControllers();
 

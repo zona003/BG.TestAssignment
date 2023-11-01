@@ -1,7 +1,10 @@
 export class User{
-    username: string = "";
-    firstname: string ="";
-    lastname: string ="";
-    birthdate: Date = new Date();
-    address: string= "";
+    constructor(
+    public username: string,
+    public firstname: string,
+    public lastname: string,
+    public birthdate: Date,
+    public address: string
+    )
+    {}
 }
