@@ -1,0 +1,22 @@
+<div class="user" *ngIf='myuser.username!=""'>
+    <table>
+        <thead>
+        <tr>
+            <th>UserName</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>BirthDate</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{myuser.username}}</td>
+            <td>{{myuser.firstname}}</td>
+            <td>{{myuser.lastname}}</td>
+            <td>{{myuser.birthdate}}</td>
+            <td>{{myuser.address}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>

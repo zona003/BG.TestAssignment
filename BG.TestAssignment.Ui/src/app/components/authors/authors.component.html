@@ -1,0 +1,57 @@
+<h1>Список авторов</h1>
+<input type="button" value="Добавить" class="btn btn-default" (click)="addAuthor()" />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>День рождения</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let author of authors">
+            <ng-template [ngTemplateOutlet]="loadTemplate(author)" 
+                        [ngTemplateOutletContext]="{ $implicit: author}">
+            </ng-template>
+        </tr>
+    </tbody>
+</table>
+<div>{{statusMessage}}</div>
+    
+    
+<ng-template #readOnlyTemplate let-author>
+    <td>{{author.id}}</td>
+    <td>{{author.firstName}}</td>
+    <td>{{author.lastName}}</td>
+    <td>{{author.birthDate}}</td>
+    <td>
+        <input type="button" value="Изменить" class="btn btn-default" (click)="editAuthor(author)" />
+    </td>
+    <td>
+        <input type="button" value="Удалить" (click)="deleteAuthor(author)" class="btn btn-danger" />
+    </td>
+</ng-template>
+   
+<ng-template #editTemplate>
+    <!-- <td>
+        <input type="number" [(ngModel)]="editedAuthor.id" readonly disabled class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="editedAuthor.firstName" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="editedAuthor.lastName" class="form-control" />
+    </td>
+    <td>
+        <input type="date" [(ngModel)]="editedAuthor.birthDate" class="form-control" />
+    </td> -->
+    <td>
+        <input type="button" value="Сохранить" (click)="saveAuthor()" class="btn btn-success" />
+    </td>
+    <td>
+        <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+    </td>
+</ng-template>
