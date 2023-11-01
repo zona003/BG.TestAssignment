@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace BG.TestAssignment.Models
+namespace BG.TestAssignment.DataAccess.Entities
 {
     public class AppUser : IdentityUser<long>
     {
-        public int Id { get; set; }
         public string? FirstName { get; set; } 
         public string? LastName { get; set; } 
         public DateTime BirthDate { get; set; }

@@ -1,6 +1,6 @@
 ﻿using BG.TestAssignment.Business.BusinessLogic;
 using BG.TestAssignment.Business.BusinessLogic.Interfaces;
-using BG.TestAssignment.DataAccessLayer.DataContext;
+using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

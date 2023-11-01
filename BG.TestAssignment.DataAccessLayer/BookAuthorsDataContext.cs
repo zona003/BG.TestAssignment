@@ -1,7 +1,7 @@
-﻿using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BG.TestAssignment.DataAccessLayer.DataContext
+namespace BG.TestAssignment.DataAccess
 {
     public class BookAuthorsDataContext : DbContext
     {

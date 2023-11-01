@@ -10,6 +10,7 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BG.TestAssignment.Business.Validators;
+using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.AuthApi.Services
 {
@@ -34,9 +35,9 @@ namespace BG.TestAssignment.AuthApi.Services
             }
 
             LoginValidator validator = new LoginValidator();
-            var result = validator.Validate(request);
+            var validationResult = validator.Validate(request);
 
-            if (result.IsValid)
+            if (!validationResult.IsValid)
             {
                 return new AuthResponce();
             }
@@ -84,35 +85,29 @@ namespace BG.TestAssignment.AuthApi.Services
                 return false;
             }
 
+            RegisterValidator validator = new RegisterValidator();
+            var validationResult = validator.Validate(request);
 
+            if (!validationResult.IsValid)
+            {
+                return false;
+            }
 
-            //if (!ModelState.IsValid) return BadRequest(request);
-            //var userExist = await _userManager.FindByNameAsync(request.UserName);
-            //if (userExist != null)
-            //    return BadRequest("User already exist");
+            var userExist = await _userManager.FindByNameAsync(request.UserName);
+            if (userExist != null)
+                return false;
 
-            //AppUser user = new AppUser
-            //{
-            //    UserName = request.UserName,
-            //    FirstName = request.FirstName,
-            //    LastName = request.LastName,
-            //    BirthDate = request.BirthDate,
-            //    Address = request.Address,
-            //};
+            AppUser user = request.Adapt<AppUser>();
 
-            //var createUserResult = await _userManager.CreateAsync(user, request.Password);
-            //if (!createUserResult.Succeeded)
-            //    return BadRequest(request);
+            var createUserResult = await _userManager.CreateAsync(user, request.Password);
+            if (!createUserResult.Succeeded)
+                return false;
 
-            //var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+            var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            //if (findUser == null) throw new Exception($"User {request.UserName} not found");
+            if (findUser == null) throw new Exception($"User {request.UserName} not found");
 
-            //return await Login(new AuthRequest
-            //{
-            //    UserName = request.UserName,
-            //    Password = request.Password
-            //});
+            return true;
         }
 
 

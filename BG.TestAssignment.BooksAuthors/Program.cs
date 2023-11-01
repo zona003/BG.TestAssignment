@@ -1,10 +1,10 @@
 using BG.TestAssignment.Business.BusinessLogic;
 using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using BG.TestAssignment.DataAccessLayer.DataContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BG.TestAssignment.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BG.TestAssignment.BooksAuthors

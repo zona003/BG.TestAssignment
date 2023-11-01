@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.AuthApi.Controllers
 {
@@ -35,7 +36,7 @@ namespace BG.TestAssignment.AuthApi.Controllers
 
             if (logedUser.Token == null)
             {
-                return BadRequest();
+                return BadRequest("Wrong credentials");
             }
 
             return Ok(logedUser);
@@ -45,50 +46,14 @@ namespace BG.TestAssignment.AuthApi.Controllers
         public async Task<ActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid) return BadRequest(request);
-            var userExist = await _userManager.FindByNameAsync(request.UserName);
-            if (userExist != null)
+
+            bool registerResult = await _authService.Register(request);
+            if (!registerResult)
+            {
                 return BadRequest("User already exist");
+            }
 
-            AppUser user = new AppUser
-            {
-                UserName = request.UserName,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                BirthDate = request.BirthDate,
-                Address = request.Address,
-            };
-
-            var createUserResult = await _userManager.CreateAsync(user, request.Password);
-            if (!createUserResult.Succeeded)
-                return BadRequest(request);
-
-            var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
-
-            if (findUser == null) throw new Exception($"User {request.UserName} not found");
-
-            return await Login(new AuthRequest
-            {
-                UserName = request.UserName,
-                Password = request.Password
-            });
-        }
-
-
-        private string GenerateToken(IEnumerable<Claim> claims)
-        {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"],
-                Expires = DateTime.UtcNow.AddHours(5),
-                SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
-                Subject = new ClaimsIdentity(claims)
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return Ok();
         }
     }
 }

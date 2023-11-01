@@ -1,4 +1,5 @@
-﻿using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.DataAccess.Entities;
+using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

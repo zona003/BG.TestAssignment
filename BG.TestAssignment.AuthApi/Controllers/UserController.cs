@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.AuthApi.Controllers
 {
@@ -27,7 +28,7 @@ namespace BG.TestAssignment.AuthApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int id)
         {
             AppUser currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == UserId);
             if (currentUser == null)

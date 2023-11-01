@@ -1,9 +1,10 @@
-﻿using BG.TestAssignment.DataAccessLayer.DataContext;
-using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using BG.TestAssignment.Business.BusinessLogic.Interfaces;
 using BG.TestAssignment.Business.Validators;
+using BG.TestAssignment.DataAccess;
+using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.Business.BusinessLogic
 {

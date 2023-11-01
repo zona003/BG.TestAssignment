@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BG.TestAssignment.DataAccess.Entities;
 using BG.TestAssignment.Models;
 using FluentValidation;
 

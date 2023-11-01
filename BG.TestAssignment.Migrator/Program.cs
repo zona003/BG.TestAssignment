@@ -1,5 +1,4 @@
-﻿using BG.TestAssignment.DataAccessLayer.DataContext;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BG.TestAssignment.Migrator
 {

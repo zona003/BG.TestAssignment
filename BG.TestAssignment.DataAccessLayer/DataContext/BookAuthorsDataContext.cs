@@ -1,4 +1,5 @@
-﻿using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.DataAccess.Entities;
+using BG.TestAssignment.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BG.TestAssignment.DataAccess.DataContext

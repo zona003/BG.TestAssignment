@@ -1,5 +1,3 @@
-
-using BG.TestAssignment.DataAccessLayer.DataContext;
 using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +8,7 @@ using System.Text;
 using BG.TestAssignment.AuthApi.Services;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.DataAccess.Entities;
 
 
 namespace BG.TestAssignment.AuthApi
