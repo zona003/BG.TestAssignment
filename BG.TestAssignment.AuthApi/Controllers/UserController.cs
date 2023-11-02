@@ -7,7 +7,6 @@ using System.Security.Claims;
 using BG.TestAssignment.AuthApi.Services;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.DataContext;
 using Microsoft.IdentityModel;
 using BG.TestAssignment.DataAccess.Entities;
 

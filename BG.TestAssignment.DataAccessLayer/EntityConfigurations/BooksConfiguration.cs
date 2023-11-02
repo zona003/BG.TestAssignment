@@ -8,7 +8,6 @@ namespace BG.TestAssignment.DataAccess.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            builder.ToTable("Books");
             builder.HasKey(x => x.Id);
 
             builder.HasOne(c => c.Author)

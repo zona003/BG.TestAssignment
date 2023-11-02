@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
-using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.AuthApi.Controllers
@@ -17,11 +17,11 @@ namespace BG.TestAssignment.AuthApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly UserDataContext _context;
+        private readonly BookAuthorsDataContext _context;
         private readonly IConfiguration _configuration;
         private readonly IAuthService _authService;
 
-        public AuthController(UserDataContext context, UserManager<AppUser> userManager, IConfiguration configuration, IAuthService authService)
+        public AuthController(BookAuthorsDataContext context, UserManager<AppUser> userManager, IConfiguration configuration, IAuthService authService)
         {
             _context = context;
             _userManager = userManager;

@@ -8,7 +8,6 @@ using System.Text;
 using BG.TestAssignment.AuthApi.Services;
 using BG.TestAssignment.AuthApi.Services.Interfaces;
 using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.DataContext;
 using BG.TestAssignment.DataAccess.Entities;
 
 
@@ -23,7 +22,7 @@ namespace BG.TestAssignment.AuthApi
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
-            builder.Services.AddDbContext<UserDataContext>(opt =>
+            builder.Services.AddDbContext<BookAuthorsDataContext>(opt =>
             opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreDB")));
 
             builder.Services.AddCors(options =>

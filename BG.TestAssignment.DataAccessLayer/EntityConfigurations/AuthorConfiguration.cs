@@ -9,7 +9,6 @@ namespace BG.TestAssignment.DataAccess.EntityConfigurations
         public void Configure(EntityTypeBuilder<Author> builder)
         {
 
-            builder.ToTable("Authors");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             

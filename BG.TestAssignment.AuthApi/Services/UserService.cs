@@ -1,5 +1,5 @@
 ﻿using BG.TestAssignment.AuthApi.Services.Interfaces;
-using BG.TestAssignment.DataAccess.DataContext;
+using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
 using BG.TestAssignment.Models;
 using Mapster;
@@ -10,9 +10,9 @@ namespace BG.TestAssignment.AuthApi.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserDataContext _context;
+        private readonly BookAuthorsDataContext _context;
 
-        public UserService(UserDataContext context)
+        public UserService(BookAuthorsDataContext context)
         {
             _context = context;
         }

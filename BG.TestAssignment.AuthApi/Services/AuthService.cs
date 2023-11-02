@@ -1,5 +1,4 @@
-﻿using BG.TestAssignment.DataAccess.DataContext;
-using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,6 +9,7 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BG.TestAssignment.Business.Validators;
+using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
 
 namespace BG.TestAssignment.AuthApi.Services
@@ -17,10 +17,10 @@ namespace BG.TestAssignment.AuthApi.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly UserDataContext _context;
+        private readonly BookAuthorsDataContext _context;
         private readonly IConfiguration _configuration;
 
-        public AuthService(UserDataContext context, UserManager<AppUser> userManager, IConfiguration configuration)
+        public AuthService(BookAuthorsDataContext context, UserManager<AppUser> userManager, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
