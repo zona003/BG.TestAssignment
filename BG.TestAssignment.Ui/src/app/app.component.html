@@ -1,3 +1,5 @@
+<!-- <app-books></app-books> -->
+
 <div>
   <div class="topnav">
     <a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">User</a>
@@ -7,7 +9,7 @@
       *ngIf='isLoggedIn'>Authors</a>
   </div>
 
-  <div *ngIf='!isLoggedIn'>
+  <!-- <div *ngIf='!isLoggedIn'>
     <form>
       <div class="con">
         <div class="field-set">
@@ -21,7 +23,7 @@
 
   <div *ngIf='isLoggedIn'>
     <button class="log-out" (click)="logout()"> Log out </button>
-  </div>
+  </div> -->
 
   <router-outlet></router-outlet>
 </div>

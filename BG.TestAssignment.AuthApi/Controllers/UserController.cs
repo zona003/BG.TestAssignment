@@ -30,7 +30,7 @@ namespace BG.TestAssignment.AuthApi.Controllers
         public async Task<ActionResult> GetCurrentUser()
         {
             UserDTO currentUserDto = await _userService.GetCurrentUser(User.Identity.Name);
-
+            
             return Ok(currentUserDto);
         }
     }

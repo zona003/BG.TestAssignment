@@ -1,0 +1,26 @@
+<div class="edit-form">
+    <div>Crete new Author</div>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="number" id="id" formControlName="id" [disabled]="true">
+        </div>
+        <div class="form-group">
+            <label for="firstName">Firstname</label>
+            <input type="text" id="firstName" formControlName="firstName">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Lastname</label>
+            <input type="text" id="lastName" formControlName="lastName">
+        </div>
+        <div class="form-group">
+            <label for="birthDate">BirthDate</label>
+            <input type="date" id="birthDate" formControlName="birthDate">
+        </div>
+        <div class="form-group">
+            <button type="submit" [disabled]="!editForm.valid">Save</button>
+        </div>
+    </form>
+
+    <button (click)="cancell()">Cancell</button>
+</div>

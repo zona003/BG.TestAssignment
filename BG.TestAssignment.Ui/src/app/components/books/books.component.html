@@ -1,1 +1,26 @@
-<p>books works!</p>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Published</th>
+        <th>Genre</th>
+        <th>AuthorId</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of Books">
+        <td >
+          {{book.id}}
+        </td>
+        <td><input type="text" value={{book.title}}></td>
+        <td><input type="date" value={{book.publishedDate}}></td>
+        <td><input type="text" value={{book.bookGenre}}></td>
+        <td><input type="number" value={{book.authorId}}></td>
+        <td><button (click)="editBook(book.id, book)">Save</button></td>
+        <td><button (click)="deleteBook(book.id)">Delete</button></td>
+      </tr>
+    </tbody>
+
+    <button (click)="addBook()">Add new book</button>
+</table>

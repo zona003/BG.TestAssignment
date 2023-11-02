@@ -5,6 +5,7 @@ import { AUTH_API_URL } from '../app-injection-tokens';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { Token } from '../models/token';
+import { UserRegister } from '../models/userRegister';
 
 export const ACCESS_TOKEN_KEY = "access_token";
 
@@ -22,14 +23,15 @@ export class AuthService {
 
   login(userName: string, password: string): Observable<Token> {
     console.log(`${this.apiUrl}/api/Auth/login`);
-    return new Observable((subscriber)=>{
+    return new Observable((subscriber) => {
       this.http.post<Token>(`${this.apiUrl}/api/Auth/login`, {
         userName, password
-    }).subscribe(token=>{
-      localStorage.setItem(ACCESS_TOKEN_KEY, token.token);
+      }).subscribe(token => {
+        console.log(token);
+        localStorage.setItem(ACCESS_TOKEN_KEY, token.token);
+      });
     });
-  });
-}
+  }
 
   isAutenticated(): boolean {
     var token = localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -39,8 +41,25 @@ export class AuthService {
       return false;
   }
 
+  getToken(): string  {
+    var token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (token)
+      return token;
+    return "";
+  }
+
   logout(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     this.router.navigate(['']);
+  }
+
+  registration(userRegister: UserRegister): boolean {
+    this.http.post<UserRegister>(`${this.apiUrl}/api/Auth/register`, {
+      userRegister
+    }).subscribe(ans => {
+      console.log(ans);
+      return true;
+    });
+    return false;
   }
 }

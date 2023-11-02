@@ -3,6 +3,7 @@ using BG.TestAssignment.DataAccess.EntityConfigurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace BG.TestAssignment.DataAccess
 {
@@ -19,6 +20,7 @@ namespace BG.TestAssignment.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

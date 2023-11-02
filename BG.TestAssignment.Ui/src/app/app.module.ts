@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +12,13 @@ import { environment } from './environments/environment';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_KEY } from './services/auth.service';
 import { UserComponent } from './components/user/user.component'; 
+import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './components/register/register.component';
+import { JwtInterceptor } from './_helpers/jwtinterceptor';
+import { AuhtorFormComponent } from './components/auhtor-form/auhtor-form.component';
+import { BookFormComponent } from './components/book-form/book-form.component';
 
 export function tokenGetter(){
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -23,14 +29,19 @@ export function tokenGetter(){
     AppComponent,
     BooksComponent,
     AuthorsComponent,
-    UserComponent
+    UserComponent,
+    LoginComponent,
+    RegisterComponent,
+    AuhtorFormComponent,
+    BookFormComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
+    ReactiveFormsModule,
 
     JwtModule.forRoot({
       config: {
@@ -40,6 +51,7 @@ export function tokenGetter(){
     })
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       provide: AUTH_API_URL,
       useValue: environment.authApi

@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "DefaultPostgreDB": "Host=localhost;Port=5432;Database=booksdb;Username=postgres;Password=root"
+    "DefaultPostgreDB": "Host=localhost;Port=5432;Database=booksdb;Username=postgres;Password=123456"
   },
   "exclude": [
     "**/bin",
