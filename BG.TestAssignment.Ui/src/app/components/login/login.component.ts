@@ -5,36 +5,43 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  
-  form:FormGroup;
 
-  constructor(private fb:FormBuilder, 
-               private authService: AuthService, 
-               private router: Router) {
+    form: FormGroup;
 
-      this.form = this.fb.group({
-          username: ['',Validators.required],
-          password: ['',Validators.required]
-      });
-  }
+    constructor(private fb: FormBuilder,
+        private authService: AuthService,
+        private router: Router) {
 
-  login() {
-      const val = this.form.value;
+        this.form = this.fb.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        });
+    }
 
-      if (val.username && val.password) {
-          this.authService.login(val.username, val.password)
-              .subscribe(
-                  () => {
-                      console.log("User is logged in");
-                      this.router.navigateByUrl('/');
-                  }
-              );
-      }
-  }
+    login() {
+        const val = this.form.value;
+
+        if (val.username && val.password) {
+            this.authService.login(val.username, val.password)
+                .subscribe({
+                    next: (v) => this.router.navigateByUrl("/"),
+                    error: (e) => alert("Wrong credentials"),
+                    complete: () => this.router.navigateByUrl("/")
+                })
+        }
+    }
+
+    register() {
+        this.router.navigateByUrl("/register");
+    }
+
+    setDirty() {
+
+    }
 }
 

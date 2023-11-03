@@ -1,4 +1,27 @@
-<form [formGroup]="form">
+<p-card header="Login" [style]="{  width: '360px', 'margin' : 'auto' }">
+    <form [formGroup]="form">
+
+        <div class="flex flex-column gap-2">
+            <label htmlFor="username">Username</label>
+            <input type="text" pInputText formControlName="text" formControlName="username" />
+        </div>
+
+        <div class="flex flex-column gap-2">
+            <label htmlFor="username">Password</label>
+            <p-password formControlName="password" [toggleMask]="true"></p-password>
+        </div>
+
+        <div style="display: flex; justify-content: space-evenly; margin: 10px;">
+            <p-button label="Login" severity="success" (click)="login()"></p-button>
+
+            <p-button label="Register"  (click)="register()"></p-button>
+        </div>
+    </form>
+
+</p-card>
+
+
+<!-- <form [formGroup]="form">
     <fieldset>
         <legend>Login</legend>
         <div class="form-field">
@@ -15,4 +38,4 @@
         <button class="button button-primary" 
                 (click)="login()">Login</button>
     </div>
-</form>
+</form> -->

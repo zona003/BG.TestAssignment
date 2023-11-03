@@ -43,7 +43,9 @@ export class BooksComponent implements OnInit{
   }
 
   deleteBook(id: number){
-    this.bookService.deleteBook(id);
+    if(this.bookService.deleteBook(id))
+    this.Books.splice(id,1);
+    
     // this.refresh();
   }
 

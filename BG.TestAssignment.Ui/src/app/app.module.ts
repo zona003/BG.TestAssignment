@@ -22,6 +22,11 @@ import { BookFormComponent } from './components/book-form/book-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TableModule } from 'primeng/table'
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -46,6 +51,11 @@ export function tokenGetter() {
     HttpClientModule,
     ReactiveFormsModule,
     TableModule,
+    CardModule,
+    ButtonModule,
+    PasswordModule,
+    InputTextModule,
+    CalendarModule,
 
     JwtModule.forRoot({
       config: {

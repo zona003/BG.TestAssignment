@@ -4,7 +4,7 @@ export class UserRegister{
     public password : string,
     public firstname: string,
     public lastname: string,
-    public birthdate: Date,
+    public birthdate: string,
     public address: string
     )
     {}

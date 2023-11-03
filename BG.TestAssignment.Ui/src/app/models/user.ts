@@ -1,9 +1,10 @@
 export class User{
     constructor(
-    public username: string,
-    public firstname: string,
-    public lastname: string,
-    public birthdate: Date,
+    public id : number,
+    public userName: string,
+    public firstName: string,
+    public lastName: string,
+    public birthDate: Date,
     public address: string
     )
     {}

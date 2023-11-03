@@ -1,29 +1,13 @@
-<!-- <app-books></app-books> -->
 
 <div>
   <div class="topnav">
-    <a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">User</a>
-    <a [routerLink]="['/books']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-      *ngIf='isLoggedIn'>Books</a>
-    <a [routerLink]="['/authors']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-      *ngIf='isLoggedIn'>Authors</a>
+    <a *ngIf='!isLoggedIn' [routerLink]="['login']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a>
+    <a *ngIf='isLoggedIn' [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true} ">User</a>
+    <a *ngIf='isLoggedIn' [routerLink]="['/books']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+      >Books</a>
+    <a *ngIf='isLoggedIn' [routerLink]="['/authors']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+      >Authors</a>
   </div>
-
-  <!-- <div *ngIf='!isLoggedIn'>
-    <form>
-      <div class="con">
-        <div class="field-set">
-          <input class="form-input" type="text" placeholder="UserName" name="userName" required #user><br>
-          <input class="form-input" type="password" placeholder="Password" name="password" required #pass>
-          <button class="log-in" (click)="login(user.value, pass.value)"> Log In </button>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <div *ngIf='isLoggedIn'>
-    <button class="log-out" (click)="logout()"> Log out </button>
-  </div> -->
 
   <router-outlet></router-outlet>
 </div>

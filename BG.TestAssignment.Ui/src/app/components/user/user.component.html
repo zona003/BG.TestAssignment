@@ -1,4 +1,4 @@
-<div class="user" *ngIf='myuser?.[0]?.username!=""'>
+<div class="user" *ngIf='myuser?.[0]?.userName!=""'>
   <p-table [value]="myuser" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
@@ -11,12 +11,15 @@
     </ng-template>
     <ng-template pTemplate="body" let-user>
       <tr>
-        <td>{{ user.username}}</td>
-        <td>{{ user.firstname }}</td>
-        <td>{{ user.lastname }}</td>
-        <td>{{user.birthdate}}</td>
+        <td>{{ user.userName}}</td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{user.birthDate}}</td>
         <td>{{user.address}}</td>
       </tr>
+      <div *ngIf='isLoggedIn'>
+        <p-button label="Logout" severity="success" (click)="logout()"></p-button>
+      </div>
     </ng-template>
   </p-table>
 </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,7 +12,11 @@ import { UserService } from 'src/app/services/user.service';
 export class UserComponent implements OnInit{
   myuser: User[] = new Array();
 
-  constructor(private users: UserService){}
+  constructor(
+    private users: UserService, 
+    private auth:AuthService ,
+    private router: Router
+    ){}
 
   ngOnInit(): void {
       this.getCuttentUser();
@@ -23,4 +29,12 @@ export class UserComponent implements OnInit{
       })
   }
   
+  public get isLoggedIn(): boolean{
+    return this.auth.isAutenticated();
+  }
+
+  logout(){
+    this.auth.logout();
+    this.router.navigateByUrl("/login");
+  }
 }
