@@ -10,14 +10,12 @@ import { Observable } from 'rxjs';
 })
 export class BooksService {
 
-  books: Book[] = []
-
   constructor(
     private http: HttpClient,
     @Inject(BOOK_API_URL) private apiUrl: string,
   ) { }
 
-  private baseApiUrl = `${this.apiUrl}/api/Books`
+  private baseApiUrl = `${this.apiUrl}/api/lib/Books`
 
   getAllBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(`${this.baseApiUrl}`);

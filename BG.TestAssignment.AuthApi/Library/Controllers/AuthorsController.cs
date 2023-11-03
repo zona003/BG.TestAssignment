@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BGNet.TestAssignment.Api.Library.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/lib/[controller]")]
     [ApiController]
     public class AuthorsController : ControllerBase
     {

@@ -10,9 +10,9 @@ import { AuhtorFormComponent } from './components/auhtor-form/auhtor-form.compon
 import { BookFormComponent } from './components/book-form/book-form.component';
 
 const routes: Routes = [
-  { path: "", component: UserComponent },
-  { path: "register", component: RegisterComponent, canActivate: [!authGuard]},
-  { path: "login", component: LoginComponent, canActivate: [!authGuard] },
+  { path: "", component: UserComponent , canActivate: [authGuard]},
+  { path: "register", component: RegisterComponent},
+  { path: "login", component: LoginComponent },
   { path: "books", component: BooksComponent, canActivate: [authGuard] },
   { path: "authors", component: AuthorsComponent, canActivate: [authGuard] },
   {path: "add-author", component: AuhtorFormComponent, canActivate: [authGuard]},

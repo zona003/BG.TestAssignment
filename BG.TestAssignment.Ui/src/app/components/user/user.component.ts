@@ -8,14 +8,18 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit{
-  myuser: User | null = null;
+  myuser: User[] = new Array();
 
   constructor(private users: UserService){}
 
   ngOnInit(): void {
-      this.users.getCurrentUser()
+      this.getCuttentUser();
+  }
+
+  getCuttentUser(){
+    this.users.getCurrentUser()
       .subscribe(us=>{
-        this.myuser = us;
+        this.myuser.push(us);
       })
   }
   

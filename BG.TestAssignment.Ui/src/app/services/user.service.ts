@@ -15,7 +15,7 @@ export class UserService {
     @Inject(AUTH_API_URL) private apiUrl: string,
     ) {}
 
-  private baseApiUrl = `${this.apiUrl}/api/User`
+  private baseApiUrl = `${this.apiUrl}/api/Auth/User`
   
   getCurrentUser(): Observable<User>{
     return this.http.get<User>(`${this.baseApiUrl}`)

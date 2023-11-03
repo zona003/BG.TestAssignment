@@ -13,7 +13,7 @@ export class AuthorsService {
     @Inject(BOOK_API_URL) private apiUrl: string,
   ) { }
 
-  private baseApiUrl = `${this.apiUrl}/api/Authors`
+  private baseApiUrl = `${this.apiUrl}/api/lib/Authors`
 
   getAllAuthor(): Observable<Author[]> {
     return this.http.get<Author[]>(`${this.baseApiUrl}`);

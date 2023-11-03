@@ -12,7 +12,7 @@ import { AuthorsService } from 'src/app/services/authors.service';
 export class AuthorsComponent implements OnInit {
 
   editedAuthor: Author | null = null;
-  authors: Author[] = [];
+  Authors: Author[] = [];
   isNewRecord: boolean = false;
   statusMessage: string = "";
 
@@ -31,7 +31,7 @@ export class AuthorsComponent implements OnInit {
   private loadAuthors() {
     this.serv.getAllAuthor()
     .subscribe(us=>{
-      this.authors = us;
+      this.Authors = us;
     })
   }
 

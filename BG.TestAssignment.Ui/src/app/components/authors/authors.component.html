@@ -1,24 +1,18 @@
-<table>
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>BirthDate</th>
+<p-table [value]="Authors" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>FirstName</th>
+          <th>LastName</th>
+          <th>BirthDate</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let author of authors">
-        <td >
-          {{author.id}}
-        </td>
-        <td><input type="text" value={{author.firstName}}></td>
-        <td><input type="text" value={{author.firstName}}></td>
-        <td><input type="date" value={{author.birthDate}}></td>
-        <td><button (click)="editAuthor(author.id, author)">Save</button></td>
-        <td><button (click)="deleteAuthor(author.id)">Delete</button></td>
+  </ng-template>
+  <ng-template pTemplate="body" let-author>
+      <tr>
+          <td>{{ author.firstName }}</td>
+          <td>{{ author.lastName }}</td>
+          <td>{{ author.birthDate }}</td>
       </tr>
-    </tbody>
+  </ng-template>
+</p-table>
 
-    <button (click)="addAuthor()">Add new author</button>
-</table>
+<button (click)="addAuthor()">Add new author</button>
