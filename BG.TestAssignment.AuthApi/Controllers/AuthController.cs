@@ -1,16 +1,11 @@
-﻿using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.DataAccess;
+using BG.TestAssignment.DataAccess.Entities;
+using BG.TestAssignment.Models;
+using BGNet.TestAssignment.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using BG.TestAssignment.AuthApi.Services.Interfaces;
-using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
 
-namespace BG.TestAssignment.AuthApi.Controllers
+namespace BGNet.TestAssignment.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

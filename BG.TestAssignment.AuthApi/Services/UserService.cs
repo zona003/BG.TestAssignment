@@ -1,12 +1,11 @@
-﻿using BG.TestAssignment.AuthApi.Services.Interfaces;
-using BG.TestAssignment.DataAccess;
+﻿using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
 using BG.TestAssignment.Models;
+using BGNet.TestAssignment.Api.Services.Interfaces;
 using Mapster;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BG.TestAssignment.AuthApi.Services
+namespace BGNet.TestAssignment.Api.Services
 {
     public class UserService : IUserService
     {

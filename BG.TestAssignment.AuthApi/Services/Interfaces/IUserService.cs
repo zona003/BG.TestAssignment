@@ -1,6 +1,6 @@
 ﻿using BG.TestAssignment.Models;
 
-namespace BG.TestAssignment.AuthApi.Services.Interfaces
+namespace BGNet.TestAssignment.Api.Services.Interfaces
 {
     public interface IUserService
     {

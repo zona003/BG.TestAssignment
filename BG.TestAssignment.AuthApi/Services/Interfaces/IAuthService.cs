@@ -1,7 +1,6 @@
 ﻿using BG.TestAssignment.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace BG.TestAssignment.AuthApi.Services.Interfaces
+namespace BGNet.TestAssignment.Api.Services.Interfaces
 {
     public interface IAuthService
     {

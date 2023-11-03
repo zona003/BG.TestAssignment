@@ -1,17 +1,15 @@
-using BG.TestAssignment.Models;
+using System.Text;
+using BG.TestAssignment.DataAccess;
+using BG.TestAssignment.DataAccess.Entities;
+using BGNet.TestAssignment.Api.Services;
+using BGNet.TestAssignment.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using BG.TestAssignment.AuthApi.Services;
-using BG.TestAssignment.AuthApi.Services.Interfaces;
-using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
 
-
-namespace BG.TestAssignment.AuthApi
+namespace BGNet.TestAssignment.Api
 {
     public class Program
     {

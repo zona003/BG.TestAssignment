@@ -1,18 +1,17 @@
-﻿using BG.TestAssignment.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BG.TestAssignment.AuthApi.Services.Interfaces;
-using Mapster;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BG.TestAssignment.Business.Validators;
 using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
+using BG.TestAssignment.Models;
+using BGNet.TestAssignment.Api.Services.Interfaces;
+using Mapster;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
-namespace BG.TestAssignment.AuthApi.Services
+namespace BGNet.TestAssignment.Api.Services
 {
     public class AuthService : IAuthService
     {

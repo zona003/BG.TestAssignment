@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.AuthApi", "BG.TestAssignment.AuthApi\BG.TestAssignment.AuthApi.csproj", "{6038AD4A-B49A-44C7-859C-A912CF5D13FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGNet.TestAssignment.Api", "BG.TestAssignment.AuthApi\BGNet.TestAssignment.Api.csproj", "{6038AD4A-B49A-44C7-859C-A912CF5D13FC}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "BG.TestAssignment.Ui", "BG.TestAssignment.Ui\BG.TestAssignment.Ui.esproj", "{02247325-F2BF-4F52-8B4F-B068FF2615E5}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.Migrator", "BG.TestAssignment.Migrator\BG.TestAssignment.Migrator.csproj", "{54A0ABB4-FD55-430F-AC88-C55A1A442615}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BG.TestAssignment.DataAccess", "BG.TestAssignment.DataAccessLayer\BG.TestAssignment.DataAccess.csproj", "{CB0D2F82-4B37-48A5-848B-D54205E51680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGNet.TestAssignment.Common", "BGNet.TestAssignment.Common\BGNet.TestAssignment.Common.csproj", "{F5E7C17D-C6E1-48C3-B6C7-2FD777B5D96B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{CB0D2F82-4B37-48A5-848B-D54205E51680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB0D2F82-4B37-48A5-848B-D54205E51680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB0D2F82-4B37-48A5-848B-D54205E51680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5E7C17D-C6E1-48C3-B6C7-2FD777B5D96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5E7C17D-C6E1-48C3-B6C7-2FD777B5D96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5E7C17D-C6E1-48C3-B6C7-2FD777B5D96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5E7C17D-C6E1-48C3-B6C7-2FD777B5D96B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
