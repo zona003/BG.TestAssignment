@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BG.TestAssignment.Models;
+﻿using BGNet.TestAssignment.Models;
 using FluentValidation;
 
-namespace BG.TestAssignment.Business.Validators
+namespace BGNet.TestAssignment.Business.Validators
 {
     public class LoginValidator : AbstractValidator<AuthRequest>
     {

@@ -1,12 +1,12 @@
-﻿using BG.TestAssignment.Models;
+﻿using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+using BGNet.TestAssignment.Business.Validators;
+using BGNet.TestAssignment.DataAccess;
+using BGNet.TestAssignment.DataAccess.Entities;
+using BGNet.TestAssignment.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using BG.TestAssignment.Business.BusinessLogic.Interfaces;
-using BG.TestAssignment.Business.Validators;
-using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
 
-namespace BG.TestAssignment.Business.BusinessLogic
+namespace BGNet.TestAssignment.Business.BusinessLogic
 {
     public class BooksServices : IBooksService
     {

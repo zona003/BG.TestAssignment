@@ -1,4 +1,4 @@
-﻿using BG.TestAssignment.Models;
+﻿using BGNet.TestAssignment.Models;
 
 namespace BGNet.TestAssignment.Api.Services.Interfaces
 {

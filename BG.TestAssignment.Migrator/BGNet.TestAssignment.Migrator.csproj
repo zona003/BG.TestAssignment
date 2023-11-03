@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BG.TestAssignment.DataAccessLayer\BG.TestAssignment.DataAccess.csproj" />
+    <ProjectReference Include="..\BG.TestAssignment.DataAccessLayer\BGNet.TestAssignment.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

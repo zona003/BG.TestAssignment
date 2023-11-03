@@ -1,8 +1,8 @@
-﻿using BG.TestAssignment.DataAccess.Entities;
+﻿using BGNet.TestAssignment.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BG.TestAssignment.DataAccess.EntityConfigurations
+namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
 {
     internal class AuthorConfiguration : IEntityTypeConfiguration<Author>
     {

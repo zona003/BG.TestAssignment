@@ -1,6 +1,7 @@
-﻿using BG.TestAssignment.Business.BusinessLogic.Interfaces;
-using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.Models;
+﻿using BG.TestAssignment.DataAccess;
+using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+using BGNet.TestAssignment.DataAccess;
+using BGNet.TestAssignment.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

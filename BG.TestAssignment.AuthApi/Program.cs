@@ -1,10 +1,11 @@
 using System.Text;
-using BG.TestAssignment.Business.BusinessLogic.Interfaces;
-using BG.TestAssignment.Business.BusinessLogic;
 using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
 using BGNet.TestAssignment.Api.Services;
 using BGNet.TestAssignment.Api.Services.Interfaces;
+using BGNet.TestAssignment.Business.BusinessLogic;
+using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+using BGNet.TestAssignment.DataAccess;
+using BGNet.TestAssignment.DataAccess.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

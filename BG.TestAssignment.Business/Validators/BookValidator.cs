@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BG.TestAssignment.DataAccess.Entities;
-using BG.TestAssignment.Models;
+﻿using BGNet.TestAssignment.DataAccess.Entities;
 using FluentValidation;
 
-namespace BG.TestAssignment.Business.Validators
+namespace BGNet.TestAssignment.Business.Validators
 {
     public class BookValidator : AbstractValidator<Book>
     {

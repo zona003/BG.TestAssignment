@@ -1,10 +1,9 @@
-﻿using BG.TestAssignment.DataAccess.Entities;
-using BG.TestAssignment.DataAccess.EntityConfigurations;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BGNet.TestAssignment.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BG.TestAssignment.DataAccess
+namespace BGNet.TestAssignment.DataAccess
 {
     public class BookAuthorsDataContext : IdentityDbContext<AppUser, IdentityRole<long>, long>
     {

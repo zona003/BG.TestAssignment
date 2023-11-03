@@ -1,6 +1,6 @@
-﻿using BG.TestAssignment.Models;
+﻿using BGNet.TestAssignment.Models;
 
-namespace BG.TestAssignment.Business.BusinessLogic.Interfaces
+namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IAuthorService
     {

@@ -1,11 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BG.TestAssignment.Business.Validators;
 using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
-using BG.TestAssignment.Models;
 using BGNet.TestAssignment.Api.Services.Interfaces;
+using BGNet.TestAssignment.Business.Validators;
+using BGNet.TestAssignment.DataAccess;
+using BGNet.TestAssignment.DataAccess.Entities;
+using BGNet.TestAssignment.Models;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace BG.TestAssignment.DataAccess.Entities
+namespace BGNet.TestAssignment.DataAccess.Entities
 {
     public class AppUser : IdentityUser<long>
     {

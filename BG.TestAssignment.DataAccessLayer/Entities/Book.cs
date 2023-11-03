@@ -1,4 +1,4 @@
-﻿namespace BG.TestAssignment.DataAccess.Entities
+﻿namespace BGNet.TestAssignment.DataAccess.Entities
 {
     public class Book
     {

@@ -1,7 +1,8 @@
 ﻿using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
-using BG.TestAssignment.Models;
 using BGNet.TestAssignment.Api.Services.Interfaces;
+using BGNet.TestAssignment.DataAccess;
+using BGNet.TestAssignment.DataAccess.Entities;
+using BGNet.TestAssignment.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,11 +1,10 @@
-﻿using BG.TestAssignment.DataAccess;
-using BG.TestAssignment.DataAccess.Entities;
+﻿using BGNet.TestAssignment.DataAccess;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BG.TestAssignment.Migrator
+namespace BGNet.TestAssignment.Migrator
 {
     internal class Program
     {

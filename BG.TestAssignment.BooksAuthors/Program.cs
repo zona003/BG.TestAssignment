@@ -1,13 +1,13 @@
-using BG.TestAssignment.Business.BusinessLogic;
-using BG.TestAssignment.Business.BusinessLogic.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using BG.TestAssignment.DataAccess;
+using BGNet.TestAssignment.Business.BusinessLogic;
+using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+using BGNet.TestAssignment.DataAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
-namespace BG.TestAssignment.BooksAuthors
+namespace BGNet.TestAssignment.BooksAuthors
 {
     public class Program
     {
