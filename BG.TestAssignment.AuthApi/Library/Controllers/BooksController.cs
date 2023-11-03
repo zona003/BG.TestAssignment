@@ -4,7 +4,7 @@ using BG.TestAssignment.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BG.TestAssignment.BooksAuthors.Controllers
+namespace BGNet.TestAssignment.Api.Library.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

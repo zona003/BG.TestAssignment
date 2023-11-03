@@ -1,4 +1,6 @@
 using System.Text;
+using BG.TestAssignment.Business.BusinessLogic.Interfaces;
+using BG.TestAssignment.Business.BusinessLogic;
 using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
 using BGNet.TestAssignment.Api.Services;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace BGNet.TestAssignment.Api
 {
@@ -17,6 +20,8 @@ namespace BGNet.TestAssignment.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddScoped<IAuthorService, AuthorsServices>();
+            builder.Services.AddScoped<IBooksService, BooksServices>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
@@ -68,7 +73,35 @@ namespace BGNet.TestAssignment.Api
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Description =
+                        "JWT Authorization header using the Bearer scheme. \r\n\r\n" +
+                        "Enter 'Bearer' [space] and then your token in the text input below. \r\n\r\n",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Scheme = "Bearer"
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header
+                    },
+                    new List<string>()
+                    }
+                });
+            });
 
             var app = builder.Build();
 
@@ -83,7 +116,7 @@ namespace BGNet.TestAssignment.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(builder=>
+            app.UseCors(builder =>
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());

@@ -4,10 +4,10 @@ using BGNet.TestAssignment.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BGNet.TestAssignment.Api.Controllers
+namespace BGNet.TestAssignment.Api.Auth.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/Auth/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace BGNet.TestAssignment.Api.Controllers
         public async Task<ActionResult> GetCurrentUser()
         {
             UserDTO currentUserDto = await _userService.GetCurrentUser(User.Identity.Name);
-            
+
             return Ok(currentUserDto);
         }
     }

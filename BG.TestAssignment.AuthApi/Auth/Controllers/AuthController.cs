@@ -5,7 +5,7 @@ using BGNet.TestAssignment.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BGNet.TestAssignment.Api.Controllers
+namespace BGNet.TestAssignment.Api.Auth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

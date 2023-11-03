@@ -1,6 +1,9 @@
 ﻿using BG.TestAssignment.DataAccess;
 using BG.TestAssignment.DataAccess.Entities;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BG.TestAssignment.Migrator
 {
@@ -8,23 +11,19 @@ namespace BG.TestAssignment.Migrator
     {
         static void Main(string[] args)
         {
-            //using (var context = new BookAuthorsDataContext(options =>
-            //           options.UseNpgsql("Host=localhost;Port=5432;Database=unionBookDb;Username=postgres;Password=123456")))
-            //{
-            //    var author = new Author
-            //    {
-            //        FirstName = "William",
-            //        LastName = "Shakespeare",
-            //        Books = new List<Book>
-            //        {
-            //            new Book { Title = "Hamlet"},
-            //            new Book { Title = "Othello" },
-            //            new Book { Title = "MacBeth" }
-            //        }
-            //    };
-            //    context.Add(author);
-            //    context.SaveChanges();
-            //}
+
+            var host = CreateWebHostBuilder(args).Build();
+            using (var serviceScope = host.Services.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<BookAuthorsDataContext>();
+                context.Database.Migrate();
+            }
+            host.Start();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Program>();
+
     }
 }

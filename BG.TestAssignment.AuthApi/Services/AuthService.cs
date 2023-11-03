@@ -97,10 +97,10 @@ namespace BGNet.TestAssignment.Api.Services
 
             var createUserResult = await _userManager.CreateAsync(user, request.Password);
             if (!createUserResult.Succeeded)
-                return false;
+                throw new Exception($"User {request.UserName} not {createUserResult.Errors}");
 
-            
-            
+
+
             var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
             

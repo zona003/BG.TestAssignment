@@ -23,4 +23,8 @@
     <ProjectReference Include="..\BG.TestAssignment.Models\BG.TestAssignment.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
