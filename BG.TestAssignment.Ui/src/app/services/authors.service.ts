@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BOOK_API_URL } from '../app-injection-tokens';
 import { Observable, map } from 'rxjs';
 import { Author } from '../models/author';
-import { ResponceWrapperAuthor } from '../models/responceWrapperAuthor';
+import { ResponceWrapper } from '../models/responceWrapper';
 
 @Injectable({
   providedIn: 'root',
@@ -16,35 +16,26 @@ export class AuthorsService {
 
   private baseApiUrl = `${this.apiUrl}/api/lib/Authors`;
 
-  getAllAuthor(): Observable<ResponceWrapperAuthor> {
-    return this.http.get<ResponceWrapperAuthor>(`${this.baseApiUrl}`);
+  getAllAuthor(): Observable<ResponceWrapper<Author[]>> {
+    return this.http.get<ResponceWrapper<Author[]>>(`${this.baseApiUrl}`);
   }
 
-  getAuthor(id: number): Observable<ResponceWrapperAuthor> {
-    return this.http.get<ResponceWrapperAuthor>(`${this.baseApiUrl}/${id}`);
+  getAuthor(id: number): Observable<ResponceWrapper<Author>> {
+    return this.http.get<ResponceWrapper<Author>>(`${this.baseApiUrl}/${id}`);
   }
 
-  createAuthor(auhtor: Author): ResponceWrapperAuthor {
+  createAuthor(auhtor: Author): Observable<ResponceWrapper<Author>> {
     return this.http
-      .post<ResponceWrapperAuthor>(`${this.baseApiUrl}`, auhtor)
-      .subscribe((ansver) => {
-        return ansver;
-      });
+      .post<ResponceWrapper<Author>>(`${this.baseApiUrl}`, auhtor)
   }
 
-  updateAuthor(id: number, auhtor: Author): ResponceWrapperAuthor {
+  updateAuthor(id: number, auhtor: Author): Observable<ResponceWrapper<Author>> {
     return this.http
-      .put<ResponceWrapperAuthor>(`${this.baseApiUrl}/${id}`, auhtor)
-      .subscribe((ansver) => {
-        return ansver;
-      });
+      .put<ResponceWrapper<Author>>(`${this.baseApiUrl}/${id}`, auhtor);
   }
 
-  deleteAuthor(id: number): ResponceWrapperAuthor {
+  deleteAuthor(id: number): Observable<ResponceWrapper<Author>> {
     return this.http
-      .delete<ResponceWrapperAuthor>(`${this.baseApiUrl}/${id}`)
-      .subscribe((ansver) => {
-        return ansver;
-      });
+      .delete<ResponceWrapper<Author>>(`${this.baseApiUrl}/${id}`)
   }
 }

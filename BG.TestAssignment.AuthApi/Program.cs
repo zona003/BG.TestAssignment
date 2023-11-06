@@ -33,6 +33,9 @@ namespace BGNet.TestAssignment.Api
             builder.Services.AddDbContext<BookAuthorsDataContext>(opt =>
             opt.UseNpgsql(stringsOptions?.DefaultPostgreDB));
 
+
+
+
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(build =>
@@ -68,6 +71,15 @@ namespace BGNet.TestAssignment.Api
             opt.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
             .RequireAuthenticatedUser()
             .Build());
+
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase =false;
+            });
+
 
             builder.Services.AddIdentity<AppUser, IdentityRole<long>>()
                 .AddEntityFrameworkStores<BookAuthorsDataContext>()

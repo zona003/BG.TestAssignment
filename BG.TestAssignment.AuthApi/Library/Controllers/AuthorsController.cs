@@ -47,7 +47,7 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         [HttpPost]
         public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> PostAuthor(AuthorDTO authorDto)
         {
-            return AuthorsService.PostAuthor(authorDto);
+            return  AuthorsService.PostAuthor(authorDto);
         }
 
         // DELETE: api/Authors/5

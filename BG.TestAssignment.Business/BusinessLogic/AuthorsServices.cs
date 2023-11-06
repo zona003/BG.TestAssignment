@@ -68,9 +68,9 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             {
                 Context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
-                response.Errors.Add("Save changes error!");
+                response.Errors.Add(ex.Message);
                     return response;
 
             }
@@ -100,14 +100,24 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 return response;
             }
             Context.Authors.Add(author);
-            Context.SaveChangesAsync();
+            try
+            {
+                Context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                response.Errors.Add(ex.Message);
+                return response;
+
+            }
+
 
             return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
         }
 
         public async Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id)
         {
-            ResponseWrapper<AuthorDTO> response = new ResponseWrapper<AuthorDTO>(errors: new List<string>());
+            ResponseWrapper<AuthorDTO> response = new (errors: new List<string>());
             var author = await Context.Authors.FindAsync(id);
             if (author == null)
             {
@@ -116,7 +126,16 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             }
 
             Context.Authors.Remove(author);
-            Context.SaveChangesAsync();
+            try
+            {
+                await Context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                response.Errors.Add(ex.Message);
+                return response;
+
+            }
 
             return ResponseWrapper<AuthorDTO>.WrapToResponce(new AuthorDTO());
         }

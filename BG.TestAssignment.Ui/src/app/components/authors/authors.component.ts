@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Author } from 'src/app/models/author';
+import { ResponceWrapper } from 'src/app/models/responceWrapper';
 import { AuthorsService } from 'src/app/services/authors.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class AuthorsComponent implements OnInit {
   dispalyAddModal: boolean = false;
 
   editedAuthor: Author | null = null;
+
   Authors: Author[] = [];
 
   constructor(private serv: AuthorsService, private router: Router) {}
@@ -22,14 +24,15 @@ export class AuthorsComponent implements OnInit {
   }
 
   private loadAuthors() {
-    this.serv.getAllAuthor().subscribe((us) => {
+    this.serv.getAllAuthor().subscribe((us :ResponceWrapper<Author[]>) => {
       this.Authors = us.data;
     });
   }
 
   deleteAuthor(id: number) {
-    this.serv.deleteAuthor(id);
-    this.refresh();
+    this.serv.deleteAuthor(id).subscribe(a=>{
+      this.Authors.splice(id,1);
+    });
   }
 
   showAddModal() {
@@ -46,6 +49,6 @@ export class AuthorsComponent implements OnInit {
   }
 
   refresh() {
-    window.location.reload();
+    //window.location.reload();
   }
 }

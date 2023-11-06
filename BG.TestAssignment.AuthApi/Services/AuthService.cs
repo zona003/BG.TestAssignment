@@ -114,11 +114,12 @@ namespace BGNet.TestAssignment.Api.Services
 
         private string GenerateToken(IEnumerable<Claim> claims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
+            JWTOptions? jwt = _configuration.GetSection(JWTOptions.Jwt).Get<JWTOptions>();
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"],
+                Issuer = jwt.Issuer,
+                Audience = jwt.Audience,
                 Expires = DateTime.UtcNow.AddHours(5),
                 SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
                 Subject = new ClaimsIdentity(claims)

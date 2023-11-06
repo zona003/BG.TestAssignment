@@ -55,34 +55,33 @@ export class BookFormComponent implements OnChanges {
   addEditBook() {
     const bookData = this.editForm.value;
     if (this.editForm.valid) {
+      this.currentBook = new Book(
+        0,
+        bookData.title,
+        bookData.publishedDate,
+        bookData.bookGenre,
+        bookData.authorId
+      );
       if (this.editedBook == null) {
-        this.currentBook = new Book(
-          0,
-          bookData.title,
-          bookData.publishedDate,
-          bookData.bookGenre,
-          bookData.authorId
-        );
-        this.bookService.createBook(this.currentBook);
+        this.bookService.createBook(this.currentBook)
+        .subscribe((respon)=> {this.refresh();});
       } else {
-        this.currentBook = new Book(
-          this.editedBook.id,
-          bookData.title,
-          bookData.publishedDate,
-          bookData.bookGenre,
-          bookData.authorId
-        );
-        this.bookService.updateBook(this.editedBook.id, this.currentBook);
+        this.currentBook.id = this.editedBook.id;
+        this.bookService.updateBook(this.editedBook.id, this.currentBook)
+        .subscribe((respon)=> 
+        {
+          console.log(respon.errors);
+          this.refresh();
+        });
         this.editedBook = null;
       }
     }
 
     this.editForm.reset();
     this.closeModal();
-    this.refresh();
   }
 
   refresh() {
-    window.location.reload();
+     window.location.reload();
   }
 }

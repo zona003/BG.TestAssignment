@@ -1,3 +1,3 @@
-export class ResponceWrapper {
-  constructor(data: any, errors: string[]) {}
+export interface ResponceWrapper<SType> {
+  data: SType, errors: string[]
 }

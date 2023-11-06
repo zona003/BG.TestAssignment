@@ -38,7 +38,7 @@
 
       <div class="flex flex-column gap-2">
         <label htmlFor="birthDate">Birth Date</label>
-        <p-calendar class="block" formControlName="birthDate"></p-calendar>
+        <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" appendTo="body" class="block" formControlName="birthDate"></p-calendar>
         <small
           class="p-error block"
           *ngIf="

@@ -1,17 +1,18 @@
-﻿using BGNet.TestAssignment.Models;
+﻿using BGNet.TestAssignment.Common.WebApi.Models;
+using BGNet.TestAssignment.Models;
 
 namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IBooksService
     {
-        public List<BookDTO> GetBooks();
+        public ResponseWrapper<List<BookDTO>> GetBooks();
 
-        public BookDTO GetBook(int id);
+        public Task<ResponseWrapper<BookDTO>> GetBook(int id);
 
-        public bool PutBook(int id, BookDTO bookDto);
+        public ResponseWrapper<BookDTO> PutBook(int id, BookDTO bookDto);
 
-        public bool PostBook(BookDTO? bookDto);
+        public ResponseWrapper<BookDTO> PostBook(BookDTO? bookDto);
 
-        public bool DeleteBook(int id);
+        public Task<ResponseWrapper<BookDTO>> DeleteBook(int id);
     }
 }

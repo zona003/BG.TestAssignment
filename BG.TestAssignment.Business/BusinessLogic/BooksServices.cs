@@ -1,5 +1,6 @@
 ﻿using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
 using BGNet.TestAssignment.Business.Validators;
+using BGNet.TestAssignment.Common.WebApi.Models;
 using BGNet.TestAssignment.DataAccess;
 using BGNet.TestAssignment.DataAccess.Entities;
 using BGNet.TestAssignment.Models;
@@ -17,36 +18,53 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public List<BookDTO> GetBooks()
+        public ResponseWrapper<List<BookDTO>> GetBooks()
         {
-            return Context.Books.AsQueryable().Adapt<List<BookDTO>>();
+            var result = Context.Books.AsQueryable().Adapt<List<BookDTO>>();
+            if (!result.Any())
+            {
+                return new ResponseWrapper<List<BookDTO>>(errors: new List<string>() { "Collection is empty" });
+            }
+            return ResponseWrapper<List<BookDTO>>.WrapToResponce(result);
         }
 
-        public BookDTO? GetBook(int id)
+        public async Task<ResponseWrapper<BookDTO>> GetBook(int id)
         {
-            var result = Context.Books.FirstOrDefault(a => a.Id == id);
-            if (result == null) return  null;
+            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
+            var result = await Context.Books.FirstOrDefaultAsync(a => a.Id == id);
+            if (result == null)
+            {
+                response?.Errors.Add("Not found");
+                return response;
+            }
 
-            return result.Adapt<BookDTO>();
+            return ResponseWrapper<BookDTO>.WrapToResponce(result.Adapt<BookDTO>());
         }
 
-        public bool PutBook(int id, BookDTO bookDto)
+        public ResponseWrapper<BookDTO> PutBook(int id, BookDTO bookDto)
         {
+            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
             if (id != bookDto.Id)
             {
-                return false;
+                response.Errors.Add("Bad request!");
+                return response;
             }
 
             var book = bookDto.Adapt<Book>();
 
             BookValidator validator = new BookValidator();
             var validationResult = validator.Validate(book);
-
-            if (!validationResult.IsValid) return false;
-
+            response.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            if (!validationResult.IsValid) return response;
+            if (!BookExists(id))
+            {
+                response.Errors.Add("Object not exist");
+                return response;
+            }
             if (Context.Authors.FirstOrDefault(a => a.Id == book.AuthorId) == null)
             {
-                return false;
+                response.Errors.Add("Author not exist");
+                return response;
             }
 
             Context.Entry(book).State = EntityState.Modified;
@@ -55,63 +73,74 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             {
                 Context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
-                if (!BookExists(id))
-                {
-                    return false;
-                }
-                else
-                {
-                    return false;
-                }
+                response.Errors.Add(ex.Message);
+                return response;
             }
 
-            return true;
+            return ResponseWrapper<BookDTO>.WrapToResponce(bookDto);
         }
 
-        public bool PostBook(BookDTO? bookDto)
+        public ResponseWrapper<BookDTO> PostBook(BookDTO? bookDto)
         {
-            
+            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
             if (bookDto == null)
             {
-                return false;
+                response.Errors.Add("Bad request");
+                return response;
             }
 
             var book = bookDto.Adapt<Book>();
             BookValidator validator = new BookValidator();
             var validationResult = validator.Validate(book);
-
-            if (!validationResult.IsValid) return false;
+            response.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            if (!validationResult.IsValid) return response;
 
             if (Context.Authors.FirstOrDefault(a=>a.Id == book.AuthorId) == null)
             {
-                return false;
+                response.Errors.Add("Author not exist");
+                return response;
             }
 
             Context.Books.Add(book);
-            Context.SaveChanges();
+            try
+            {
+                Context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                response.Errors.Add(ex.Message);
+                return response;
 
-            return true;
+            }
+
+            return ResponseWrapper<BookDTO>.WrapToResponce(bookDto); ;
         }
 
-        public bool DeleteBook(int id)
+        public async Task<ResponseWrapper<BookDTO>> DeleteBook(int id)
         {
-
-            if (Context.Books == null)
-            {
-                return false;
-            }
-            var book = Context.Books.FindAsync(id).Result;
+            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
+            var book = await Context.Books.FindAsync(id);
             if (book == null)
             {
-                return false;
+                response.Errors.Add("Not found");
+                return response;
             }
 
             Context.Books.Remove(book);
-            Context.SaveChangesAsync();
+            try
+            {
+                await Context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                response.Errors.Add(ex.Message);
+                return response;
 
-            return true;
+            }
+
+            return ResponseWrapper<BookDTO>.WrapToResponce(new BookDTO()); ;
         }
 
         private bool BookExists(int id)

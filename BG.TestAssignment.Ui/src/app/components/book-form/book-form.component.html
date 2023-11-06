@@ -25,7 +25,7 @@
 
       <div class="flex flex-column gap-2">
         <label htmlFor="publishedDate">Published Date</label>
-        <p-calendar formControlName="publishedDate"></p-calendar>
+        <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" appendTo="body" formControlName="publishedDate"></p-calendar>
         <small
           class="p-error block"
           *ngIf="

@@ -1,5 +1,7 @@
-﻿using BG.TestAssignment.DataAccess;
+﻿using System.Reflection.Metadata.Ecma335;
+using BG.TestAssignment.DataAccess;
 using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+using BGNet.TestAssignment.Common.WebApi.Models;
 using BGNet.TestAssignment.DataAccess;
 using BGNet.TestAssignment.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -20,73 +22,39 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
+        public async Task<ActionResult<ResponseWrapper<List<AuthorDTO>>>> GetBooks()
         {
             return Ok(BooksService.GetBooks());
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookDTO>> GetBook(int id)
+        public async Task<ActionResult<ResponseWrapper<BookDTO>>> GetBook(int id)
         {
-            var result = BooksService.GetBook(id);
-            if (result == null)
-            {
-                return BadRequest("Not exist");
-            }
-            return Ok(result);
+            return await BooksService.GetBook(id);
         }
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, BookDTO authorDto)
+        public ActionResult<ResponseWrapper<BookDTO>> PutBook(int id, BookDTO authorDto)
         {
-            bool result = BooksService.PutBook(id, authorDto);
-
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return BooksService.PutBook(id, authorDto);
         }
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostBook(BookDTO authorDto)
+        public async Task<ActionResult<ResponseWrapper<BookDTO>>> PostBook(BookDTO authorDto)
         {
-            bool result = BooksService.PostBook(authorDto);
-
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-
+            return BooksService.PostBook(authorDto);
         }
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id)
+        public async Task<ActionResult<ResponseWrapper<BookDTO>>> DeleteBook(int id)
         {
-
-            bool result = BooksService.DeleteBook(id);
-
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return await BooksService.DeleteBook(id);
         }
     }
 }

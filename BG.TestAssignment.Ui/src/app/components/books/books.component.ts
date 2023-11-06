@@ -14,6 +14,7 @@ export class BooksComponent implements OnInit {
   editedBook: Book | null = null;
   dispalyAddModal: boolean = false;
   editForm: FormGroup;
+  
 
   constructor(
     private router: Router,
@@ -34,32 +35,33 @@ export class BooksComponent implements OnInit {
 
   getAllBooks() {
     this.bookService.getAllBooks().subscribe((us) => {
-      this.Books = us;
+      this.Books = us.data;
     });
   }
 
-  addBook() {
-    this.router.navigate(['add-book']);
-  }
 
-  editBook(id: number, book: Book) {
-    this.editedBook = new Book(
-      book.id,
-      book.title,
-      book.publishedDate,
-      book.bookGenre,
-      book.authorId
-    );
-    this.bookService.updateBook(id, this.editedBook);
-    // this.refresh();
-  }
+  // editBook(id: number, book: Book) {
+  //   this.editedBook = new Book(
+  //     book.id,
+  //     book.title,
+  //     book.publishedDate,
+  //     book.bookGenre,
+  //     book.authorId
+  //   );
+  //   this.bookService.updateBook(id, this.editedBook).subscribe(n => 
+  //     {
+  //       console.log(n.errors);
+
+  //     });
+
+  // }
 
   deleteBook(id: number) {
-    if (this.bookService.deleteBook(id)) {
-      this.Books.splice(id, 1);
-    }
-
-    this.refresh();
+  this.bookService.deleteBook(id).subscribe(ans=>{
+    this.Books.splice(id, 1);
+  });
+      
+    
   }
 
   showAddModal() {
@@ -69,7 +71,6 @@ export class BooksComponent implements OnInit {
 
   hideAddModal(isClosed: boolean) {
     this.dispalyAddModal = !isClosed;
-    // this.refresh();
   }
 
   showEditModal(book: Book) {

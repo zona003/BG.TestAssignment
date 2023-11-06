@@ -41,6 +41,7 @@ export class AuhtorFormComponent implements OnChanges {
     if (this.editedAuthor) {
       this.modalType = 'Edit';
       this.editForm.patchValue(this.editedAuthor);
+      
     } else {
       this.modalType = 'Add';
       this.editForm.reset();
@@ -61,7 +62,8 @@ export class AuhtorFormComponent implements OnChanges {
           authorData.lastName,
           authorData.birthDate
         );
-        this.authorService.createAuthor(this.currentAuthor);
+        this.authorService.createAuthor(this.currentAuthor)
+        .subscribe((respon)=> {this.refresh();});
       } else {
         this.currentAuthor = new Author(
           this.editedAuthor.id,
@@ -72,14 +74,13 @@ export class AuhtorFormComponent implements OnChanges {
         this.authorService.updateAuthor(
           this.editedAuthor.id,
           this.currentAuthor
-        );
+        ).subscribe((respon)=> {this.refresh();});
         this.editedAuthor = null;
       }
     }
 
     this.editForm.reset();
     this.closeModal();
-    this.refresh();
   }
   refresh() {
     window.location.reload();
