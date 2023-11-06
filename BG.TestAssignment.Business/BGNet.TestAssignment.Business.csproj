@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BG.TestAssignment.DataAccessLayer\BGNet.TestAssignment.DataAccess.csproj" />
     <ProjectReference Include="..\BG.TestAssignment.Models\BGNet.TestAssignment.Models.csproj" />
+    <ProjectReference Include="..\BGNet.TestAssignment.Common\BGNet.TestAssignment.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

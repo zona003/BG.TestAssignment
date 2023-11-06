@@ -1,10 +1,10 @@
 using System.Text;
-using BG.TestAssignment.DataAccess;
 using BGNet.TestAssignment.Api.Services;
 using BGNet.TestAssignment.Api.Services.Interfaces;
 using BGNet.TestAssignment.Business.BusinessLogic;
 using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
 using BGNet.TestAssignment.DataAccess;
+using BGNet.TestAssignment.DataAccess.DbOptions;
 using BGNet.TestAssignment.DataAccess.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,14 +20,18 @@ namespace BGNet.TestAssignment.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
 
+            builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection(JWTOptions.Jwt));
             builder.Services.AddScoped<IAuthorService, AuthorsServices>();
             builder.Services.AddScoped<IBooksService, BooksServices>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            ConnectionStringsOptions? stringsOptions = builder.Configuration
+                .GetSection(ConnectionStringsOptions.ConnectionStrings).Get<ConnectionStringsOptions>();
             builder.Services.AddDbContext<BookAuthorsDataContext>(opt =>
-            opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreDB")));
+            opt.UseNpgsql(stringsOptions?.DefaultPostgreDB));
 
             builder.Services.AddCors(options =>
             {
@@ -40,6 +44,7 @@ namespace BGNet.TestAssignment.Api
 
             });
 
+            JWTOptions? jwt = builder.Configuration.GetSection(JWTOptions.Jwt).Get<JWTOptions>();
             builder.Services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -53,9 +58,9 @@ namespace BGNet.TestAssignment.Api
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
-                    ValidAudience = builder.Configuration["Jwt:Audience"]!,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+                    ValidIssuer = jwt?.Issuer, 
+                    ValidAudience = jwt?.Audience, 
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret))
                 };
             });
 
@@ -117,8 +122,8 @@ namespace BGNet.TestAssignment.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin()
+            app.UseCors(build =>
+                build.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
 

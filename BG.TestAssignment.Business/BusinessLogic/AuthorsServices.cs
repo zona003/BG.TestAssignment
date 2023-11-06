@@ -1,5 +1,6 @@
 ﻿using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
 using BGNet.TestAssignment.Business.Validators;
+using BGNet.TestAssignment.Common.WebApi.Models;
 using BGNet.TestAssignment.DataAccess;
 using BGNet.TestAssignment.DataAccess.Entities;
 using BGNet.TestAssignment.Models;
@@ -17,33 +18,49 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public List<AuthorDTO> GetAuthors()
+        public ResponseWrapper<List<AuthorDTO>> GetAuthors()
         {
-            return Context.Authors.AsQueryable().Adapt<List<AuthorDTO>>();
+            var result = Context.Authors.AsQueryable().Adapt<List<AuthorDTO>>();
+            if (!result.Any())
+            {
+                return new ResponseWrapper<List<AuthorDTO>>(errors: new List<string>() { "Collection is empty" });
+            }
+            return ResponseWrapper<List<AuthorDTO>>.WrapToResponce(result);
         }
 
-        public AuthorDTO? GetAuthor(int id)
+        public async Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id)
         {
-            var result = Context.Authors.FirstOrDefault(a => a.Id == id);
-            if (result == null) return null;
+            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>()); 
+            var result = await Context.Authors.FirstOrDefaultAsync(a => a.Id == id);
+            if (result == null)
+            {
+                response?.Errors.Add("Not found");
+                return response;
+            }
 
-            return result.Adapt<AuthorDTO>();
+            return ResponseWrapper<AuthorDTO>.WrapToResponce(result.Adapt<AuthorDTO>());
         }
 
-        public bool PutAuthor(int id, AuthorDTO authorDto)
+        public ResponseWrapper<AuthorDTO> PutAuthor(int id, AuthorDTO authorDto)
         {
+            ResponseWrapper<AuthorDTO> response = new ResponseWrapper<AuthorDTO>(errors: new List<string>());
             if (id != authorDto.Id)
             {
-                return false;
+                response.Errors.Add("Bad request!");
+                return response;
             }
 
             var author = authorDto.Adapt<Author>();
 
             AuthorValidator validator = new AuthorValidator();
             var validationResult = validator.Validate(author);
-
-            if (!validationResult.IsValid) return false;
-
+            response.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            if (!validationResult.IsValid) return response;
+            if (!AuthorExists(id))
+            {
+                response.Errors.Add("Object not exist");
+                return response;
+            }
 
             Context.Entry(author).State = EntityState.Modified;
 
@@ -53,56 +70,55 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuthorExists(id))
-                {
-                    return false;
-                }
-                else
-                {
-                    return false;
-                }
+                response.Errors.Add("Save changes error!");
+                    return response;
+
             }
 
-            return true;
+            return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
         }
 
-        public bool PostAuthor(AuthorDTO? authorDto)
+        public ResponseWrapper<AuthorDTO> PostAuthor(AuthorDTO? authorDto)
         {
+            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>());
             if (authorDto == null)
             {
-                return false;
+                response.Errors.Add("Bad request");
+                return response;
             }
 
             var author = authorDto.Adapt<Author>();
 
             AuthorValidator validator = new AuthorValidator();
             var validationResult = validator.Validate(author);
+            response.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            if (!validationResult.IsValid) return response;
 
-            if (!validationResult.IsValid) return false;
-
+            if (AuthorExists(authorDto.Id))
+            {
+                response.Errors.Add("Already exist");
+                return response;
+            }
             Context.Authors.Add(author);
-            Context.SaveChanges();
+            Context.SaveChangesAsync();
 
-            return true;
+            return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
         }
 
-        public bool DeleteAuthor(int id)
+        public async Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id)
         {
-
-            if (Context.Authors == null)
-            {
-                return false;
-            }
-            var author =  Context.Authors.FindAsync(id).Result;
+            ResponseWrapper<AuthorDTO> response = new ResponseWrapper<AuthorDTO>(errors: new List<string>());
+            var author = await Context.Authors.FindAsync(id);
             if (author == null)
             {
-                return false;
+                response.Errors.Add("Not found");
+                return response;
             }
 
             Context.Authors.Remove(author);
             Context.SaveChangesAsync();
 
-            return true;
+            return ResponseWrapper<AuthorDTO>.WrapToResponce(new AuthorDTO());
         }
 
         private bool AuthorExists(int id)

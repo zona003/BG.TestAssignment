@@ -1,17 +1,18 @@
-﻿using BGNet.TestAssignment.Models;
+﻿using BGNet.TestAssignment.Common.WebApi.Models;
+using BGNet.TestAssignment.Models;
 
 namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IAuthorService
     {
-        public List<AuthorDTO> GetAuthors();
+        public ResponseWrapper<List<AuthorDTO>> GetAuthors();
 
-        public AuthorDTO? GetAuthor(int id);
+        public Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id);
 
-        public bool PutAuthor(int id, AuthorDTO authorDto);
+        public ResponseWrapper<AuthorDTO> PutAuthor(int id, AuthorDTO authorDto);
 
-        public bool PostAuthor(AuthorDTO? authorDto);
+        public ResponseWrapper<AuthorDTO> PostAuthor(AuthorDTO? authorDto);
 
-        public bool DeleteAuthor(int id);
+        public Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id);
     }
 }

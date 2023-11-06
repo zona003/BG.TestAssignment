@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BOOK_API_URL } from '../app-injection-tokens';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Author } from '../models/author';
+import { ResponceWrapperAuthor } from '../models/responceWrapperAuthor';
 
 @Injectable({
   providedIn: 'root',
@@ -15,34 +16,35 @@ export class AuthorsService {
 
   private baseApiUrl = `${this.apiUrl}/api/lib/Authors`;
 
-  getAllAuthor(): Observable<Author[]> {
-    return this.http.get<Author[]>(`${this.baseApiUrl}`);
+  getAllAuthor(): Observable<ResponceWrapperAuthor> {
+    return this.http.get<ResponceWrapperAuthor>(`${this.baseApiUrl}`);
   }
 
-  getAuthor(id: number): Observable<Author> {
-    return this.http.get<Author>(`${this.baseApiUrl}/${id}`);
+  getAuthor(id: number): Observable<ResponceWrapperAuthor> {
+    return this.http.get<ResponceWrapperAuthor>(`${this.baseApiUrl}/${id}`);
   }
 
-  createAuthor(auhtor: Author): boolean {
-    this.http.post<Author>(`${this.baseApiUrl}`, auhtor).subscribe((ansver) => {
-      return ansver;
-    });
-    return false;
-  }
-
-  updateAuthor(id: number, auhtor: Author): boolean {
-    this.http
-      .put<Author>(`${this.baseApiUrl}/${id}`, auhtor)
+  createAuthor(auhtor: Author): ResponceWrapperAuthor {
+    return this.http
+      .post<ResponceWrapperAuthor>(`${this.baseApiUrl}`, auhtor)
       .subscribe((ansver) => {
         return ansver;
       });
-    return false;
   }
 
-  deleteAuthor(id: number): boolean {
-    this.http.delete<Author>(`${this.baseApiUrl}/${id}`).subscribe((ansver) => {
-      return ansver;
-    });
-    return false;
+  updateAuthor(id: number, auhtor: Author): ResponceWrapperAuthor {
+    return this.http
+      .put<ResponceWrapperAuthor>(`${this.baseApiUrl}/${id}`, auhtor)
+      .subscribe((ansver) => {
+        return ansver;
+      });
+  }
+
+  deleteAuthor(id: number): ResponceWrapperAuthor {
+    return this.http
+      .delete<ResponceWrapperAuthor>(`${this.baseApiUrl}/${id}`)
+      .subscribe((ansver) => {
+        return ansver;
+      });
   }
 }

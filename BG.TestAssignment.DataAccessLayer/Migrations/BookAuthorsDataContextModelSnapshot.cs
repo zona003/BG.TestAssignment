@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace BG.TestAssignment.DataAccess.Migrations
+namespace BGNet.TestAssignment.DataAccess.Migrations
 {
     [DbContext(typeof(BookAuthorsDataContext))]
     partial class BookAuthorsDataContextModelSnapshot : ModelSnapshot

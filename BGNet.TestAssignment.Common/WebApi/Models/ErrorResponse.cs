@@ -5,7 +5,7 @@ namespace BGNet.TestAssignment.Common.WebApi.Models
     {
         public string? StackTrace { get; set; }
 
-        public ErrorResponse(T data, IEnumerable<string> errors, string? stackTrace) 
+        public ErrorResponse(T? data, List<string>? errors, string? stackTrace) 
             : base( data, errors)
         {
             StackTrace = stackTrace;

@@ -8,21 +8,20 @@ namespace BGNet.TestAssignment.Common.WebApi.Models
 {
     public class ResponseWrapper<T> where T : class
     {
-        public string Message { get; set; }
         public T? Data { get; set; }
 
-        public IEnumerable<string>? Errors { get; set; }
+        public List<string>? Errors { get; set; }
 
-        public ResponseWrapper( T? data = null, IEnumerable<string>? errors = null)
+        public ResponseWrapper( T? data = null, List<string>? errors = null)
         {
             Data = data;
             Errors = errors;
         }
 
-        public static ResponseWrapper<T> WrapToResponce(T? data = null , IEnumerable<string>? errors = null)
+        public static ResponseWrapper<T> WrapToResponce(T? data = null , List<string>? errors = null)
         {
 
-            if (data == null && !errors.Any())
+            if (data == null && errors==null)
             {
                 return new ResponseWrapper<T>( errors: new List<string>() { "Server Error" });
             }

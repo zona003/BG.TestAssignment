@@ -4,6 +4,7 @@ using System.Text;
 using BG.TestAssignment.DataAccess;
 using BGNet.TestAssignment.Api.Services.Interfaces;
 using BGNet.TestAssignment.Business.Validators;
+using BGNet.TestAssignment.Common.WebApi.Models;
 using BGNet.TestAssignment.DataAccess;
 using BGNet.TestAssignment.DataAccess.Entities;
 using BGNet.TestAssignment.Models;
@@ -11,6 +12,7 @@ using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
 
 namespace BGNet.TestAssignment.Api.Services
 {
@@ -34,7 +36,7 @@ namespace BGNet.TestAssignment.Api.Services
                 return new AuthResponce();
             }
 
-            LoginValidator validator = new LoginValidator();
+            LoginValidator validator = new();
             var validationResult = validator.Validate(request);
 
             if (!validationResult.IsValid)
@@ -82,8 +84,8 @@ namespace BGNet.TestAssignment.Api.Services
                 return false;
             }
 
-            RegisterValidator validator = new RegisterValidator();
-            var validationResult = validator.Validate(request);
+            RegisterValidator validator = new();
+            var validationResult = await validator.ValidateAsync(request);
 
             if (!validationResult.IsValid)
             {
@@ -104,11 +106,9 @@ namespace BGNet.TestAssignment.Api.Services
 
             var findUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            
 
-            if (findUser == null) throw new Exception($"User {request.UserName} not found");
 
-            return true;
+            return findUser == null ? throw new Exception($"User {request.UserName} not found") : true;
         }
 
 

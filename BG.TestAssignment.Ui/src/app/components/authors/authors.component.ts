@@ -23,7 +23,7 @@ export class AuthorsComponent implements OnInit {
 
   private loadAuthors() {
     this.serv.getAllAuthor().subscribe((us) => {
-      this.Authors = us;
+      this.Authors = us.data;
     });
   }
 
