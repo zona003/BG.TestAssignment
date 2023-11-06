@@ -1,25 +1,49 @@
-<div class="user" *ngIf='myuser?.[0]?.userName!=""'>
-  <p-table [value]="myuser" [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>UserName</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>BirthDate</th>
-        <th>Address</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-user>
-      <tr>
-        <td>{{ user.userName}}</td>
-        <td>{{ user.firstName }}</td>
-        <td>{{ user.lastName }}</td>
-        <td>{{user.birthDate}}</td>
-        <td>{{user.address}}</td>
-      </tr>
-      <div *ngIf='isLoggedIn'>
-        <p-button label="Logout" severity="success" (click)="logout()"></p-button>
-      </div>
-    </ng-template>
-  </p-table>
+<div class="user" *ngIf="myuser?.userName != ''">
+  <p-card header="User" [style]="{ width: '360px', margin: 'auto' }">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">Username</label>
+      <input
+        type="text"
+        pInputText
+        [value]="myuser.userName"
+        [disabled]="true"
+      />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label htmlFor="firstName">First Name</label>
+      <input
+        type="text"
+        pInputText
+        [value]="myuser.firstName"
+        [disabled]="true"
+      />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        type="text"
+        pInputText
+        [value]="myuser.lastName"
+        [disabled]="true"
+      />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label htmlFor="birthDate">Birth Date</label>
+      <input
+        type="text"
+        pInputText
+        [value]="myuser.birthDate"
+        [disabled]="true"
+      />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label htmlFor="address">Address</label>
+      <input
+        type="text"
+        pInputText
+        [value]="myuser.address"
+        [disabled]="true"
+      />
+    </div>
+  </p-card>
 </div>

@@ -9,10 +9,10 @@ namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             builder.HasOne(c => c.Author)
                 .WithMany(p => p.Books)
-                .HasForeignKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

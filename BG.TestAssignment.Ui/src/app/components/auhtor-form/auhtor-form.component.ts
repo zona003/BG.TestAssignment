@@ -1,4 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Author } from 'src/app/models/author';
@@ -7,9 +15,14 @@ import { AuthorsService } from 'src/app/services/authors.service';
 @Component({
   selector: 'app-auhtor-form',
   templateUrl: './auhtor-form.component.html',
-  styleUrls: ['./auhtor-form.component.scss']
+  styleUrls: ['./auhtor-form.component.scss'],
 })
-export class AuhtorFormComponent implements OnInit {
+export class AuhtorFormComponent implements OnChanges {
+  @Input() dispalyAddModal: boolean = true;
+  @Input() editedAuthor: Author | null = null;
+  @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+  modalType = 'Add';
+
   currentAuthor: Author | null = null;
   editForm: FormGroup;
 
@@ -24,22 +37,47 @@ export class AuhtorFormComponent implements OnInit {
       birthDate: [null, Validators.required],
     });
   }
-
-  ngOnInit() {
-
-  }
-
-  onSubmit() {
-    if (this.editForm.valid) {
-      const authorData = this.editForm.value;
-      var newAuthor = new Author(0, authorData.firstName, authorData.lastName, authorData.birthDate)
-      var result = this.authorService.createAuthor(newAuthor);
-      console.log("add author result - " + result);
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.editedAuthor) {
+      this.modalType = 'Edit';
+      this.editForm.patchValue(this.editedAuthor);
+    } else {
+      this.modalType = 'Add';
+      this.editForm.reset();
     }
   }
 
-  cancell(){
-    this.router.navigate(['authors']);
+  closeModal() {
+    this.clickClose.emit(true);
+  }
+
+  addEditAuthor() {
+    const authorData = this.editForm.value;
+    if (this.editForm.valid) {
+      if (this.editedAuthor == null) {
+        this.currentAuthor = new Author(
+          0,
+          authorData.firstName,
+          authorData.lastName,
+          authorData.birthDate
+        );
+        this.authorService.createAuthor(this.currentAuthor);
+      } else {
+        this.currentAuthor = new Author(
+          this.editedAuthor.id,
+          authorData.firstName,
+          authorData.lastName,
+          authorData.birthDate
+        );
+        this.authorService.updateAuthor(
+          this.editedAuthor.id,
+          this.currentAuthor
+        );
+        this.editedAuthor = null;
+      }
+    }
+
+    this.editForm.reset();
+    this.closeModal();
   }
 }

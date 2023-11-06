@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BG.TestAssignment.DataAccess.Migrations
 {
     [DbContext(typeof(BookAuthorsDataContext))]
-    [Migration("20231103120242_Sync")]
-    partial class Sync
+    [Migration("20231105191845_FixDeletedIdentetyBase")]
+    partial class FixDeletedIdentetyBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,7 +135,10 @@ namespace BG.TestAssignment.DataAccess.Migrations
             modelBuilder.Entity("BGNet.TestAssignment.DataAccess.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AuthorId")
                         .HasColumnType("integer");
@@ -150,6 +153,8 @@ namespace BG.TestAssignment.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
                 });
@@ -290,9 +295,8 @@ namespace BG.TestAssignment.DataAccess.Migrations
                 {
                     b.HasOne("BGNet.TestAssignment.DataAccess.Entities.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Author");
                 });
