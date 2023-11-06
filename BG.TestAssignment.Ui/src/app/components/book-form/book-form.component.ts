@@ -80,7 +80,6 @@ export class BookFormComponent implements OnChanges {
     this.editForm.reset();
     this.closeModal();
     this.refresh();
-    // this.router.navigateByUrl('/');
   }
 
   refresh() {

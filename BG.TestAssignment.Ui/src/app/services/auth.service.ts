@@ -32,7 +32,6 @@ export class AuthService {
         })
         .subscribe((token) => {
           this.firstName = token.firstName;
-          console.log(token);
           localStorage.setItem(ACCESS_TOKEN_KEY, token.token);
           this.router.navigateByUrl('/');
         });
@@ -64,7 +63,6 @@ export class AuthService {
     this.http
       .post<UserRegister>(`${this.apiUrl}/api/Auth/register`, userRegister)
       .subscribe((ans) => {
-        console.log(ans);
         this.router.navigate(['/login']);
         return true;
       });

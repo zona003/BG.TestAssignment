@@ -1,41 +1,45 @@
-<p-card header="Login" [style]="{  width: '360px', 'margin' : 'auto' }">
-    <form [formGroup]="form">
-
-        <div class="flex flex-column gap-2">
-            <label htmlFor="username">Username</label>
-            <input type="text" pInputText formControlName="text" formControlName="username" />
-        </div>
-
-        <div class="flex flex-column gap-2">
-            <label htmlFor="username">Password</label>
-            <p-password formControlName="password" [toggleMask]="true"></p-password>
-        </div>
-
-        <div style="display: flex; justify-content: space-evenly; margin: 10px;">
-            <p-button label="Login" severity="success" (click)="login()"></p-button>
-
-            <p-button label="Register"  (click)="register()"></p-button>
-        </div>
-    </form>
-
-</p-card>
-
-
-<!-- <form [formGroup]="form">
-    <fieldset>
-        <legend>Login</legend>
-        <div class="form-field">
-            <label>UserName:</label>
-            <input name="username" formControlName="username">
-        </div>
-        <div class="form-field">
-            <label>Password:</label>
-            <input name="password" formControlName="password" 
-                   type="password">
-        </div>
-    </fieldset>
-    <div class="form-buttons">
-        <button class="button button-primary" 
-                (click)="login()">Login</button>
+<p-card header="Login" [style]="{ width: '360px', margin: 'auto' }">
+  <form [formGroup]="form">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">Username</label>
+      <input
+        type="text"
+        pInputText
+        formControlName="text"
+        formControlName="username"
+      />
+      <small
+        class="p-error block"
+        *ngIf="
+          form.controls['username'].invalid && form.controls['username'].dirty
+        "
+      >
+        Field is required</small
+      >
     </div>
-</form> -->
+
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">Password</label>
+      <p-password
+        class="full-width"
+        formControlName="password"
+        [toggleMask]="true"
+      ></p-password>
+      <small
+        class="p-error block"
+        *ngIf="
+          form.controls['password'].invalid && form.controls['password'].dirty
+        "
+      >
+        Field is required, must contain upper and lower case letters, numbers
+        and special characters
+      </small>
+    </div>
+
+    <div style="display: flex; justify-content: space-evenly; margin: 10px">
+      <p-button label="Login" severity="success" (click)="login()"></p-button>
+
+      <p-button label="Register" (click)="register()"></p-button>
+    </div>
+  </form>
+</p-card>

@@ -79,5 +79,9 @@ export class AuhtorFormComponent implements OnChanges {
 
     this.editForm.reset();
     this.closeModal();
+    this.refresh();
+  }
+  refresh() {
+    window.location.reload();
   }
 }

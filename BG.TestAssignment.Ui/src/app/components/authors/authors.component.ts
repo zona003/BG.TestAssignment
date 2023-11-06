@@ -27,19 +27,9 @@ export class AuthorsComponent implements OnInit {
     });
   }
 
-  editAuthor(id: number, author: Author) {
-    this.editedAuthor = new Author(
-      author.id,
-      author.firstName,
-      author.lastName,
-      author.birthDate
-    );
-    this.serv.updateAuthor(id, this.editedAuthor);
-    // this.refresh();
-  }
-
   deleteAuthor(id: number) {
-    if (this.serv.deleteAuthor(id)) this.refresh();
+    this.serv.deleteAuthor(id);
+    this.refresh();
   }
 
   showAddModal() {

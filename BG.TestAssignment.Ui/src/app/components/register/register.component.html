@@ -1,14 +1,22 @@
-<p-card header="Register" [style]="{  width: '360px', 'margin' : 'auto' }">
+<p-card header="Register" [style]="{ width: '360px', margin: 'auto' }">
   <form [formGroup]="registrationForm">
-
     <div class="flex flex-column gap-2">
       <label htmlFor="username">Username</label>
-      <input type="text" pInputText formControlName="text" formControlName="username" />
+      <input
+        type="text"
+        pInputText
+        formControlName="text"
+        formControlName="username"
+      />
     </div>
 
     <div class="flex flex-column gap-2">
       <label htmlFor="password">Password</label>
-      <p-password id="password" formControlName="password" [toggleMask]="true"></p-password>
+      <p-password
+        id="password"
+        formControlName="password"
+        [toggleMask]="true"
+      ></p-password>
     </div>
 
     <div class="flex flex-column gap-2">
@@ -23,7 +31,10 @@
 
     <div class="flex flex-column gap-2">
       <label htmlFor="birthdate">BirthDate</label>
-      <p-calendar formControlName="birthdate" ></p-calendar>
+      <p-calendar
+        class="block full-width"
+        formControlName="birthdate"
+      ></p-calendar>
     </div>
 
     <div class="flex flex-column gap-2">
@@ -31,11 +42,15 @@
       <input type="text" pInputText formControlName="address" />
     </div>
 
-    <div style="display: flex; justify-content: space-evenly; margin: 10px;">
-      <p-button label="Register" severity="success" (click)="register()" [disabled]="!registrationForm.valid"></p-button>
+    <div style="display: flex; justify-content: space-evenly; margin: 10px">
+      <p-button
+        label="Register"
+        severity="success"
+        (click)="register()"
+        [disabled]="!registrationForm.valid"
+      ></p-button>
 
       <p-button label="Cancell" (click)="cancell()"></p-button>
     </div>
   </form>
-
 </p-card>
