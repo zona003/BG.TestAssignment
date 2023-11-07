@@ -3,7 +3,7 @@
     <h2>Books</h2>
     <p-button label="Add book" (click)="showAddModal()"></p-button>
   </div>
-  <p-table [value]="Books" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [lazy]="true" [paginator]="true" (onPage)="onPageChange($event)" [first]="page" [rows]="rows" [totalRecords]="totalRecords" [value]="Books" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th>Title</th>
@@ -33,8 +33,6 @@
       </tr>
     </ng-template>
   </p-table>
-  
-  <p-paginator (onPageChange)="onPageChange($event)" [first]="page" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
 
   <app-book-form
     [dispalyAddModal]="dispalyAddModal"

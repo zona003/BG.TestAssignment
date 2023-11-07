@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { TablePageEvent } from 'primeng/table';
 import { Author } from 'src/app/models/author';
 import { ResponceWrapper } from 'src/app/models/responceWrapper';
 import { AuthorsService } from 'src/app/services/authors.service';
@@ -30,7 +31,6 @@ export class AuthorsComponent implements OnInit {
   private getAllAuthors(skip: number, take:number) {
     this.serv.getAllAuthor(skip, take).subscribe((us) => {
       this.totalRecords = us.data.total;
-      console.log(this.totalRecords);
       this.Authors = us.data.items;
     });
   }
@@ -58,13 +58,11 @@ export class AuthorsComponent implements OnInit {
     this.getAllAuthors(this.page * this.rows, this.rows);
   }
 
-  onPageChange(event: any) {
-    this.page = event.first || 0;
-    this.rows = event.rows || 10;
-    console.log(this.page + " page "+ this.rows+" rows")
+  onPageChange(event: TablePageEvent) {
+    this.page = event.first ;
+    this.rows = event.rows ;
 
     this.serv.getAllAuthor(this.page , this.rows).subscribe((us) => {
-      console.warn("huita");
       this.Authors = us.data.items;
       this.totalRecords = us.data.total;
     });

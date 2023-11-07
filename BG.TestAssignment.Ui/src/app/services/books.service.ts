@@ -18,7 +18,7 @@ export class BooksService {
   private baseApiUrl = `${this.apiUrl}/api/lib/Books`;
 
   getAllBooks(skip: number, take: number): Observable<ResponceWrapper<PagedResponce<Book[]>>> {
-    return this.http.get<ResponceWrapper<PagedResponce<Book[]>>>(`${this.baseApiUrl}`);
+    return this.http.get<ResponceWrapper<PagedResponce<Book[]>>>(`${this.baseApiUrl}?skip=${skip}&take=${take}`);
   }
 
   getBook(id: number): Observable<ResponceWrapper<Book>> {
