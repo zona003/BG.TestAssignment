@@ -16,22 +16,28 @@ export class AuthorsComponent implements OnInit {
   editedAuthor: Author | null = null;
 
   Authors: Author[] = [];
+  totalRecords: number = 20;
+  rows : number = 10;
+  page : number = 0;
+
 
   constructor(private serv: AuthorsService, private router: Router) {}
 
   ngOnInit(): void {
-    this.getAllAuthors();
+    this.getAllAuthors(0, this.rows);
   }
 
-  private getAllAuthors() {
-    this.serv.getAllAuthor().subscribe((us :ResponceWrapper<Author[]>) => {
-      this.Authors = us.data;
+  private getAllAuthors(skip: number, take:number) {
+    this.serv.getAllAuthor(skip, take).subscribe((us) => {
+      this.totalRecords = us.data.total;
+      console.log(this.totalRecords);
+      this.Authors = us.data.items;
     });
   }
 
   deleteAuthor(id: number) {
     this.serv.deleteAuthor(id).subscribe(a=>{
-      this.Authors.splice(id,1);
+      // this.Authors.splice(id,1);
     });
   }
 
@@ -49,7 +55,18 @@ export class AuthorsComponent implements OnInit {
   }
 
   refresh() {
-    //window.location.reload();
-    this.getAllAuthors();
+    this.getAllAuthors(this.page * this.rows, this.rows);
+  }
+
+  onPageChange(event: any) {
+    this.page = event.first || 0;
+    this.rows = event.rows || 10;
+    console.log(this.page + " page "+ this.rows+" rows")
+
+    this.serv.getAllAuthor(this.page , this.rows).subscribe((us) => {
+      console.warn("huita");
+      this.Authors = us.data.items;
+      this.totalRecords = us.data.total;
+    });
   }
 }

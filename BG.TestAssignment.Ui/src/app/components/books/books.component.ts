@@ -14,6 +14,9 @@ export class BooksComponent implements OnInit {
   editedBook: Book | null = null;
   dispalyAddModal: boolean = false;
   editForm: FormGroup;
+  totalRecords: number = 0;
+  rows = 10;
+  page = 1;
   
 
   constructor(
@@ -30,12 +33,12 @@ export class BooksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllBooks();
+    this.getAllBooks(0, this.rows);
   }
 
-  getAllBooks() {
-    this.bookService.getAllBooks().subscribe((us) => {
-      this.Books = us.data;
+  getAllBooks(skip: number , take: number) {
+    this.bookService.getAllBooks(skip,take).subscribe((us) => {
+      this.Books = us.data.items;
     });
   }
 
@@ -62,7 +65,11 @@ export class BooksComponent implements OnInit {
   }
 
   refresh() {
-    //window.location.reload();
-    this.getAllBooks();
+    this.getAllBooks(this.page * this.rows, this.rows);
   }
+  
+  onPageChange(event: any) {
+    this.page = event.page;
+  }
+
 }

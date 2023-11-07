@@ -5,14 +5,14 @@ namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IAuthorService
     {
-        public ResponseWrapper<List<AuthorDTO>> GetAuthors(int page);
+        public Task<ResponseWrapper<PagedResponce<List<AuthorDTO>>>> GetAuthors(int skip, int take, CancellationToken token);
 
-        public Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id);
+        public Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id, CancellationToken token);
 
-        public ResponseWrapper<AuthorDTO> PutAuthor(int id, AuthorDTO authorDto);
+        public Task<ResponseWrapper<AuthorDTO>> PutAuthor(int id, AuthorDTO authorDto, CancellationToken token);
 
-        public ResponseWrapper<AuthorDTO> PostAuthor(AuthorDTO? authorDto);
+        public Task<ResponseWrapper<AuthorDTO>> PostAuthor(AuthorDTO? authorDto, CancellationToken token);
 
-        public Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id);
+        public Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id, CancellationToken token);
     }
 }

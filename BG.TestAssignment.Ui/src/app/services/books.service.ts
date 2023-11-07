@@ -4,6 +4,7 @@ import { BOOK_API_URL } from '../app-injection-tokens';
 import { Book } from '../models/book';
 import { Observable } from 'rxjs';
 import { ResponceWrapper } from '../models/responceWrapper';
+import { PagedResponce } from '../models/padgedResponce';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +17,8 @@ export class BooksService {
 
   private baseApiUrl = `${this.apiUrl}/api/lib/Books`;
 
-  getAllBooks(): Observable<ResponceWrapper<Book[]>> {
-    return this.http.get<ResponceWrapper<Book[]>>(`${this.baseApiUrl}`);
+  getAllBooks(skip: number, take: number): Observable<ResponceWrapper<PagedResponce<Book[]>>> {
+    return this.http.get<ResponceWrapper<PagedResponce<Book[]>>>(`${this.baseApiUrl}`);
   }
 
   getBook(id: number): Observable<ResponceWrapper<Book>> {

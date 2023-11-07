@@ -5,14 +5,14 @@ namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IBooksService
     {
-        public ResponseWrapper<List<BookDTO>> GetBooks(int page);
+        public Task<ResponseWrapper<PagedResponce<List<BookDTO>>>> GetBooks(int skip, int take, CancellationToken token);
 
-        public Task<ResponseWrapper<BookDTO>> GetBook(int id);
+        public Task<ResponseWrapper<BookDTO>> GetBook(int id, CancellationToken token);
 
-        public ResponseWrapper<BookDTO> PutBook(int id, BookDTO bookDto);
+        public Task<ResponseWrapper<BookDTO>> PutBook(int id, BookDTO bookDto, CancellationToken token);
 
-        public ResponseWrapper<BookDTO> PostBook(BookDTO? bookDto);
+        public Task<ResponseWrapper<BookDTO>> PostBook(BookDTO? bookDto , CancellationToken token);
 
-        public Task<ResponseWrapper<BookDTO>> DeleteBook(int id);
+        public Task<ResponseWrapper<BookDTO>> DeleteBook(int id, CancellationToken token);
     }
 }
