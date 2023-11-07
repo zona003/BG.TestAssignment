@@ -5,7 +5,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IAuthorService
     {
-        public ResponseWrapper<List<AuthorDTO>> GetAuthors();
+        public ResponseWrapper<List<AuthorDTO>> GetAuthors(int page);
 
         public Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id);
 

@@ -20,10 +20,10 @@ export class AuthorsComponent implements OnInit {
   constructor(private serv: AuthorsService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadAuthors();
+    this.getAllAuthors();
   }
 
-  private loadAuthors() {
+  private getAllAuthors() {
     this.serv.getAllAuthor().subscribe((us :ResponceWrapper<Author[]>) => {
       this.Authors = us.data;
     });
@@ -50,5 +50,6 @@ export class AuthorsComponent implements OnInit {
 
   refresh() {
     //window.location.reload();
+    this.getAllAuthors();
   }
 }

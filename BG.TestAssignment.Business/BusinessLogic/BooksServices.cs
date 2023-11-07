@@ -18,9 +18,11 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public ResponseWrapper<List<BookDTO>> GetBooks()
+        public ResponseWrapper<List<BookDTO>> GetBooks(int page)
         {
-            var result = Context.Books.AsQueryable().Adapt<List<BookDTO>>();
+            var data = Context.Books.AsQueryable();//.Adapt<List<BookDTO>>();
+            PagedResponce<Book> pagedResult = new(data.Count(), data);
+            var result = pagedResult.ToPaged(page).Adapt<List<BookDTO>>();
             if (!result.Any())
             {
                 return new ResponseWrapper<List<BookDTO>>(errors: new List<string>() { "Collection is empty" });

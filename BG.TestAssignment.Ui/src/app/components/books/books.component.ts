@@ -39,23 +39,6 @@ export class BooksComponent implements OnInit {
     });
   }
 
-
-  // editBook(id: number, book: Book) {
-  //   this.editedBook = new Book(
-  //     book.id,
-  //     book.title,
-  //     book.publishedDate,
-  //     book.bookGenre,
-  //     book.authorId
-  //   );
-  //   this.bookService.updateBook(id, this.editedBook).subscribe(n => 
-  //     {
-  //       console.log(n.errors);
-
-  //     });
-
-  // }
-
   deleteBook(id: number) {
   this.bookService.deleteBook(id).subscribe(ans=>{
     this.Books.splice(id, 1);
@@ -79,6 +62,7 @@ export class BooksComponent implements OnInit {
   }
 
   refresh() {
-    window.location.reload();
+    //window.location.reload();
+    this.getAllBooks();
   }
 }

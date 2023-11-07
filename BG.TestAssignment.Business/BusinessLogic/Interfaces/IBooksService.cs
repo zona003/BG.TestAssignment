@@ -5,7 +5,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IBooksService
     {
-        public ResponseWrapper<List<BookDTO>> GetBooks();
+        public ResponseWrapper<List<BookDTO>> GetBooks(int page);
 
         public Task<ResponseWrapper<BookDTO>> GetBook(int id);
 

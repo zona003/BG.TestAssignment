@@ -22,9 +22,9 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<ResponseWrapper<List<AuthorDTO>>>> GetBooks()
+        public async Task<ActionResult<ResponseWrapper<List<AuthorDTO>>>> GetBooks(int page = 1)
         {
-            return Ok(BooksService.GetBooks());
+            return Ok(BooksService.GetBooks(page));
         }
 
         // GET: api/Books/5

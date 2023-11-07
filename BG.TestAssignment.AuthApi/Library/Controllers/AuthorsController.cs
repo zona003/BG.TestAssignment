@@ -22,16 +22,16 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ResponseWrapper<List<AuthorDTO>>> GetAuthors()
+        public ActionResult<ResponseWrapper<List<AuthorDTO>>> GetAuthors( int page = 1)
         {
-            return Ok(AuthorsService.GetAuthors());
+            return AuthorsService.GetAuthors(page);
         }
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async  Task<ActionResult<ResponseWrapper<AuthorDTO>>> GetAuthor(int id)
+        public ActionResult<ResponseWrapper<AuthorDTO>> GetAuthor(int id)
         {
-            return await AuthorsService.GetAuthor(id);
+            return  AuthorsService.GetAuthor(id).Result;
         }
 
         // PUT: api/Authors/5
@@ -45,16 +45,16 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> PostAuthor(AuthorDTO authorDto)
+        public ActionResult<ResponseWrapper<AuthorDTO>> PostAuthor(AuthorDTO authorDto)
         {
             return  AuthorsService.PostAuthor(authorDto);
         }
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> DeleteAuthor(int id)
+        public ActionResult<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id)
         {
-            return  await AuthorsService.DeleteAuthor(id);
+            return   AuthorsService.DeleteAuthor(id).Result;
         }
 
     }
