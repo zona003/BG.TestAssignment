@@ -22,39 +22,39 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ResponseWrapper<List<AuthorDTO>>> GetAuthors( int page = 1)
+        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<AuthorDTO>>>>> GetAuthors(CancellationToken token, int skip = 0, int take = 10)
         {
-            return AuthorsService.GetAuthors(page);
+            return await AuthorsService.GetAuthors(skip, take, token);
         }
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public ActionResult<ResponseWrapper<AuthorDTO>> GetAuthor(int id)
+        public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> GetAuthor(int id, CancellationToken token)
         {
-            return  AuthorsService.GetAuthor(id).Result;
+            return await AuthorsService.GetAuthor(id, token);
         }
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public  ActionResult<ResponseWrapper<AuthorDTO>> PutAuthor(int id, AuthorDTO authorDto)
+        public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> PutAuthor(int id, AuthorDTO authorDto, CancellationToken token)
         {
-            return  AuthorsService.PutAuthor(id, authorDto);
+            return await AuthorsService.PutAuthor(id, authorDto, token);
         }
 
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult<ResponseWrapper<AuthorDTO>> PostAuthor(AuthorDTO authorDto)
+        public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> PostAuthor(AuthorDTO authorDto, CancellationToken token)
         {
-            return  AuthorsService.PostAuthor(authorDto);
+            return await AuthorsService.PostAuthor(authorDto, token);
         }
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public ActionResult<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id)
+        public async Task<ActionResult<ResponseWrapper<AuthorDTO>>> DeleteAuthor(int id, CancellationToken token)
         {
-            return   AuthorsService.DeleteAuthor(id).Result;
+            return await AuthorsService.DeleteAuthor(id, token);
         }
 
     }

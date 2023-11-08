@@ -3,12 +3,14 @@ using BGNet.TestAssignment.Api.Services;
 using BGNet.TestAssignment.Api.Services.Interfaces;
 using BGNet.TestAssignment.Business.BusinessLogic;
 using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+using BGNet.TestAssignment.Common.WebApi.Handlers;
 using BGNet.TestAssignment.DataAccess;
 using BGNet.TestAssignment.DataAccess.DbOptions;
 using BGNet.TestAssignment.DataAccess.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -20,7 +22,7 @@ namespace BGNet.TestAssignment.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
+
 
             builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection(JWTOptions.Jwt));
             builder.Services.AddScoped<IAuthorService, AuthorsServices>();
@@ -30,10 +32,9 @@ namespace BGNet.TestAssignment.Api
 
             ConnectionStringsOptions? stringsOptions = builder.Configuration
                 .GetSection(ConnectionStringsOptions.ConnectionStrings).Get<ConnectionStringsOptions>();
+
             builder.Services.AddDbContext<BookAuthorsDataContext>(opt =>
             opt.UseNpgsql(stringsOptions?.DefaultPostgreDB));
-
-
 
 
             builder.Services.AddCors(options =>
@@ -61,8 +62,8 @@ namespace BGNet.TestAssignment.Api
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwt?.Issuer, 
-                    ValidAudience = jwt?.Audience, 
+                    ValidIssuer = jwt?.Issuer,
+                    ValidAudience = jwt?.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret))
                 };
             });
@@ -77,7 +78,7 @@ namespace BGNet.TestAssignment.Api
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
-                options.Password.RequireUppercase =false;
+                options.Password.RequireUppercase = false;
             });
 
 
@@ -88,7 +89,10 @@ namespace BGNet.TestAssignment.Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(OperationCancelledExceptionFilter));
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
@@ -130,6 +134,8 @@ namespace BGNet.TestAssignment.Api
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -138,6 +144,7 @@ namespace BGNet.TestAssignment.Api
                 build.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
+
 
             app.MapControllers();
 

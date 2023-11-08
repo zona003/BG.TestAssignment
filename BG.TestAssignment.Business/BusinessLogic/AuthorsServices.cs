@@ -18,24 +18,22 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public ResponseWrapper<List<AuthorDTO>> GetAuthors(int page)
+        public async Task<ResponseWrapper<PagedResponce<List<AuthorDTO>>>> GetAuthors(int skip, int take, CancellationToken token)
         {
-
-
-            var data = Context.Authors.AsQueryable();//.Adapt<List<AuthorDTO>>();
-            PagedResponce<Author> pagedResult = new(data.Count(), data);
-            var result = pagedResult.ToPaged(page).Adapt<List<AuthorDTO>>();
-            if (!result.Any())
+            var count = Context.Authors.Count();
+            var data = Context.Authors.AsQueryable().Skip(skip).Take(take).Adapt<List<AuthorDTO>>(); ;
+            PagedResponce<List<AuthorDTO>> pagedResult = new(count, data);
+            if (!pagedResult.Items.Any())
             {
-                return new ResponseWrapper<List<AuthorDTO>>(errors: new List<string>() { "Collection is empty" });
+                return new ResponseWrapper<PagedResponce<List<AuthorDTO>>>(errors: new List<string>() { "Collection is empty" });
             }
-            return ResponseWrapper<List<AuthorDTO>>.WrapToResponce(result);
+            return ResponseWrapper<PagedResponce<List<AuthorDTO>>>.WrapToResponce(pagedResult);
         }
 
-        public async Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id)
+        public async Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id, CancellationToken token)
         {
-            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>()); 
-            var result = await Context.Authors.FirstOrDefaultAsync(a => a.Id == id);
+            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>());
+            var result = await Context.Authors.FirstOrDefaultAsync(a => a.Id == id, token);
             if (result == null)
             {
                 response?.Errors.Add("Not found");
@@ -45,7 +43,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             return ResponseWrapper<AuthorDTO>.WrapToResponce(result.Adapt<AuthorDTO>());
         }
 
-        public ResponseWrapper<AuthorDTO> PutAuthor(int id, AuthorDTO authorDto)
+        public async Task<ResponseWrapper<AuthorDTO>> PutAuthor(int id, AuthorDTO authorDto, CancellationToken token)
         {
             ResponseWrapper<AuthorDTO> response = new ResponseWrapper<AuthorDTO>(errors: new List<string>());
             if (id != authorDto.Id)
@@ -70,19 +68,19 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             try
             {
-                Context.SaveChangesAsync();
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 response.Errors.Add(ex.Message);
-                    return response;
+                return response;
 
             }
 
             return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
         }
 
-        public ResponseWrapper<AuthorDTO> PostAuthor(AuthorDTO? authorDto)
+        public async Task<ResponseWrapper<AuthorDTO>> PostAuthor(AuthorDTO? authorDto, CancellationToken token)
         {
             ResponseWrapper<AuthorDTO> response = new(errors: new List<string>());
             if (authorDto == null)
@@ -106,7 +104,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context.Authors.Add(author);
             try
             {
-                Context.SaveChangesAsync();
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -119,10 +117,10 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
         }
 
-        public async Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id)
+        public async Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id, CancellationToken token)
         {
-            ResponseWrapper<AuthorDTO> response = new (errors: new List<string>());
-            var author = await Context.Authors.FindAsync(id);
+            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>());
+            var author = await Context.Authors.FindAsync(id, token);
             if (author == null)
             {
                 response.Errors.Add("Not found");
@@ -132,7 +130,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context.Authors.Remove(author);
             try
             {
-                await Context.SaveChangesAsync();
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {

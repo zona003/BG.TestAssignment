@@ -18,22 +18,23 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public ResponseWrapper<List<BookDTO>> GetBooks(int page)
+        public async Task<ResponseWrapper<PagedResponce<List<BookDTO>>>> GetBooks(int skip, int take, CancellationToken token)
         {
-            var data = Context.Books.AsQueryable();//.Adapt<List<BookDTO>>();
-            PagedResponce<Book> pagedResult = new(data.Count(), data);
-            var result = pagedResult.ToPaged(page).Adapt<List<BookDTO>>();
-            if (!result.Any())
+            var count = Context.Books.Count();
+            var data = Context.Books.AsQueryable().Skip(skip).Take(take).Adapt<List<BookDTO>>(); ;
+            PagedResponce<List<BookDTO>> pagedResult = new(count, data);
+            if (!pagedResult.Items.Any())
             {
-                return new ResponseWrapper<List<BookDTO>>(errors: new List<string>() { "Collection is empty" });
+                return new ResponseWrapper<PagedResponce<List<BookDTO>>>(errors: new List<string>() { "Collection is empty" });
             }
-            return ResponseWrapper<List<BookDTO>>.WrapToResponce(result);
+            return ResponseWrapper<PagedResponce<List<BookDTO>>>.WrapToResponce(pagedResult);
+
         }
 
-        public async Task<ResponseWrapper<BookDTO>> GetBook(int id)
+        public async Task<ResponseWrapper<BookDTO>> GetBook(int id, CancellationToken token)
         {
             ResponseWrapper<BookDTO> response = new(errors: new List<string>());
-            var result = await Context.Books.FirstOrDefaultAsync(a => a.Id == id);
+            var result = await Context.Books.FirstOrDefaultAsync(a => a.Id == id, token);
             if (result == null)
             {
                 response?.Errors.Add("Not found");
@@ -43,12 +44,12 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             return ResponseWrapper<BookDTO>.WrapToResponce(result.Adapt<BookDTO>());
         }
 
-        public ResponseWrapper<BookDTO> PutBook(int id, BookDTO bookDto)
+        public async Task<ResponseWrapper<BookDTO>> PutBook(int id, BookDTO bookDto, CancellationToken token)
         {
             ResponseWrapper<BookDTO> response = new(errors: new List<string>());
             if (id != bookDto.Id)
             {
-                response.Errors.Add("Bad request!");
+                response.Errors?.Add("Bad request!");
                 return response;
             }
 
@@ -56,16 +57,16 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             BookValidator validator = new BookValidator();
             var validationResult = validator.Validate(book);
-            response.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            response.Errors?.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
             if (!validationResult.IsValid) return response;
             if (!BookExists(id))
             {
-                response.Errors.Add("Object not exist");
+                response.Errors?.Add("Object not exist");
                 return response;
             }
-            if (Context.Authors.FirstOrDefault(a => a.Id == book.AuthorId) == null)
+            if (!AuthorExist(bookDto.AuthorId))
             {
-                response.Errors.Add("Author not exist");
+                response.Errors?.Add("Author not exist");
                 return response;
             }
 
@@ -73,46 +74,46 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             try
             {
-                Context.SaveChangesAsync();
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                response.Errors.Add(ex.Message);
+                response.Errors?.Add(ex.Message);
                 return response;
             }
 
             return ResponseWrapper<BookDTO>.WrapToResponce(bookDto);
         }
 
-        public ResponseWrapper<BookDTO> PostBook(BookDTO? bookDto)
+        public async Task<ResponseWrapper<BookDTO>> PostBook(BookDTO? bookDto, CancellationToken token)
         {
             ResponseWrapper<BookDTO> response = new(errors: new List<string>());
             if (bookDto == null)
             {
-                response.Errors.Add("Bad request");
+                response.Errors?.Add("Bad request");
                 return response;
             }
 
             var book = bookDto.Adapt<Book>();
             BookValidator validator = new BookValidator();
             var validationResult = validator.Validate(book);
-            response.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            response.Errors?.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
             if (!validationResult.IsValid) return response;
 
-            if (Context.Authors.FirstOrDefault(a=>a.Id == book.AuthorId) == null)
+            if (AuthorExist(bookDto.AuthorId))
             {
-                response.Errors.Add("Author not exist");
+                response.Errors?.Add("Author not exist");
                 return response;
             }
 
             Context.Books.Add(book);
             try
             {
-                Context.SaveChangesAsync();
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                response.Errors.Add(ex.Message);
+                response.Errors?.Add(ex.Message);
                 return response;
 
             }
@@ -120,24 +121,24 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             return ResponseWrapper<BookDTO>.WrapToResponce(bookDto); ;
         }
 
-        public async Task<ResponseWrapper<BookDTO>> DeleteBook(int id)
+        public async Task<ResponseWrapper<BookDTO>> DeleteBook(int id, CancellationToken token)
         {
             ResponseWrapper<BookDTO> response = new(errors: new List<string>());
-            var book = await Context.Books.FindAsync(id);
+            var book = await Context.Books.FindAsync(id, token);
             if (book == null)
             {
-                response.Errors.Add("Not found");
+                response.Errors?.Add("Not found");
                 return response;
             }
 
             Context.Books.Remove(book);
             try
             {
-                await Context.SaveChangesAsync();
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                response.Errors.Add(ex.Message);
+                response.Errors?.Add(ex.Message);
                 return response;
 
             }
@@ -148,6 +149,11 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
         private bool BookExists(int id)
         {
             return (Context.Books?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private bool AuthorExist(int id)
+        {
+            return (Context.Authors?.Find(id) == null);
         }
     }
 }
