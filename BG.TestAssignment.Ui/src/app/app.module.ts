@@ -18,7 +18,7 @@ import { ACCESS_TOKEN_KEY } from './services/auth.service';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { JwtInterceptor } from './_helpers/jwtinterceptor';
+import { JwtInterceptor } from './common/_helpers/jwtinterceptor';
 import { AuhtorFormComponent } from './components/auhtor-form/auhtor-form.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +30,8 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
-import { ErrorInterceptor } from './_helpers/ErrorInterceptor';
+import { ErrorInterceptor } from './common/_helpers/ErrorInterceptor';
+import { PaginatorModule } from 'primeng/paginator';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -61,6 +62,7 @@ export function tokenGetter() {
     InputTextModule,
     CalendarModule,
     DialogModule,
+    PaginatorModule,
 
     JwtModule.forRoot({
       config: {

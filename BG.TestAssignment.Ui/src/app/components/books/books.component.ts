@@ -1,84 +1,74 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Book } from 'src/app/models/book';
-import { BooksService } from 'src/app/services/books.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { TablePageEvent } from "primeng/table";
+import { Book } from "src/app/models/book";
+import { BooksService } from "src/app/services/books.service";
 
 @Component({
-  selector: 'app-books',
-  templateUrl: './books.component.html',
-  styleUrls: ['./books.component.scss'],
+    selector: "app-books",
+    templateUrl: "./books.component.html",
+    styleUrls: ["./books.component.scss"],
 })
 export class BooksComponent implements OnInit {
-  Books: Book[] = [];
-  editedBook: Book | null = null;
-  dispalyAddModal: boolean = false;
-  editForm: FormGroup;
-  
+    Books: Book[] = [];
+    editedBook: Book | null = null;
+    dispalyAddModal: boolean = false;
+    editForm: FormGroup;
+    totalRecords: number = 20;
+    rows : number = 10;
+    page : number = 0;
 
-  constructor(
-    private router: Router,
-    private bookService: BooksService,
-    private fb: FormBuilder
-  ) {
-    this.editForm = this.fb.group({
-      title: ['', Validators.required],
-      publishedDate: ['', Validators.required],
-      bookGenre: [null, Validators.required],
-      authorId: [Number, Validators.required],
-    });
-  }
+    constructor(private router: Router, private bookService: BooksService, private fb: FormBuilder) {
+        this.editForm = this.fb.group({
+            title: ["", Validators.required],
+            publishedDate: ["", Validators.required],
+            bookGenre: [null, Validators.required],
+            authorId: [Number, Validators.required],
+        });
+    }
 
-  ngOnInit(): void {
-    this.getAllBooks();
-  }
+    ngOnInit(): void {
+        this.getAllBooks(0, this.rows);
+    }
 
-  getAllBooks() {
-    this.bookService.getAllBooks().subscribe((us) => {
-      this.Books = us.data;
-    });
-  }
+    getAllBooks(skip: number, take: number) {
+        this.bookService.getAllBooks(skip, take).subscribe((us) => {
+            this.Books = us.data.items;
+        });
+    }
 
+    deleteBook(id: number) {
+        this.bookService.deleteBook(id).subscribe((ans) => {
+            this.Books.splice(id, 1);
+        });
+    }
 
-  // editBook(id: number, book: Book) {
-  //   this.editedBook = new Book(
-  //     book.id,
-  //     book.title,
-  //     book.publishedDate,
-  //     book.bookGenre,
-  //     book.authorId
-  //   );
-  //   this.bookService.updateBook(id, this.editedBook).subscribe(n => 
-  //     {
-  //       console.log(n.errors);
+    showAddModal() {
+        this.dispalyAddModal = true;
+        this.editedBook = null;
+    }
 
-  //     });
+    hideAddModal(isClosed: boolean) {
+        this.dispalyAddModal = !isClosed;
+    }
 
-  // }
+    showEditModal(book: Book) {
+        this.dispalyAddModal = true;
+        this.editedBook = book;
+    }
 
-  deleteBook(id: number) {
-  this.bookService.deleteBook(id).subscribe(ans=>{
-    this.Books.splice(id, 1);
-  });
-      
-    
-  }
+    refresh() {
+        this.getAllBooks(this.page * this.rows, this.rows);
+    }
 
-  showAddModal() {
-    this.dispalyAddModal = true;
-    this.editedBook = null;
-  }
+    onPageChange(event: TablePageEvent) {
+        this.page = event.first ;
+        this.rows = event.rows ;
 
-  hideAddModal(isClosed: boolean) {
-    this.dispalyAddModal = !isClosed;
-  }
-
-  showEditModal(book: Book) {
-    this.dispalyAddModal = true;
-    this.editedBook = book;
-  }
-
-  refresh() {
-    window.location.reload();
-  }
+        this.bookService.getAllBooks(this.page, this.rows).subscribe((us) => {
+            this.Books = us.data.items;
+            this.totalRecords = us.data.total;
+        });
+    }
 }

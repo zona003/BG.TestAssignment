@@ -44,7 +44,6 @@ export class RegisterComponent {
     const userData = this.registrationForm.value;
     var utcDate = (userData.birthdate as Date).toISOString();
     this.userRegister = new UserRegister(userData.username, userData.password, userData.firstname, userData.lastname, utcDate, userData.address);
-    console.log(this.userRegister);
     
     if (this.registrationForm.valid) {
       if(this.authService.registration(this.userRegister)){

@@ -3,7 +3,7 @@
     <h2>Authors</h2>
     <p-button label="Add author" (click)="showAddModal()"></p-button>
   </div>
-  <p-table [value]="Authors" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [lazy]="true" [paginator]="true" (onPage)="onPageChange($event)" [first]="page" [rows]="rows" [totalRecords]="totalRecords" [value]="Authors" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th>FirstName</th>

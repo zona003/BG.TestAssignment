@@ -23,7 +23,6 @@ export class AuthService {
   private firstName = '';
 
   login(userName: string, password: string): Observable<Token> {
-    console.log(`${this.apiUrl}/api/Auth/login`);
     return new Observable((subscriber) => {
       this.http
         .post<Token>(`${this.apiUrl}/api/Auth/login`, {
