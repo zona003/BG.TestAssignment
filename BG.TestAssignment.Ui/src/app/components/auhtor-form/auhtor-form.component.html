@@ -1,70 +1,52 @@
 <p-dialog
-  header="{{ modalType }} Author"
-  [(visible)]="dispalyAddModal"
-  [modal]="true"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="closeModal()"
+    header="{{ modalType }} Author"
+    [(visible)]="dispalyAddModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="closeModal()"
 >
-  <div class="edit-form">
-    <form [formGroup]="editForm">
-      <div class="flex flex-column gap-2">
-        <label htmlFor="firstName">First Name</label>
-        <input type="text" pInputText formControlName="firstName" />
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['firstName'].invalid &&
-            editForm.controls['firstName'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
-      <div class="flex flex-column gap-2">
-        <label htmlFor="lastName">LastName</label>
-        <input type="text" pInputText formControlName="lastName" />
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['lastName'].invalid &&
-            editForm.controls['lastName'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
+    <div class="edit-form">
+        <form [formGroup]="editForm">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="firstName">First Name</label>
+                <input type="text" pInputText formControlName="firstName" />
+                <small class="p-error block" *ngIf="editForm.controls['firstName'].invalid && editForm.controls['firstName'].dirty">
+                    Field is required</small
+                >
+            </div>
+            <div class="flex flex-column gap-2">
+                <label htmlFor="lastName">LastName</label>
+                <input type="text" pInputText formControlName="lastName" />
+                <small class="p-error block" *ngIf="editForm.controls['lastName'].invalid && editForm.controls['lastName'].dirty">
+                    Field is required</small
+                >
+            </div>
 
-      <div class="flex flex-column gap-2">
-        <label htmlFor="birthDate">Birth Date</label>
-        <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" appendTo="body" class="block" formControlName="birthDate"></p-calendar>
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['birthDate'].invalid &&
-            editForm.controls['birthDate'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
-    </form>
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button
-      icon="pi pi-check"
-      (click)="addEditAuthor()"
-      label="{{ modalType }}"
-      styleClass="p-button-text"
-      [disabled]="editForm.invalid"
-    ></p-button>
-    <p-button
-      icon="pi pi-x"
-      (click)="closeModal()"
-      label="Cancell"
-      styleClass="p-button-text"
-      severity="danger"
-    ></p-button>
-  </ng-template>
+            <div class="flex flex-column gap-2">
+                <label htmlFor="birthDate">Birth Date</label>
+                <p-calendar
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
+                    appendTo="body"
+                    class="block"
+                    formControlName="birthDate"
+                ></p-calendar>
+                <small class="p-error block" *ngIf="editForm.controls['birthDate'].invalid && editForm.controls['birthDate'].dirty">
+                    Field is required</small
+                >
+            </div>
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button
+            icon="pi pi-check"
+            (click)="addEditAuthor()"
+            label="{{ modalType }}"
+            styleClass="p-button-text"
+            [disabled]="editForm.invalid"
+        ></p-button>
+        <p-button icon="pi pi-x" (click)="closeModal()" label="Cancell" styleClass="p-button-text" severity="danger"></p-button>
+    </ng-template>
 </p-dialog>

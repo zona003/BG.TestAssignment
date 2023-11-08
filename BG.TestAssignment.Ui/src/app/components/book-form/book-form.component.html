@@ -1,84 +1,59 @@
 <p-dialog
-  header="{{ modalType }}"
-  [(visible)]="dispalyAddModal"
-  [modal]="true"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="closeModal()"
+    header="{{ modalType }}"
+    [(visible)]="dispalyAddModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="closeModal()"
 >
-  <div class="edit-form">
-    <form [formGroup]="editForm">
-      <div class="flex flex-column gap-2">
-        <label htmlFor="title">Title</label>
-        <input type="text" pInputText formControlName="title" />
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['title'].invalid &&
-            editForm.controls['title'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
+    <div class="edit-form">
+        <form [formGroup]="editForm">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="title">Title</label>
+                <input type="text" pInputText formControlName="title" />
+                <small class="p-error block" *ngIf="editForm.controls['title'].invalid && editForm.controls['title'].dirty">
+                    Field is required</small
+                >
+            </div>
 
-      <div class="flex flex-column gap-2">
-        <label htmlFor="publishedDate">Published Date</label>
-        <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" appendTo="body" formControlName="publishedDate"></p-calendar>
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['publishedDate'].invalid &&
-            editForm.controls['publishedDate'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
+            <div class="flex flex-column gap-2">
+                <label htmlFor="publishedDate">Published Date</label>
+                <p-calendar
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
+                    appendTo="body"
+                    formControlName="publishedDate"
+                ></p-calendar>
+                <small class="p-error block" *ngIf="editForm.controls['publishedDate'].invalid && editForm.controls['publishedDate'].dirty">
+                    Field is required</small
+                >
+            </div>
 
-      <div class="flex flex-column gap-2">
-        <label htmlFor="bookGenre">Genre</label>
-        <input type="text" pInputText formControlName="bookGenre" />
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['bookGenre'].invalid &&
-            editForm.controls['bookGenre'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
-      <div class="flex flex-column gap-2">
-        <label htmlFor="authorId">Author Id</label>
-        <input type="number" pInputText [min]="1" formControlName="authorId" />
-        <small
-          class="p-error block"
-          *ngIf="
-            editForm.controls['authorId'].invalid &&
-            editForm.controls['authorId'].dirty
-          "
-        >
-          Field is required</small
-        >
-      </div>
-    </form>
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button
-      icon="pi pi-check"
-      (click)="addEditBook()"
-      label="{{ modalType }}"
-      styleClass="p-button-text"
-      [disabled]="editForm.invalid"
-    ></p-button>
-    <p-button
-      icon="pi pi-x"
-      (click)="closeModal()"
-      label="Cancell"
-      styleClass="p-button-text"
-      severity="danger"
-    ></p-button>
-  </ng-template>
+            <div class="flex flex-column gap-2">
+                <label htmlFor="bookGenre">Genre</label>
+                <input type="text" pInputText formControlName="bookGenre" />
+                <small class="p-error block" *ngIf="editForm.controls['bookGenre'].invalid && editForm.controls['bookGenre'].dirty">
+                    Field is required</small
+                >
+            </div>
+            <div class="flex flex-column gap-2">
+                <label htmlFor="authorId">Author Id</label>
+                <input type="number" pInputText [min]="1" formControlName="authorId" />
+                <small class="p-error block" *ngIf="editForm.controls['authorId'].invalid && editForm.controls['authorId'].dirty">
+                    Field is required</small
+                >
+            </div>
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button
+            icon="pi pi-check"
+            (click)="addEditBook()"
+            label="{{ modalType }}"
+            styleClass="p-button-text"
+            [disabled]="editForm.invalid"
+        ></p-button>
+        <p-button icon="pi pi-x" (click)="cancell()" label="Cancell" styleClass="p-button-text" severity="danger"></p-button>
+    </ng-template>
 </p-dialog>

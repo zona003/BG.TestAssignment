@@ -1,45 +1,25 @@
 <p-card header="Login" [style]="{ width: '360px', margin: 'auto' }">
-  <form [formGroup]="form">
-    <div class="flex flex-column gap-2">
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        pInputText
-        formControlName="text"
-        formControlName="username"
-      />
-      <small
-        class="p-error block"
-        *ngIf="
-          form.controls['username'].invalid && form.controls['username'].dirty
-        "
-      >
-        Field is required</small
-      >
-    </div>
+    <form [formGroup]="form">
+        <div class="flex flex-column gap-2">
+            <label htmlFor="username">Username</label>
+            <input type="text" pInputText formControlName="text" formControlName="username" />
+            <small class="p-error block" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
+                Field is required</small
+            >
+        </div>
 
-    <div class="flex flex-column gap-2">
-      <label htmlFor="username">Password</label>
-      <p-password
-        class="full-width"
-        formControlName="password"
-        [toggleMask]="true"
-      ></p-password>
-      <small
-        class="p-error block"
-        *ngIf="
-          form.controls['password'].invalid && form.controls['password'].dirty
-        "
-      >
-        Field is required, must contain upper and lower case letters, numbers
-        and special characters
-      </small>
-    </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="username">Password</label>
+            <p-password class="full-width" formControlName="password" [toggleMask]="true"></p-password>
+            <small class="p-error block" *ngIf="form.controls['password'].invalid && form.controls['password'].dirty">
+                Field is required, must contain upper and lower case letters, numbers and special characters
+            </small>
+        </div>
 
-    <div style="display: flex; justify-content: space-evenly; margin: 10px">
-      <p-button label="Login" severity="success" (click)="login()"></p-button>
+        <div style="display: flex; justify-content: space-evenly; margin: 10px">
+            <p-button label="Login" severity="success" (click)="login()"></p-button>
 
-      <p-button label="Register" (click)="register()"></p-button>
-    </div>
-  </form>
+            <p-button label="Register" (click)="register()"></p-button>
+        </div>
+    </form>
 </p-card>

@@ -1,3 +1,4 @@
 export interface ResponceWrapper<SType> {
-  data: SType, errors: string[]
+    data: SType;
+    errors: string[];
 }

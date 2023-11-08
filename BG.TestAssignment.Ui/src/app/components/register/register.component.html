@@ -1,57 +1,39 @@
 <p-card header="Register" [style]="{ width: '360px', margin: 'auto' }">
-  <form [formGroup]="registrationForm">
-    <div class="flex flex-column gap-2">
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        pInputText
-        formControlName="text"
-        formControlName="username"
-      />
-    </div>
+    <form [formGroup]="registrationForm">
+        <div class="flex flex-column gap-2">
+            <label htmlFor="username">Username</label>
+            <input type="text" pInputText formControlName="text" formControlName="username" />
+        </div>
 
-    <div class="flex flex-column gap-2">
-      <label htmlFor="password">Password</label>
-      <p-password
-        id="password"
-        formControlName="password"
-        [toggleMask]="true"
-      ></p-password>
-    </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="password">Password</label>
+            <p-password id="password" formControlName="password" [toggleMask]="true"></p-password>
+        </div>
 
-    <div class="flex flex-column gap-2">
-      <label htmlFor="firstname">FirstName</label>
-      <input type="text" pInputText formControlName="firstname" />
-    </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="firstname">FirstName</label>
+            <input type="text" pInputText formControlName="firstname" />
+        </div>
 
-    <div class="flex flex-column gap-2">
-      <label htmlFor="lastname">LastName</label>
-      <input type="text" pInputText formControlName="lastname" />
-    </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="lastname">LastName</label>
+            <input type="text" pInputText formControlName="lastname" />
+        </div>
 
-    <div class="flex flex-column gap-2">
-      <label htmlFor="birthdate">BirthDate</label>
-      <p-calendar
-        class="block full-width"
-        formControlName="birthdate"
-        appendTo="body"
-      ></p-calendar>
-    </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="birthdate">BirthDate</label>
+            <p-calendar class="block full-width" formControlName="birthdate" appendTo="body"></p-calendar>
+        </div>
 
-    <div class="flex flex-column gap-2">
-      <label htmlFor="address">Address</label>
-      <input type="text" pInputText formControlName="address" />
-    </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="address">Address</label>
+            <input type="text" pInputText formControlName="address" />
+        </div>
 
-    <div style="display: flex; justify-content: space-evenly; margin: 10px">
-      <p-button
-        label="Register"
-        severity="success"
-        (click)="register()"
-        [disabled]="!registrationForm.valid"
-      ></p-button>
+        <div style="display: flex; justify-content: space-evenly; margin: 10px">
+            <p-button label="Register" severity="success" (click)="register()" [disabled]="!registrationForm.valid"></p-button>
 
-      <p-button label="Cancell" (click)="cancell()"></p-button>
-    </div>
-  </form>
+            <p-button label="Cancell" (click)="cancell()"></p-button>
+        </div>
+    </form>
 </p-card>

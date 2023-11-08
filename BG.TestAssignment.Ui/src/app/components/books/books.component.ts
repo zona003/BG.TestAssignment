@@ -14,19 +14,11 @@ export class BooksComponent implements OnInit {
     Books: Book[] = [];
     editedBook: Book | null = null;
     dispalyAddModal: boolean = false;
-    editForm: FormGroup;
     totalRecords: number = 20;
-    rows : number = 10;
-    page : number = 0;
+    rows: number = 10;
+    page: number = 0;
 
-    constructor(private router: Router, private bookService: BooksService, private fb: FormBuilder) {
-        this.editForm = this.fb.group({
-            title: ["", Validators.required],
-            publishedDate: ["", Validators.required],
-            bookGenre: [null, Validators.required],
-            authorId: [Number, Validators.required],
-        });
-    }
+    constructor(private router: Router, private bookService: BooksService) {}
 
     ngOnInit(): void {
         this.getAllBooks(0, this.rows);
@@ -34,6 +26,7 @@ export class BooksComponent implements OnInit {
 
     getAllBooks(skip: number, take: number) {
         this.bookService.getAllBooks(skip, take).subscribe((us) => {
+            this.totalRecords = us.data.total;
             this.Books = us.data.items;
         });
     }
@@ -51,6 +44,7 @@ export class BooksComponent implements OnInit {
 
     hideAddModal(isClosed: boolean) {
         this.dispalyAddModal = !isClosed;
+        this.refresh();
     }
 
     showEditModal(book: Book) {
@@ -59,12 +53,12 @@ export class BooksComponent implements OnInit {
     }
 
     refresh() {
-        this.getAllBooks(this.page * this.rows, this.rows);
+        this.getAllBooks(this.page, this.rows);
     }
 
     onPageChange(event: TablePageEvent) {
-        this.page = event.first ;
-        this.rows = event.rows ;
+        this.page = event.first;
+        this.rows = event.rows;
 
         this.bookService.getAllBooks(this.page, this.rows).subscribe((us) => {
             this.Books = us.data.items;

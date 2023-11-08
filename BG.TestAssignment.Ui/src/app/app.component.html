@@ -1,42 +1,13 @@
 <div>
-  <div class="topnav">
-    <a
-      *ngIf="!isLoggedIn"
-      [routerLink]="['login']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Login</a
-    >
-    <a
-      *ngIf="isLoggedIn"
-      [routerLink]="['']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >User</a
-    >
-    <a
-      *ngIf="isLoggedIn"
-      [routerLink]="['/books']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Books</a
-    >
-    <a
-      *ngIf="isLoggedIn"
-      [routerLink]="['/authors']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Authors</a
-    >
-    <div *ngIf="isLoggedIn" class="right-rection">
-      <p-button
-        label="Logout"
-        class="logout-btn"
-        severity="success"
-        (click)="logout()"
-      ></p-button>
+    <div class="topnav">
+        <a *ngIf="!isLoggedIn" [routerLink]="['login']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Login</a>
+        <a *ngIf="isLoggedIn" [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">User</a>
+        <a *ngIf="isLoggedIn" [routerLink]="['/books']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Books</a>
+        <a *ngIf="isLoggedIn" [routerLink]="['/authors']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Authors</a>
+        <div *ngIf="isLoggedIn" class="right-rection">
+            <p-button label="Logout" class="logout-btn" severity="success" (click)="logout()"></p-button>
+        </div>
     </div>
-  </div>
 
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 </div>
