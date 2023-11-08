@@ -3,8 +3,9 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } fr
 import { Observable, throwError } from "rxjs";
 import { catchError, every, tap } from "rxjs/operators";
 
-import { AuthService } from "../../services/auth.service";
+
 import { ResponceWrapper } from "src/app/models/responceWrapper";
+import { AuthService } from "../services/auth.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
