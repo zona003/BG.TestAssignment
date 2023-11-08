@@ -21,7 +21,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
         public async Task<ResponseWrapper<PagedResponce<List<BookDTO>>>> GetBooks(int skip, int take, CancellationToken token)
         {
             var count = Context.Books.Count();
-            var data = Context.Books.AsQueryable().Skip(skip).Take(take).Adapt<List<BookDTO>>(); ;
+            var data = Context.Books.Include(A=>A.Authors).AsQueryable().Skip(skip).Take(take).Adapt<List<BookDTO>>();
             PagedResponce<List<BookDTO>> pagedResult = new(count, data);
             if (!pagedResult.Items.Any())
             {
@@ -37,7 +37,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             var result = await Context.Books.FirstOrDefaultAsync(a => a.Id == id, token);
             if (result == null)
             {
-                response?.Errors.Add("Not found");
+                response.Errors?.Add("Not found");
                 return response;
             }
 
@@ -118,7 +118,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<BookDTO>.WrapToResponce(bookDto); ;
+            return ResponseWrapper<BookDTO>.WrapToResponce(bookDto);
         }
 
         public async Task<ResponseWrapper<BookDTO>> DeleteBook(int id, CancellationToken token)
@@ -143,7 +143,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<BookDTO>.WrapToResponce(new BookDTO()); ;
+            return ResponseWrapper<BookDTO>.WrapToResponce(new BookDTO());
         }
 
         private bool BookExists(int id)
@@ -153,7 +153,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
         private bool AuthorExist(int id)
         {
-            return (Context.Authors?.Find(id) == null);
+            return (Context.Authors.Find(id) == null);
         }
     }
 }

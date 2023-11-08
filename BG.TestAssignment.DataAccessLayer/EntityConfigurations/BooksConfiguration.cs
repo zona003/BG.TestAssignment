@@ -11,9 +11,9 @@ namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
-            builder.HasOne(c => c.Author)
+            builder.HasMany(c => c.Authors)
                 .WithMany(p => p.Books)
-                .OnDelete(DeleteBehavior.Cascade);
+                .UsingEntity(j => j.ToTable("AuthorsBooks"));
         }
     }
 }

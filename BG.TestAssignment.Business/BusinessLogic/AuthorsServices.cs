@@ -21,7 +21,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
         public async Task<ResponseWrapper<PagedResponce<List<AuthorDTO>>>> GetAuthors(int skip, int take, CancellationToken token)
         {
             var count = Context.Authors.Count();
-            var data = Context.Authors.AsQueryable().Skip(skip).Take(take).Adapt<List<AuthorDTO>>(); ;
+            var data = Context.Authors.Include(b => b.Books).AsQueryable().Skip(skip).Take(take).Adapt<List<AuthorDTO>>(); ;
             PagedResponce<List<AuthorDTO>> pagedResult = new(count, data);
             if (!pagedResult.Items.Any())
             {

@@ -7,7 +7,7 @@
         public string? LastName { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public List<Book>? Books { get; set; }
+        public IEnumerable<Book>? Books { get; set; }
 
         public Author()
         {

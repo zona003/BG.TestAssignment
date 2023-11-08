@@ -8,6 +8,6 @@
         public string? BookGenre { get; set; }
         public int? AuthorId { get; set; }
 
-        public Author? Author { get; set; }
+        public IEnumerable<Author>? Authors { get; set; }
     }
 }

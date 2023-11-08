@@ -11,13 +11,11 @@ namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            
+
 
             builder.HasMany(p => p.Books)
-                .WithOne(c => c.Author)
-                .HasForeignKey(c => c.AuthorId)
-                .OnDelete(DeleteBehavior.Cascade);
-
+                .WithMany(c => c.Authors)
+                .UsingEntity(j => j.ToTable("AuthorsBooks"));
 
         }
     }
