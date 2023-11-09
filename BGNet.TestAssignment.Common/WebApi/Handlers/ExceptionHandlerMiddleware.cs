@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http;
+using System.Text.Json;
 using BGNet.TestAssignment.Common.WebApi.Models;
 using Microsoft.AspNetCore.Http;
 

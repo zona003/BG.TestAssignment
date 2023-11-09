@@ -51,6 +51,7 @@ export class BooksComponent implements OnInit {
 
     hideAddModal(isClosed: boolean) {
         this.dispalyAddModal = !isClosed;
+        this.refresh();
     }
 
     showEditModal(book: Book) {
@@ -59,7 +60,7 @@ export class BooksComponent implements OnInit {
     }
 
     refresh() {
-        this.getAllBooks(this.page * this.rows, this.rows);
+        this.getAllBooks(this.page, this.rows);
     }
 
     onPageChange(event: TablePageEvent) {

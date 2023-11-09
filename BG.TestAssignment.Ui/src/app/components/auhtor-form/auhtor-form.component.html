@@ -1,11 +1,11 @@
 <p-dialog
-  header="{{ modalType }} Author"
-  [(visible)]="dispalyAddModal"
-  [modal]="true"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="closeModal()"
+header="{{ modalType }} Author"
+[(visible)]="dispalyAddModal"
+[modal]="true"
+[style]="{ width: '50vw' }"
+[draggable]="false"
+[resizable]="false"
+(onHide)="closeModal()"
 >
   <div class="edit-form">
     <form [formGroup]="editForm">
@@ -53,18 +53,12 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button
-      icon="pi pi-check"
-      (click)="addEditAuthor()"
-      label="{{ modalType }}"
-      styleClass="p-button-text"
-      [disabled]="editForm.invalid"
+        icon="pi pi-check"
+        (click)="addEditAuthor()"
+        label="{{ modalType }}"
+        styleClass="p-button-text"
+        [disabled]="editForm.invalid"
     ></p-button>
-    <p-button
-      icon="pi pi-x"
-      (click)="closeModal()"
-      label="Cancell"
-      styleClass="p-button-text"
-      severity="danger"
-    ></p-button>
-  </ng-template>
+    <p-button icon="pi pi-x" (click)="cancell()" label="Cancell" styleClass="p-button-text" severity="danger"></p-button>
+</ng-template>
 </p-dialog>

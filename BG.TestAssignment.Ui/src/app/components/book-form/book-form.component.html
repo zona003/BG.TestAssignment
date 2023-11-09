@@ -67,18 +67,12 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button
-      icon="pi pi-check"
-      (click)="addEditBook()"
-      label="{{ modalType }}"
-      styleClass="p-button-text"
-      [disabled]="editForm.invalid"
+        icon="pi pi-check"
+        (click)="addEditBook()"
+        label="{{ modalType }}"
+        styleClass="p-button-text"
+        [disabled]="editForm.invalid"
     ></p-button>
-    <p-button
-      icon="pi pi-x"
-      (click)="closeModal()"
-      label="Cancell"
-      styleClass="p-button-text"
-      severity="danger"
-    ></p-button>
-  </ng-template>
+    <p-button icon="pi pi-x" (click)="cancell()" label="Cancell" styleClass="p-button-text" severity="danger"></p-button>
+</ng-template>
 </p-dialog>

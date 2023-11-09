@@ -22,7 +22,7 @@ namespace BGNet.TestAssignment.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
+
 
             builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection(JWTOptions.Jwt));
             builder.Services.AddScoped<IAuthorService, AuthorsServices>();
@@ -62,8 +62,8 @@ namespace BGNet.TestAssignment.Api
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwt?.Issuer, 
-                    ValidAudience = jwt?.Audience, 
+                    ValidIssuer = jwt?.Issuer,
+                    ValidAudience = jwt?.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret))
                 };
             });
@@ -78,7 +78,7 @@ namespace BGNet.TestAssignment.Api
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
-                options.Password.RequireUppercase =false;
+                options.Password.RequireUppercase = false;
             });
 
 

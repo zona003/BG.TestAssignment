@@ -1,4 +1,5 @@
-﻿using BGNet.TestAssignment.Common.WebApi.Models;
+﻿using System.Threading;
+using BGNet.TestAssignment.Common.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

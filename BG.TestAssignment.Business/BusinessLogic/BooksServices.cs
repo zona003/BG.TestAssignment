@@ -18,35 +18,35 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public async Task<ResponseWrapper<PagedResponce<List<BookDTO>>>> GetBooks(int skip, int take, CancellationToken token)
+        public async Task<ResponseWrapper<PagedResponce<List<BookDto>>>> GetBooks(int skip, int take, CancellationToken token)
         {
-            var count = Context.Authors.Count();
-            var data = Context.Books.AsQueryable().Skip(skip).Take(take).Adapt<List<BookDTO>>(); ;
-            PagedResponce<List<BookDTO>> pagedResult = new(count, data);
+            var count = Context.Books.Count();
+            var data = Context.Books.Include(A=>A.Authors).AsQueryable().Skip(skip).Take(take).Adapt<List<BookDto>>();
+            PagedResponce<List<BookDto>> pagedResult = new(count, data);
             if (!pagedResult.Items.Any())
             {
-                return new ResponseWrapper<PagedResponce<List<BookDTO>>>(errors: new List<string>() { "Collection is empty" });
+                return new ResponseWrapper<PagedResponce<List<BookDto>>>(errors: new List<string>() { "Collection is empty" });
             }
-            return ResponseWrapper<PagedResponce<List<BookDTO>>>.WrapToResponce(pagedResult);
+            return ResponseWrapper<PagedResponce<List<BookDto>>>.WrapToResponce(pagedResult);
 
         }
 
-        public async Task<ResponseWrapper<BookDTO>> GetBook(int id, CancellationToken token)
+        public async Task<ResponseWrapper<BookDto>> GetBook(int id, CancellationToken token)
         {
-            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
+            ResponseWrapper<BookDto> response = new(errors: new List<string>());
             var result = await Context.Books.FirstOrDefaultAsync(a => a.Id == id, token);
             if (result == null)
             {
-                response?.Errors.Add("Not found");
+                response.Errors?.Add("Not found");
                 return response;
             }
 
-            return ResponseWrapper<BookDTO>.WrapToResponce(result.Adapt<BookDTO>());
+            return ResponseWrapper<BookDto>.WrapToResponce(result.Adapt<BookDto>());
         }
 
-        public async Task<ResponseWrapper<BookDTO>> PutBook(int id, BookDTO bookDto, CancellationToken token)
+        public async Task<ResponseWrapper<BookDto>> PutBook(int id, BookDto bookDto, CancellationToken token)
         {
-            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
+            ResponseWrapper<BookDto> response = new(errors: new List<string>());
             if (id != bookDto.Id)
             {
                 response.Errors?.Add("Bad request!");
@@ -82,12 +82,12 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 return response;
             }
 
-            return ResponseWrapper<BookDTO>.WrapToResponce(bookDto);
+            return ResponseWrapper<BookDto>.WrapToResponce(bookDto);
         }
 
-        public async Task<ResponseWrapper<BookDTO>> PostBook(BookDTO? bookDto, CancellationToken token)
+        public async Task<ResponseWrapper<BookDto>> PostBook(BookDto? bookDto, CancellationToken token)
         {
-            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
+            ResponseWrapper<BookDto> response = new(errors: new List<string>());
             if (bookDto == null)
             {
                 response.Errors?.Add("Bad request");
@@ -118,12 +118,12 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<BookDTO>.WrapToResponce(bookDto); ;
+            return ResponseWrapper<BookDto>.WrapToResponce(bookDto);
         }
 
-        public async Task<ResponseWrapper<BookDTO>> DeleteBook(int id, CancellationToken token)
+        public async Task<ResponseWrapper<BookDto>> DeleteBook(int id, CancellationToken token)
         {
-            ResponseWrapper<BookDTO> response = new(errors: new List<string>());
+            ResponseWrapper<BookDto> response = new(errors: new List<string>());
             var book = await Context.Books.FindAsync(id, token);
             if (book == null)
             {
@@ -143,7 +143,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<BookDTO>.WrapToResponce(new BookDTO()); ;
+            return ResponseWrapper<BookDto>.WrapToResponce(new BookDto());
         }
 
         private bool BookExists(int id)
@@ -153,7 +153,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
         private bool AuthorExist(int id)
         {
-            return (Context.Authors?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (Context.Authors.Find(id) == null);
         }
     }
 }

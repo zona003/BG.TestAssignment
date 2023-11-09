@@ -47,6 +47,7 @@ export class AuthorsComponent implements OnInit {
 
   hideAddModal(isClosed: boolean) {
     this.dispalyAddModal = !isClosed;
+    this.refresh();
   }
 
   showAddEditModal(author: Author) {
@@ -55,7 +56,7 @@ export class AuthorsComponent implements OnInit {
   }
 
   refresh() {
-    this.getAllAuthors(this.page * this.rows, this.rows);
+    this.getAllAuthors(this.page, this.rows);
   }
 
   onPageChange(event: TablePageEvent) {

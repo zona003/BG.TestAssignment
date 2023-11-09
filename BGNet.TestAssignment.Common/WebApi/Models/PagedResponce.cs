@@ -1,7 +1,4 @@
-﻿
-using System.Collections;
-
-namespace BGNet.TestAssignment.Common.WebApi.Models
+﻿namespace BGNet.TestAssignment.Common.WebApi.Models
 {
     public class PagedResponce<T>
     {

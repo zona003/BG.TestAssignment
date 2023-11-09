@@ -1,6 +1,6 @@
 ﻿namespace BGNet.TestAssignment.Models
 {
-    public class UserDTO
+    public class UserDto
     {
         public int Id { get; set; }
 

@@ -17,22 +17,25 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
         {
             Context = dbContext;
         }
-         
-        public async Task<ResponseWrapper<PagedResponce<List<AuthorDTO>>>> GetAuthors(int skip, int take, CancellationToken token)
+
+
+        public async Task<ResponseWrapper<PagedResponce<List<AuthorDto>>>> GetAuthors(int skip, int take, CancellationToken token)
         {
             var count = Context.Authors.Count();
-            var data = Context.Authors.AsQueryable().Skip(skip).Take(take).Adapt<List<AuthorDTO>>(); ;
-            PagedResponce<List<AuthorDTO>> pagedResult = new(count, data );
+            var data = Context.Authors.Include(b => b.Books).AsQueryable().Skip(skip).Take(take).Adapt<List<AuthorDto>>(); ;
+            PagedResponce<List<AuthorDto>> pagedResult = new(count, data);
+
             if (!pagedResult.Items.Any())
             {
-                return new ResponseWrapper<PagedResponce<List<AuthorDTO>>>(errors: new List<string>() { "Collection is empty" });
+                return new ResponseWrapper<PagedResponce<List<AuthorDto>>>(errors: new List<string>() { "Collection is empty" });
             }
-            return ResponseWrapper<PagedResponce<List<AuthorDTO>>>.WrapToResponce(pagedResult);
+            return ResponseWrapper<PagedResponce<List<AuthorDto>>>.WrapToResponce(pagedResult);
         }
 
-        public async Task<ResponseWrapper<AuthorDTO>> GetAuthor(int id, CancellationToken token)
+        public async Task<ResponseWrapper<AuthorDto>> GetAuthor(int id, CancellationToken token)
         {
-            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>()); 
+            ResponseWrapper<AuthorDto> response = new(errors: new List<string>());
+
             var result = await Context.Authors.FirstOrDefaultAsync(a => a.Id == id, token);
             if (result == null)
             {
@@ -40,12 +43,12 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 return response;
             }
 
-            return ResponseWrapper<AuthorDTO>.WrapToResponce(result.Adapt<AuthorDTO>());
+            return ResponseWrapper<AuthorDto>.WrapToResponce(result.Adapt<AuthorDto>());
         }
 
-        public async  Task<ResponseWrapper<AuthorDTO>> PutAuthor(int id, AuthorDTO authorDto, CancellationToken token)
+        public async Task<ResponseWrapper<AuthorDto>> PutAuthor(int id, AuthorDto authorDto, CancellationToken token)
         {
-            ResponseWrapper<AuthorDTO> response = new ResponseWrapper<AuthorDTO>(errors: new List<string>());
+            ResponseWrapper<AuthorDto> response = new ResponseWrapper<AuthorDto>(errors: new List<string>());
             if (id != authorDto.Id)
             {
                 response.Errors.Add("Bad request!");
@@ -68,21 +71,21 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             try
             {
-                 await Context.SaveChangesAsync(token);
+                await Context.SaveChangesAsync(token);
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 response.Errors.Add(ex.Message);
-                    return response;
+                return response;
 
             }
 
-            return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
+            return ResponseWrapper<AuthorDto>.WrapToResponce(authorDto);
         }
 
-        public async Task<ResponseWrapper<AuthorDTO>> PostAuthor(AuthorDTO? authorDto, CancellationToken token)
+        public async Task<ResponseWrapper<AuthorDto>> PostAuthor(AuthorDto? authorDto, CancellationToken token)
         {
-            ResponseWrapper<AuthorDTO> response = new(errors: new List<string>());
+            ResponseWrapper<AuthorDto> response = new(errors: new List<string>());
             if (authorDto == null)
             {
                 response.Errors.Add("Bad request");
@@ -114,12 +117,13 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             }
 
 
-            return ResponseWrapper<AuthorDTO>.WrapToResponce(authorDto);
+            return ResponseWrapper<AuthorDto>.WrapToResponce(authorDto);
         }
 
-        public async Task<ResponseWrapper<AuthorDTO>> DeleteAuthor(int id, CancellationToken token)
+        public async Task<ResponseWrapper<AuthorDto>> DeleteAuthor(int id, CancellationToken token)
         {
-            ResponseWrapper<AuthorDTO> response = new (errors: new List<string>());
+            ResponseWrapper<AuthorDto> response = new(errors: new List<string>());
+
             var author = await Context.Authors.FindAsync(id, token);
             if (author == null)
             {
@@ -139,7 +143,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<AuthorDTO>.WrapToResponce(new AuthorDTO());
+            return ResponseWrapper<AuthorDto>.WrapToResponce(new AuthorDto());
         }
 
         private bool AuthorExists(int id)

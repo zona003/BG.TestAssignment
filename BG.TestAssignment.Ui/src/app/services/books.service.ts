@@ -4,7 +4,7 @@ import { BOOK_API_URL } from '../app-injection-tokens';
 import { Book } from '../models/book';
 import { Observable } from 'rxjs';
 import { ResponceWrapper } from '../models/responceWrapper';
-import { PagedResponce } from '../models/padgedResponce';
+import { PagedResponce } from '../models/pagedResponce';
 
 @Injectable({
   providedIn: 'root',
