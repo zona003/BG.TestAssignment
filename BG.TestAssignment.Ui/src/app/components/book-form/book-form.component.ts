@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { Author } from "src/app/models/author";
 import { Book } from "src/app/models/book";
+import { AuthorsService } from "src/app/services/authors.service";
 import { BooksService } from "src/app/services/books.service";
 
 @Component({
@@ -10,25 +12,35 @@ import { BooksService } from "src/app/services/books.service";
     templateUrl: "./book-form.component.html",
     styleUrls: ["./book-form.component.scss"],
 })
-export class BookFormComponent implements OnChanges {
+export class BookFormComponent implements OnChanges, OnInit {
     @Input() dispalyAddModal: boolean = true;
     @Input() editedBook: Book | null = null;
     @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     modalType = "Add";
 
     currentBook: Book | null = null;
     editForm: FormGroup;
     edit: boolean = false;
 
+    takenAuthors : Author[] | undefined = [];
+    allAuthors: Author [] = [];
+
     subscriptions: Array<Subscription> = new Array();
-    constructor(private fb: FormBuilder, private bookService: BooksService, private router: Router) {
+
+    constructor(private fb: FormBuilder, private bookService: BooksService, private router: Router, authorService: AuthorsService) {
         this.editForm = this.fb.group({
             title: ["", Validators.required],
             publishedDate: ["", Validators.required],
             bookGenre: ["", Validators.minLength(3)],
             authorId: [Number, Validators.required],
         });
+        this.takenAuthors = this.editedBook?.authors;
     }
+    ngOnInit(): void {
+        
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
         if (this.editedBook) {
             this.modalType = "Edit";
@@ -46,7 +58,7 @@ export class BookFormComponent implements OnChanges {
     addEditBook() {
         const bookData = this.editForm.value;
         if (this.editForm.valid) {
-            this.currentBook = new Book(0, bookData.title, bookData.publishedDate, bookData.bookGenre, bookData.authorId);
+            this.currentBook = new Book(0, bookData.title, bookData.publishedDate, bookData.bookGenre, bookData.authorId, this.takenAuthors);
             if (this.editedBook == null) {
                 var sub = this.bookService.createBook(this.currentBook).subscribe((respon) => {
                     if (respon.errors == null) {

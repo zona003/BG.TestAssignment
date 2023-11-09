@@ -10,7 +10,7 @@ namespace BGNet.TestAssignment.Business.Validators
             RuleFor(x => x.Title).NotNull().NotEmpty();
             RuleFor(x => x.PublishedDate).NotNull().NotEmpty();
             RuleFor(x => x.BookGenre).NotNull().NotEmpty();
-            RuleFor(x => x.AuthorId).NotNull().NotEmpty();
+            //RuleFor(x => x.AuthorId).NotNull().NotEmpty();
         }
     }
 }

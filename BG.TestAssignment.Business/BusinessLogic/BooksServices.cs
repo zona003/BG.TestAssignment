@@ -18,10 +18,12 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public async Task<ResponseWrapper<PagedResponce<List<BookDto>>>> GetBooks(int skip, int take, CancellationToken token)
+        public async Task<ResponseWrapper<PagedResponce<List<BookDto>>>> GetBooks(int? skip, int? take, CancellationToken token)
         {
             var count = Context.Books.Count();
-            var data = Context.Books.Include(A=>A.Authors).AsQueryable().Skip(skip).Take(take).Adapt<List<BookDto>>();
+            int skipValue = skip ?? 0;
+            int takeValue = take ?? count;
+            var data = Context.Books.Include(A=>A.Authors).AsNoTracking().AsQueryable().Skip(skipValue).Take(takeValue).Adapt<List<BookDto>>();
             PagedResponce<List<BookDto>> pagedResult = new(count, data);
             if (!pagedResult.Items.Any())
             {

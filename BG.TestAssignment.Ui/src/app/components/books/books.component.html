@@ -10,6 +10,7 @@
         <th>Published</th>
         <th>Genre</th>
         <th>AuthorId</th>
+        <th>AuthorName</th>
         <th colspan="2">Actions</th>
       </tr>
     </ng-template>
@@ -20,6 +21,17 @@
         <td > {{book.publishedDate}} </td>
         <td>{{ book.bookGenre }}</td>
         <td>{{ book.authorId }}</td>
+        <td><p-multiSelect
+          [disabled]="true"
+          appendTo="body"
+          [options]="book.authors"
+          [(ngModel)]="book.authors"
+          placeholder="Select Authors"
+          optionLabel="lastName"
+          optionValue="id"
+          display="chip"
+          [showClear]="true"
+      ></p-multiSelect> </td>
         <td>
           <p-button label="Edit" (click)="showEditModal(book)"> </p-button>
         </td>

@@ -32,6 +32,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { ErrorInterceptor } from './common/_helpers/ErrorInterceptor';
 import { PaginatorModule } from 'primeng/paginator';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -63,6 +64,7 @@ export function tokenGetter() {
     CalendarModule,
     DialogModule,
     PaginatorModule,
+    MultiSelectModule,
 
     JwtModule.forRoot({
       config: {

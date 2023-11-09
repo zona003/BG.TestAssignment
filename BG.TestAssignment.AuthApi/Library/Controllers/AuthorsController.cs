@@ -22,7 +22,7 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<AuthorDto>>>>> GetAuthors(CancellationToken token, int skip = 0, int take = 10)
+        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<AuthorDto>>>>> GetAuthors(CancellationToken token, int? skip, int? take)
         {
             return await AuthorsService.GetAuthors(skip, take, token);
         }

@@ -2,7 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TablePageEvent } from "primeng/table";
+import { Author } from "src/app/models/author";
 import { Book } from "src/app/models/book";
+import { AuthorsService } from "src/app/services/authors.service";
 import { BooksService } from "src/app/services/books.service";
 
 @Component({
@@ -12,6 +14,7 @@ import { BooksService } from "src/app/services/books.service";
 })
 export class BooksComponent implements OnInit {
     Books: Book[] = [];
+    Authors: Author[] = [];
     editedBook: Book | null = null;
     dispalyAddModal: boolean = false;
     editForm: FormGroup;
@@ -19,7 +22,7 @@ export class BooksComponent implements OnInit {
     rows : number = 10;
     page : number = 0;
 
-    constructor(private router: Router, private bookService: BooksService, private fb: FormBuilder) {
+    constructor(private router: Router, private bookService: BooksService, private fb: FormBuilder, private authorService: AuthorsService) {
         this.editForm = this.fb.group({
             title: ["", Validators.required],
             publishedDate: ["", Validators.required],
@@ -29,6 +32,7 @@ export class BooksComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.Authors = this.authorService.getAllAuthor();
         this.getAllBooks(0, this.rows);
     }
 
