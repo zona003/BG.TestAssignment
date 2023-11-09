@@ -18,7 +18,7 @@ import { ACCESS_TOKEN_KEY } from './services/auth.service';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { JwtInterceptor } from './_helpers/jwtinterceptor';
+import { JwtInterceptor } from './common/_helpers/jwtinterceptor';
 import { AuhtorFormComponent } from './components/auhtor-form/auhtor-form.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
 import { AppRoutingModule } from './app-routing.module';
