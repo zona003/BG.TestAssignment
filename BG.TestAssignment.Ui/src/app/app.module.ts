@@ -30,7 +30,7 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
-import { ErrorInterceptor } from './_helpers/ErrorInterceptor';
+import { ErrorInterceptor } from './common/_helpers/ErrorInterceptor';
 import { PaginatorModule } from 'primeng/paginator';
 
 export function tokenGetter() {

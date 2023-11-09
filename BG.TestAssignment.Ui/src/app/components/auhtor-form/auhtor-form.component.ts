@@ -51,7 +51,6 @@ export class AuhtorFormComponent implements OnChanges {
                     if (respon.errors == null) {
                         this.editForm.reset();
                         this.closeModal();
-                        this.refresh();
                     }
                 });
                 this.subscriptions.push(sub);
@@ -61,7 +60,6 @@ export class AuhtorFormComponent implements OnChanges {
                     if (respon.errors == null) {
                         this.editForm.reset();
                         this.closeModal();
-                        this.refresh();
                     }
                 });
                 this.subscriptions.push(sub);
@@ -70,9 +68,6 @@ export class AuhtorFormComponent implements OnChanges {
         }
     }
 
-    refresh() {
-        // window.location.reload();
-    }
     cancell() {
         this.subscriptions.forEach((element) => {
             element.unsubscribe();

@@ -3,12 +3,13 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } fr
 import { Observable, throwError } from "rxjs";
 import { catchError, every, tap } from "rxjs/operators";
 import { ResponceWrapper } from "src/app/models/responceWrapper";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "src/app/services/auth.service";
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private accountService: AuthService) {}
     intercept(request: HttpRequest<ResponceWrapper<any>>, next: HttpHandler): Observable<HttpEvent<ResponceWrapper<any>>> {
-        if (request.body?.errors != null) {
+        if (request.body?.errors) {
             console.error(request.body.errors);
         }
         return next.handle(request).pipe(
