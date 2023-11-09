@@ -24,7 +24,7 @@ namespace BGNet.TestAssignment.Api.Auth.Controllers
         [HttpGet]
         public async Task<ActionResult> GetCurrentUser()
         {
-            UserDTO currentUserDto = await _userService.GetCurrentUser(User.Identity.Name);
+            UserDto currentUserDto = await _userService.GetCurrentUser(User.Identity.Name);
 
             return Ok(currentUserDto);
         }

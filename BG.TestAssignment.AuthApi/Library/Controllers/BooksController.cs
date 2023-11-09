@@ -22,14 +22,14 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<BookDTO>>>>> GetBooks(CancellationToken token, int skip = 0, int take = 10)
+        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<BookDto>>>>> GetBooks(CancellationToken token, int skip = 0, int take = 10)
         {
             return await BooksService.GetBooks(skip, take, token);
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResponseWrapper<BookDTO>>> GetBook(int id, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<BookDto>>> GetBook(int id, CancellationToken token)
         {
             return await BooksService.GetBook(id, token);
         }
@@ -37,7 +37,7 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult<ResponseWrapper<BookDTO>>> PutBook(int id, BookDTO authorDto, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<BookDto>>> PutBook(int id, BookDto authorDto, CancellationToken token)
         {
             return await BooksService.PutBook(id, authorDto, token);
         }
@@ -45,14 +45,14 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ResponseWrapper<BookDTO>>> PostBook(BookDTO authorDto, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<BookDto>>> PostBook(BookDto authorDto, CancellationToken token)
         {
             return await BooksService.PostBook(authorDto, token);
         }
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ResponseWrapper<BookDTO>>> DeleteBook(int id, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<BookDto>>> DeleteBook(int id, CancellationToken token)
         {
             return await BooksService.DeleteBook(id, token);
         }

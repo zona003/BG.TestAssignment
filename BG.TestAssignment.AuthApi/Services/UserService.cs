@@ -17,13 +17,13 @@ namespace BGNet.TestAssignment.Api.Services
             _context = context;
         }
 
-        public async Task<UserDTO> GetCurrentUser(string username)
+        public async Task<UserDto> GetCurrentUser(string username)
         {
             AppUser currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
             if (currentUser == null)
-                return new UserDTO();
+                return new UserDto();
 
-            UserDTO currentUserDto = currentUser.Adapt<UserDTO>();
+            UserDto currentUserDto = currentUser.Adapt<UserDto>();
             return currentUserDto;
         }
     }
