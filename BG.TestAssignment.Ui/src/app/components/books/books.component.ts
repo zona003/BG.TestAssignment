@@ -33,7 +33,9 @@ export class BooksComponent implements OnInit {
 
     ngOnInit(): void {
         this.authorService.getAllAuthor(null, null).subscribe((us)=>{
+            this.totalRecords = us.data.total;
             this.Authors = us.data.items;
+            
         });
         this.getAllBooks(0, this.rows);
     }
@@ -77,5 +79,9 @@ export class BooksComponent implements OnInit {
             this.Books = us.data.items;
             this.totalRecords = us.data.total;
         });
+    }
+
+    getAuthorsFullNames(): Array<string>{
+        return this.Authors.map(author => `${author.firstName} ${author.lastName}`);
     }
 }

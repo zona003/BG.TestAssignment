@@ -10,10 +10,10 @@ namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-
+            /*
             builder.HasMany(c => c.Authors)
                 .WithMany(p => p.Books)
-                .UsingEntity(j => j.ToTable("AuthorBooks"));
+                .UsingEntity(j => j.ToTable("AuthorBooks"));*/
         }
     }
 }

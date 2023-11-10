@@ -3,17 +3,20 @@ using System;
 using BGNet.TestAssignment.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace BGNet.TestAssignment.DataAccess.Migrations
+namespace BG.TestAssignment.DataAccess.Migrations
 {
     [DbContext(typeof(BookAuthorsDataContext))]
-    partial class BookAuthorsDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231110135330_OneToMany")]
+    partial class OneToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace BGNet.TestAssignment.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<int>("AuthorsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("BooksId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AuthorsId", "BooksId");
-
-                    b.HasIndex("BooksId");
-
-                    b.ToTable("AuthorBooks", (string)null);
-                });
 
             modelBuilder.Entity("BGNet.TestAssignment.DataAccess.Entities.AppUser", b =>
                 {
@@ -152,6 +140,9 @@ namespace BGNet.TestAssignment.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("BookGenre")
                         .HasColumnType("text");
 
@@ -162,6 +153,8 @@ namespace BGNet.TestAssignment.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
                 });
@@ -298,19 +291,14 @@ namespace BGNet.TestAssignment.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
+            modelBuilder.Entity("BGNet.TestAssignment.DataAccess.Entities.Book", b =>
                 {
-                    b.HasOne("BGNet.TestAssignment.DataAccess.Entities.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("BGNet.TestAssignment.DataAccess.Entities.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BGNet.TestAssignment.DataAccess.Entities.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -362,6 +350,11 @@ namespace BGNet.TestAssignment.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BGNet.TestAssignment.DataAccess.Entities.Author", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,17 +3,20 @@ using System;
 using BGNet.TestAssignment.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace BGNet.TestAssignment.DataAccess.Migrations
+namespace BG.TestAssignment.DataAccess.Migrations
 {
     [DbContext(typeof(BookAuthorsDataContext))]
-    partial class BookAuthorsDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231110140016_ManyToMany")]
+    partial class ManyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

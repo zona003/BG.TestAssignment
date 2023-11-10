@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using BG.TestAssignment.DataAccess;
-using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
+﻿using BGNet.TestAssignment.Business.BusinessLogic.Interfaces;
 using BGNet.TestAssignment.Common.WebApi.Models;
 using BGNet.TestAssignment.DataAccess;
 using BGNet.TestAssignment.Models;
@@ -22,7 +20,7 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<BookDto>>>>> GetBooks(CancellationToken token, int? skip, int? take)
+        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<BookDto>>>>> GetBooks(int? skip, int? take, CancellationToken token = default)
         {
             return await BooksService.GetBooks(skip, take, token);
         }
@@ -45,7 +43,7 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ResponseWrapper<BookDto>>> PostBook(BookDto authorDto, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<AddBookRequest>>> PostBook(AddBookRequest authorDto, CancellationToken token)
         {
             return await BooksService.PostBook(authorDto, token);
         }

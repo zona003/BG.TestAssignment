@@ -37,24 +37,24 @@
                     Field is required</small
                 >
             </div>
-            <div class="flex flex-column gap-2">
-                <label htmlFor="authorId">Author Id</label>
-                <input type="number" pInputText [min]="1" formControlName="authorId" />
-                <small class="p-error block" *ngIf="editForm.controls['authorId'].invalid && editForm.controls['authorId'].dirty">
-                    Field is required</small
-                >
-            </div>
-
             <div class="multi-select">
+                <label htmlFor="bookGenre">Author(s)</label><br/>
                 <p-multiSelect
                     appendTo="body"
                     [options]="allAuthors"
-                    [(ngModel)]="takenAuthors"
-                    placeholder="Select Cities"
-                    optionLabel="name"
+                    placeholder="Select Author"
+                    optionLabel="lastName"
+                    optionValue="id"
                     display="chip"
                     [showClear]="true"
-                ></p-multiSelect>
+                    formControlName="authors"
+                    
+                > <ng-template let-author pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <div>{{ author.firstName }}</div>
+                        <div>{{ author.lastName }}</div>
+                    </div>
+                </ng-template></p-multiSelect>
             </div>
         </form>
     </div>

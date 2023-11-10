@@ -11,7 +11,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 
         public Task<ResponseWrapper<BookDto>> PutBook(int id, BookDto bookDto, CancellationToken token);
 
-        public Task<ResponseWrapper<BookDto>> PostBook(BookDto? bookDto, CancellationToken token);
+        public Task<ResponseWrapper<AddBookRequest>> PostBook(AddBookRequest bookDto, CancellationToken token);
 
         public Task<ResponseWrapper<BookDto>> DeleteBook(int id, CancellationToken token);
     }
