@@ -17,7 +17,7 @@ export class AuthorsService {
 
   private baseApiUrl = `${this.apiUrl}/api/lib/Authors`;
 
-  getAllAuthor(skip: number, take: number): Observable<ResponceWrapper<PagedResponce<Author[]>>> {
+  getAllAuthor(skip: number | null, take: number | null): Observable<ResponceWrapper<PagedResponce<Author[]>>> {
     return this.http.get<ResponceWrapper<PagedResponce<Author[]>>>(`${this.baseApiUrl}?skip=${skip}&take=${take}`);
   }
 

@@ -32,7 +32,9 @@ export class BooksComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.Authors = this.authorService.getAllAuthor();
+        this.authorService.getAllAuthor(null, null).subscribe((us)=>{
+            this.Authors = us.data.items;
+        });
         this.getAllBooks(0, this.rows);
     }
 

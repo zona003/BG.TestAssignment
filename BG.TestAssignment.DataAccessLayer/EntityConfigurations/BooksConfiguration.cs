@@ -13,7 +13,7 @@ namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
 
             builder.HasMany(c => c.Authors)
                 .WithMany(p => p.Books)
-                .UsingEntity(j => j.ToTable("AuthorsBooks"));
+                .UsingEntity(j => j.ToTable("AuthorBooks"));
         }
     }
 }
