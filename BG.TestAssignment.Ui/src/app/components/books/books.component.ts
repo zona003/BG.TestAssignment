@@ -35,7 +35,6 @@ export class BooksComponent implements OnInit {
         this.authorService.getAllAuthor(null, null).subscribe((us)=>{
             this.totalRecords = us.data.total;
             this.Authors = us.data.items;
-            
         });
         this.getAllBooks(0, this.rows);
     }
@@ -63,8 +62,8 @@ export class BooksComponent implements OnInit {
     }
 
     showEditModal(book: Book) {
-        this.dispalyAddModal = true;
         this.editedBook = book;
+        this.dispalyAddModal = true;
     }
 
     refresh() {

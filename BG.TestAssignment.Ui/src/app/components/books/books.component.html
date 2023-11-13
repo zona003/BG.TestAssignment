@@ -28,7 +28,12 @@
                 <td>{{ book.title }}</td>
                 <td>{{ book.publishedDate }}</td>
                 <td>{{ book.bookGenre }}</td>
-                <td>{{book.authors[0].lastName}}</td>
+                <td>
+                    
+                        <a *ngFor="let subItem of book.authors" routerLink="/authors"> {{ subItem.firstName }} {{ subItem.lastName }} |</a>
+
+                </td>
+
                 <td>
                     <p-button label="Edit" (click)="showEditModal(book)"> </p-button>
                 </td>

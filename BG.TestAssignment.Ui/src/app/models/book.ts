@@ -6,6 +6,6 @@ export class Book{
         public title: string,
         public publishedDate: Date,
         public bookGenre: string,
-        public authorsInBooks: Author[] | undefined
+        public authors: Author[] | undefined
     ){}
 }

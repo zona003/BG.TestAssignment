@@ -33,13 +33,15 @@ export class BookFormComponent implements OnChanges, OnInit {
             title: ["", Validators.required],
             publishedDate: ["", Validators.required],
             bookGenre: ["", Validators.minLength(3)],
-            authors: [this.editedBook?.authorsInBooks]
+            authorsFormControll: [[], Validators.required]
         });
-        this.takenAuthors = this.editedBook?.authorsInBooks;
+        this.takenAuthors = this.editedBook?.authors;
     }
     ngOnInit(): void {
         this.authorService.getAllAuthor(null, null).subscribe((us)=>{
             this.allAuthors = us.data.items;
+            // console.log(this.editedBook?.authors);
+            // this.fb.group({authors : [this.editedBook?.authors]})
         });
     }
 
@@ -47,6 +49,16 @@ export class BookFormComponent implements OnChanges, OnInit {
         if (this.editedBook) {
             this.modalType = "Edit";
             this.editForm.patchValue(this.editedBook);
+            // this.editForm = this.fb.group({
+            //     multiSelectControl: [this.editedBook?.authors] // Устанавливаем начальные значения
+            //   });
+            //this.editForm = this.fb.group({authors : [this.editedBook?.authors]});
+            // this.editForm = this.fb.group({
+            //     authors: [this.editedBook?.authors, Validators.required]
+            //   });
+            var idsAut = this.editedBook!.authors!.map(a=>a.id);
+            this.editForm.patchValue({ authorsFormControll: idsAut });
+            console.log("bp "+this.editedBook?.authors?.toString());
         } else {
             this.modalType = "Add";
             this.editForm.reset();

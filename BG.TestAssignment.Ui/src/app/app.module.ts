@@ -33,6 +33,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ErrorInterceptor } from './common/_helpers/ErrorInterceptor';
 import { PaginatorModule } from 'primeng/paginator';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { CommonModule } from '@angular/common';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);

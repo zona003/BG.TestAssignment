@@ -38,7 +38,7 @@
                 >
             </div>
             <div class="multi-select">
-                <label htmlFor="bookGenre">Author(s)</label><br/>
+                <label htmlFor="authors">Author(s)</label><br />
                 <p-multiSelect
                     appendTo="body"
                     [options]="allAuthors"
@@ -47,17 +47,19 @@
                     optionValue="id"
                     display="chip"
                     [showClear]="true"
-                    formControlName="authors"
-                    
-                > <ng-template let-author pTemplate="item">
-                    <div class="flex align-items-center gap-2">
-                        <div>{{ author.firstName }}</div>
-                        <div>{{ author.lastName }}</div>
-                    </div>
-                </ng-template></p-multiSelect>
+                    formControlName="authorsFormControll"
+                >
+                    <ng-template let-author pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ author.firstName }}</div>
+                            <div>{{ author.lastName }}</div>
+                        </div>
+                    </ng-template></p-multiSelect
+                >
             </div>
         </form>
     </div>
+    <b>Form Value:</b> {{ editForm.value | json }}
     <ng-template pTemplate="footer">
         <p-button
             icon="pi pi-check"
