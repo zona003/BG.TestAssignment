@@ -33,9 +33,9 @@ export class BookFormComponent implements OnChanges, OnInit {
             title: ["", Validators.required],
             publishedDate: ["", Validators.required],
             bookGenre: ["", Validators.minLength(3)],
-            authors: []
+            authors: [this.editedBook?.authorsInBooks]
         });
-        this.takenAuthors = this.editedBook?.authors;
+        this.takenAuthors = this.editedBook?.authorsInBooks;
     }
     ngOnInit(): void {
         this.authorService.getAllAuthor(null, null).subscribe((us)=>{
@@ -62,7 +62,7 @@ export class BookFormComponent implements OnChanges, OnInit {
     addEditBook() {
         const bookData = this.editForm.value;
         if (this.editForm.valid) {
-            this.currentBook = new Book(0, bookData.title, bookData.publishedDate, bookData.bookGenre, bookData.authorId, bookData.authors);
+            this.currentBook = new Book(0, bookData.title, bookData.publishedDate, bookData.bookGenre, bookData.authors);
             if (this.editedBook == null) {
                 var sub = this.bookService.createBook(this.currentBook).subscribe((respon) => {
                     if (respon.errors == null) {

@@ -35,17 +35,17 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult<ResponseWrapper<BookDto>>> PutBook(int id, BookDto authorDto, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<AddEditBookRequest>>> PutBook(int id, AddEditBookRequest bookDto, CancellationToken token)
         {
-            return await BooksService.PutBook(id, authorDto, token);
+            return await BooksService.PutBook(id, bookDto, token);
         }
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ResponseWrapper<AddBookRequest>>> PostBook(AddBookRequest authorDto, CancellationToken token)
+        public async Task<ActionResult<ResponseWrapper<AddEditBookRequest>>> PostBook(AddEditBookRequest bookDto, CancellationToken token)
         {
-            return await BooksService.PostBook(authorDto, token);
+            return await BooksService.PostBook(bookDto, token);
         }
 
         // DELETE: api/Books/5

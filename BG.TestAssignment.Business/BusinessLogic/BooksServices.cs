@@ -46,9 +46,9 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             return ResponseWrapper<BookDto>.WrapToResponce(result.Adapt<BookDto>());
         }
 
-        public async Task<ResponseWrapper<BookDto>> PutBook(int id, BookDto bookDto, CancellationToken token)
+        public async Task<ResponseWrapper<AddEditBookRequest>> PutBook(int id, AddEditBookRequest bookDto, CancellationToken token)
         {
-            ResponseWrapper<BookDto> response = new(errors: new List<string>());
+            ResponseWrapper<AddEditBookRequest> response = new(errors: new List<string>());
             if (id != bookDto.Id)
             {
                 response.Errors?.Add("Bad request!");
@@ -66,15 +66,15 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 response.Errors?.Add("Object not exist");
                 return response;
             }
-            foreach (var author in bookDto.Authors)
+
+            book.Authors = await Context.Authors.Where(w => bookDto.AuthorsInBooks.Contains(w.Id)).ToListAsync();
+            if (book.Authors.Count < 1)
             {
-                if (!AuthorExist(author.Id))
-                {
-                    response.Errors?.Add($"Author {author.Id} not exist");
-                    return response;
-                }
+                response.Errors?.Add("Author not exist");
+                return response;
             }
 
+            Context.AuthorBooks.RemoveRange(Context.AuthorBooks.Where(A => A.BooksId == bookDto.Id).AsEnumerable());
             Context.Entry(book).State = EntityState.Modified;
 
             try
@@ -87,50 +87,46 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 return response;
             }
 
-            return ResponseWrapper<BookDto>.WrapToResponce(bookDto);
+            return ResponseWrapper<AddEditBookRequest>.WrapToResponce(bookDto);
         }
 
-        public async Task<ResponseWrapper<AddBookRequest>> PostBook(AddBookRequest bookDto, CancellationToken token)
+        public async Task<ResponseWrapper<AddEditBookRequest>> PostBook(AddEditBookRequest editBookDto, CancellationToken token)
         {
-            ResponseWrapper<AddBookRequest> response = new(errors: new List<string>());
-            if (bookDto == null)
+            ResponseWrapper<AddEditBookRequest> response = new(errors: new List<string>());
+            if (editBookDto == null)
             {
                 response.Errors?.Add("Bad request");
                 return response;
             }
 
-            var book = bookDto.Adapt<Book>();
+            var book = editBookDto.Adapt<Book>();
             BookValidator validator = new BookValidator();
             var validationResult = validator.Validate(book);
             response.Errors?.AddRange(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
             if (!validationResult.IsValid) return response;
 
-            if (BookExists(bookDto.Id))
+            if (BookExists(editBookDto.Id))
             {
                 response.Errors?.Add("Object already exist");
                 return response;
             }
 
-            if (bookDto.AuthorsInBooks == null)
+            if (editBookDto.AuthorsInBooks == null)
             {
                 response.Errors?.Add("Author not exist");
                 return response;
             }
-            foreach (var author in bookDto.AuthorsInBooks)
-            {
-                
-                if (!AuthorExist(author))
-                {
-                    response.Errors?.Add("Author not exist");
-                    return response;
-                }
+            book.Authors = await Context.Authors.Where(w => editBookDto.AuthorsInBooks.Contains(w.Id)).ToListAsync();
 
+            if (book.Authors.Count < 1)
+            {
+                response.Errors?.Add("Author not exist");
+                return response;
             }
 
-            // var authorsIds = bookDto.Authors.Select(s => s.Id);
-            //  book.Authors = await Context.Authors.Where(w => authorsIds.Contains(w.Id)).ToListAsync();
-            Context.Authors.AttachRange(book.Authors!);
             Context.Books.Add(book);
+            
+
             try
             {
                 await Context.SaveChangesAsync(token);
@@ -142,9 +138,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            
-
-            return ResponseWrapper<AddBookRequest>.WrapToResponce(bookDto);
+            return ResponseWrapper<AddEditBookRequest>.WrapToResponce(editBookDto);
         }
 
         public async Task<ResponseWrapper<BookDto>> DeleteBook(int id, CancellationToken token)
@@ -156,7 +150,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 response.Errors?.Add("Not found");
                 return response;
             }
-
+            Context.AuthorBooks.RemoveRange(Context.AuthorBooks.Where(A => A.BooksId == book.Id).AsEnumerable());
             Context.Books.Remove(book);
             try
             {

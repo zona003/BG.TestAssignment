@@ -15,7 +15,7 @@ namespace BGNet.TestAssignment.DataAccess.EntityConfigurations
 
             builder.HasMany(p => p.Books)
                 .WithMany(c => c.Authors)
-                .UsingEntity<BookAuthors>();
+                .UsingEntity<AuthorBooks>();
 
         }
     }

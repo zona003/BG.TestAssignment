@@ -10,7 +10,7 @@ namespace BGNet.TestAssignment.DataAccess
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
 
-        public DbSet<BookAuthors> BookAuthors { get; set; }
+        public DbSet<AuthorBooks> AuthorBooks { get; set; }
 
         public BookAuthorsDataContext(DbContextOptions<BookAuthorsDataContext> options)
             : base(options)

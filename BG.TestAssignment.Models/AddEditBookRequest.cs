@@ -1,7 +1,7 @@
 ﻿
 namespace BGNet.TestAssignment.Models
 {
-    public class AddBookRequest
+    public class AddEditBookRequest
     {
         public int Id { get; set; }
         public string? Title { get; set; }
