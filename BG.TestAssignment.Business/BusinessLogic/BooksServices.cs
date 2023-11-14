@@ -18,18 +18,18 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
             Context = dbContext;
         }
 
-        public async Task<ResponseWrapper<PagedResponce<List<BookDto>>>> GetBooks(int? skip, int? take, CancellationToken token)
+        public async Task<ResponseWrapper<PagedResponse<List<BookDto>>>> GetBooks(int? skip, int? take, CancellationToken token)
         {
             var count = Context.Books.Count();
             int skipValue = skip ?? 0;
             int takeValue = take ?? count;
             var data = Context.Books.Include(A => A.Authors).AsNoTracking().AsQueryable().Skip(skipValue).Take(takeValue).Adapt<List<BookDto>>();
-            PagedResponce<List<BookDto>> pagedResult = new(count, data);
+            PagedResponse<List<BookDto>> pagedResult = new(count, data);
             if (!pagedResult.Items.Any())
             {
-                return new ResponseWrapper<PagedResponce<List<BookDto>>>(errors: new List<string>() { "Collection is empty" });
+                return new ResponseWrapper<PagedResponse<List<BookDto>>>(errors: new List<string>() { "Collection is empty" });
             }
-            return ResponseWrapper<PagedResponce<List<BookDto>>>.WrapToResponce(pagedResult);
+            return ResponseWrapper<PagedResponse<List<BookDto>>>.WrapToResponse(pagedResult);
 
         }
 
@@ -43,7 +43,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 return response;
             }
 
-            return ResponseWrapper<BookDto>.WrapToResponce(result.Adapt<BookDto>());
+            return ResponseWrapper<BookDto>.WrapToResponse(result.Adapt<BookDto>());
         }
 
         public async Task<ResponseWrapper<AddEditBookRequest>> PutBook(int id, AddEditBookRequest bookDto, CancellationToken token)
@@ -87,7 +87,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
                 return response;
             }
 
-            return ResponseWrapper<AddEditBookRequest>.WrapToResponce(bookDto);
+            return ResponseWrapper<AddEditBookRequest>.WrapToResponse(bookDto);
         }
 
         public async Task<ResponseWrapper<AddEditBookRequest>> PostBook(AddEditBookRequest editBookDto, CancellationToken token)
@@ -138,7 +138,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<AddEditBookRequest>.WrapToResponce(editBookDto);
+            return ResponseWrapper<AddEditBookRequest>.WrapToResponse(editBookDto);
         }
 
         public async Task<ResponseWrapper<BookDto>> DeleteBook(int id, CancellationToken token)
@@ -163,7 +163,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic
 
             }
 
-            return ResponseWrapper<BookDto>.WrapToResponce(new BookDto());
+            return ResponseWrapper<BookDto>.WrapToResponse(new BookDto());
         }
 
         private bool BookExists(int id)

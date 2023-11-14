@@ -18,7 +18,7 @@ namespace BGNet.TestAssignment.Common.WebApi.Models
             Errors = errors;
         }
 
-        public static ResponseWrapper<T> WrapToResponce(T? data = null , List<string>? errors = null)
+        public static ResponseWrapper<T> WrapToResponse(T? data = null , List<string>? errors = null)
         {
 
             if (data == null && errors==null)

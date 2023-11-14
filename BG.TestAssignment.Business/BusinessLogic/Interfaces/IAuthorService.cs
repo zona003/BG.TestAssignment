@@ -5,7 +5,7 @@ namespace BGNet.TestAssignment.Business.BusinessLogic.Interfaces
 {
     public interface IAuthorService
     {
-        public Task<ResponseWrapper<PagedResponce<List<AuthorDto>>>> GetAuthors(int? skip, int? take, CancellationToken token);
+        public Task<ResponseWrapper<PagedResponse<List<AuthorDto>>>> GetAuthors(int? skip, int? take, CancellationToken token);
 
         public Task<ResponseWrapper<AuthorDto>> GetAuthor(int id, CancellationToken token);
 

@@ -1,11 +1,11 @@
 ﻿namespace BGNet.TestAssignment.Common.WebApi.Models
 {
-    public class PagedResponce<T>
+    public class PagedResponse<T>
     {
         public int Total { get; set; }
         public T Items { get; set; }
 
-        public PagedResponce(int total, T items)
+        public PagedResponse(int total, T items)
         {
             Total = total;
             Items = items;

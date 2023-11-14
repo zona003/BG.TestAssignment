@@ -30,7 +30,7 @@ namespace BGNet.TestAssignment.Common.WebApi.Handlers
                     errors.Add("Operation cancelled due to internal server error");
                 }
 
-                context.Result = new ObjectResult(ResponseWrapper<object>.WrapToResponce(errors));
+                context.Result = new ObjectResult(ResponseWrapper<object>.WrapToResponse(errors));
             }
         }
     }

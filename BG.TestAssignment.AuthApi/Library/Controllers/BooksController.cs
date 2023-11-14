@@ -20,7 +20,7 @@ namespace BGNet.TestAssignment.Api.Library.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<ResponseWrapper<PagedResponce<List<BookDto>>>>> GetBooks(int? skip, int? take, CancellationToken token = default)
+        public async Task<ActionResult<ResponseWrapper<PagedResponse<List<BookDto>>>>> GetBooks(int? skip, int? take, CancellationToken token = default)
         {
             return await BooksService.GetBooks(skip, take, token);
         }
